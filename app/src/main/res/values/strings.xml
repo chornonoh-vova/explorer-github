@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Explorer GitHub</string>
+    <string name="user_fragment_header">User overview</string>
+    <string name="repos_fragment_header">Repos overview</string>
+    <string name="search_github_text">Search GitHub…</string>
+    <string name="search_button_text">Search</string>
+    <string name="search_fragment_header">Search fragment header</string>
+    <string name="item_user">User</string>
+    <string name="item_repos">Repos</string>
+    <string name="item_search">Search</string>
+</resources>
