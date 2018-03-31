@@ -8,4 +8,6 @@
     <string name="item_user">User</string>
     <string name="item_repos">Repos</string>
     <string name="item_search">Search</string>
+    <string name="repo_activity_label">Repository</string>
+    <string name="repository_content_header">Repository content:</string>
 </resources>
