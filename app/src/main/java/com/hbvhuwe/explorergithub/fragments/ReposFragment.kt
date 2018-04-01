@@ -30,11 +30,25 @@ class ReposFragment : Fragment(), LoadInfo {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view!!.findViewById(R.id.repositories_view)
-        if (isOnline()) {
-            DownloadInfo(this).execute("https://api.github.com/users/hbvhuwe/repos")
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        if (savedInstanceState != null) {
+            repos = savedInstanceState.getSerializable("repos") as Array<GitHubRepo>
+            setupRecycler()
         } else {
-            showToast("Internet not available")
+            if (isOnline()) {
+                DownloadInfo(this).execute("https://api.github.com/users/hbvhuwe/repos")
+            } else {
+                showToast("Internet not available")
+            }
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.putSerializable("repos", repos)
     }
 
     companion object {
@@ -45,6 +59,14 @@ class ReposFragment : Fragment(), LoadInfo {
     override fun onLoadInfoCallback(result: String?) {
         repos = GsonBuilder().create().fromJson(result, Array<GitHubRepo>::class.java)
         setupRecycler()
+    }
+
+    override fun onErrorCallback(result: String?) {
+        if (result != null) {
+            showToast("Network error: $result")
+        } else {
+            showToast("Network error")
+        }
     }
 
     private fun setupRecycler() {

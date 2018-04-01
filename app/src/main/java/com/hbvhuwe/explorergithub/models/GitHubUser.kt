@@ -1,6 +1,7 @@
 package com.hbvhuwe.explorergithub.models
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 import java.net.URL
 
 data class GitHubUser (
@@ -16,4 +17,4 @@ data class GitHubUser (
         val email: String?,
         val bio: String?,
         @SerializedName("public_repos") val publicRepos: Int
-)
+): Serializable

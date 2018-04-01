@@ -9,9 +9,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.google.gson.GsonBuilder
-
 import com.hbvhuwe.explorergithub.R
 import com.hbvhuwe.explorergithub.RepoActivity
 import com.hbvhuwe.explorergithub.isOnline
@@ -34,11 +32,25 @@ class FilesFragment : Fragment(), LoadInfo {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view!!.findViewById(R.id.files_view)
-        if (isOnline()) {
-            DownloadInfo(this).execute("https://api.github.com/repos/${RepoActivity.fullPath}")
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        if (savedInstanceState != null) {
+            files = savedInstanceState.getSerializable("files") as Array<GitHubFile>
+            setupRecycler()
         } else {
-            showToast("Internet not available")
+            if (isOnline()) {
+                DownloadInfo(this).execute("https://api.github.com/repos/${RepoActivity.fullPath}")
+            } else {
+                showToast("Internet not available")
+            }
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.putSerializable("files", files)
     }
 
     companion object {
@@ -56,5 +68,13 @@ class FilesFragment : Fragment(), LoadInfo {
     override fun onLoadInfoCallback(result: String?) {
         files = GsonBuilder().create().fromJson(result, Array<GitHubFile>::class.java)
         setupRecycler()
+    }
+
+    override fun onErrorCallback(result: String?) {
+        if (result != null) {
+            showToast("Network error: $result")
+        } else {
+            showToast("Network error")
+        }
     }
 }

@@ -1,7 +1,8 @@
 package com.hbvhuwe.explorergithub
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
 import com.hbvhuwe.explorergithub.fragments.FilesFragment
 
@@ -10,6 +11,7 @@ class RepoActivity : AppCompatActivity() {
     private lateinit var repositoryStars: TextView
     private lateinit var repositoryCommits: TextView
     private lateinit var repositoryBranches: TextView
+    private lateinit var fragment: Fragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_repo)
@@ -19,19 +21,38 @@ class RepoActivity : AppCompatActivity() {
         repositoryCommits = findViewById(R.id.repository_commits)
         repositoryBranches = findViewById(R.id.repository_branches)
 
-        val fullName = intent.getStringExtra("fullName")
-        fullPath = "$fullName/contents"
+        if (savedInstanceState != null) {
+            fragment = supportFragmentManager.findFragmentByTag("fragment")
 
-        repositoryName.text = fullName
-        repositoryStars.text = "0"
-        repositoryCommits.text = countCommits()
-        repositoryBranches.text = countBranches()
+            repositoryName.text = savedInstanceState.getString("repo_name")
+            repositoryStars.text = savedInstanceState.getString("repo_stars")
+            repositoryCommits.text = savedInstanceState.getString("repo_commits")
+            repositoryBranches.text = savedInstanceState.getString("repo_branches")
+        } else {
+            val fullName = intent.getStringExtra("fullName")
+            fullPath = "$fullName/contents"
 
-        val fragment = FilesFragment.newInstance()
+            repositoryName.text = fullName
+            repositoryStars.text = "0"
+            repositoryCommits.text = countCommits()
+            repositoryBranches.text = countBranches()
 
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.files_frame_layout, fragment)
-        transaction.commit()
+            fragment = FilesFragment.newInstance()
+
+            supportFragmentManager.beginTransaction().apply {
+                replace(R.id.files_frame_layout, fragment, "fragment")
+                commit()
+            }
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+
+        outState?.putString("repo_name", repositoryName.text.toString())
+        outState?.putString("repo_stars", repositoryStars.text.toString())
+        outState?.putString("repo_commits", repositoryCommits.text.toString())
+        outState?.putString("repo_branches", repositoryBranches.text.toString())
     }
 
     private fun countBranches(): String {

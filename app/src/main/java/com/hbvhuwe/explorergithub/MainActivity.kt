@@ -1,9 +1,9 @@
 package com.hbvhuwe.explorergithub
 
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
+import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import com.hbvhuwe.explorergithub.fragments.ReposFragment
 import com.hbvhuwe.explorergithub.fragments.SearchFragment
 import com.hbvhuwe.explorergithub.fragments.UserFragment
@@ -12,6 +12,7 @@ import com.hbvhuwe.explorergithub.fragments.UserFragment
 class MainActivity : AppCompatActivity() {
 
     private lateinit var bottomNavigationView : BottomNavigationView
+    private lateinit var fragment: Fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,20 +22,45 @@ class MainActivity : AppCompatActivity() {
 
 
         bottomNavigationView.setOnNavigationItemSelectedListener{
-            var selectedFragment : Fragment? = null
-            when (it.itemId) {
-                R.id.action_user -> selectedFragment = UserFragment.newInstance()
-                R.id.action_repos -> selectedFragment = ReposFragment.newInstance()
-                R.id.action_search -> selectedFragment = SearchFragment.newInstance()
-            }
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.frame_layout, selectedFragment)
-            transaction.commit()
+            setupFragment(it.itemId)
             true
         }
+        if (savedInstanceState != null) {
+            this.fragment = supportFragmentManager.findFragmentByTag("fragment")
 
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.frame_layout, UserFragment.newInstance())
-        transaction.commit()
+            supportFragmentManager.beginTransaction().apply {
+                replace(R.id.frame_layout, fragment, "fragment")
+                commit()
+            }
+        } else {
+            setupFragment(currentFragment)
+        }
+    }
+
+    private fun setupFragment(id: Int) {
+        when (id) {
+            R.id.action_user -> {
+                this.fragment = UserFragment.newInstance()
+                currentFragment = R.id.action_user
+            }
+            R.id.action_repos -> {
+                this.fragment = ReposFragment.newInstance()
+                currentFragment = R.id.action_repos
+            }
+            R.id.action_search ->  {
+                this.fragment = SearchFragment.newInstance()
+                currentFragment = R.id.action_search
+            }
+            else -> throw Exception("No Fragment")
+        }
+
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.frame_layout, fragment, "fragment")
+            commit()
+        }
+    }
+
+    companion object {
+        var currentFragment = R.id.action_user
     }
 }
