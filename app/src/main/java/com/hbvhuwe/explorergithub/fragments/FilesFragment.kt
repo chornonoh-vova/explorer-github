@@ -41,7 +41,7 @@ class FilesFragment : Fragment(), LoadInfo {
             setupRecycler()
         } else {
             if (isOnline()) {
-                DownloadInfo(this).execute("https://api.github.com/repos/${RepoActivity.fullPath}")
+                DownloadInfo(this, LoadInfo.Tags.FILES).execute("https://api.github.com/repos/${RepoActivity.fullPath}")
             } else {
                 showToast("Internet not available")
             }
@@ -65,16 +65,16 @@ class FilesFragment : Fragment(), LoadInfo {
         recyclerView.addItemDecoration(DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL))
     }
 
-    override fun onLoadInfoCallback(result: String?) {
-        files = GsonBuilder().create().fromJson(result, Array<GitHubFile>::class.java)
-        setupRecycler()
+    override fun onLoadInfoCallback(tag: LoadInfo.Tags, result: String?) {
+        if (tag == LoadInfo.Tags.FILES) {
+            files = GsonBuilder().create().fromJson(result, Array<GitHubFile>::class.java)
+            setupRecycler()
+        }
     }
 
-    override fun onErrorCallback(result: String?) {
-        if (result != null) {
-            showToast("Network error: $result")
-        } else {
-            showToast("Network error")
+    override fun onErrorCallback(tag: LoadInfo.Tags) {
+        if (tag == LoadInfo.Tags.FILES) {
+            showToast("Network error while loading files info")
         }
     }
 }

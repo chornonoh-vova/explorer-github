@@ -11,15 +11,14 @@ import com.hbvhuwe.explorergithub.fragments.UserFragment
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var bottomNavigationView : BottomNavigationView
+    private val bottomNavigationView by lazy {
+        findViewById<BottomNavigationView>(R.id.navigation)
+    }
     private lateinit var fragment: Fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        bottomNavigationView = findViewById(R.id.navigation)
-
 
         bottomNavigationView.setOnNavigationItemSelectedListener{
             setupFragment(it.itemId)

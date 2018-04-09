@@ -4,11 +4,14 @@ import android.os.AsyncTask
 import java.net.URL
 
 interface LoadInfo {
-    fun onLoadInfoCallback(result: String?)
-    fun onErrorCallback(result: String?)
+    fun onLoadInfoCallback(tag: Tags, result: String?)
+    fun onErrorCallback(tag: Tags)
+    enum class Tags {
+        USER , FILES, REPOS, BRANCHES, COMMITS
+    }
 }
 
-class DownloadInfo(private val callback: LoadInfo): AsyncTask<String, Void, String>() {
+class DownloadInfo(private val callback: LoadInfo, private val tag: LoadInfo.Tags): AsyncTask<String, Void, String>() {
     private var ex: Exception? = null
     override fun doInBackground(vararg params: String?): String {
         return try {
@@ -23,9 +26,9 @@ class DownloadInfo(private val callback: LoadInfo): AsyncTask<String, Void, Stri
 
     override fun onPostExecute(result: String?) {
         if (ex != null) {
-            callback.onErrorCallback(null)
+            callback.onErrorCallback(tag)
         } else {
-            callback.onLoadInfoCallback(result)
+            callback.onLoadInfoCallback(tag, result)
         }
     }
 }

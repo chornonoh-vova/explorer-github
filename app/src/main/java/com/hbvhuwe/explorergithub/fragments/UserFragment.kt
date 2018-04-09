@@ -54,7 +54,7 @@ class UserFragment : Fragment(), LoadInfo {
             avatar.setImageBitmap(savedInstanceState.getParcelable("avatar"))
         } else {
             if (isOnline()) {
-                DownloadInfo(this).execute("https://api.github.com/users/hbvhuwe")
+                DownloadInfo(this, LoadInfo.Tags.USER).execute("https://api.github.com/users/hbvhuwe")
             } else {
                 showToast("Internet not available")
             }
@@ -76,21 +76,21 @@ class UserFragment : Fragment(), LoadInfo {
         fun newInstance() = UserFragment()
     }
 
-    override fun onLoadInfoCallback(result: String?) {
-        user = GsonBuilder().create().fromJson(result, GitHubUser::class.java)
-        DownloadImage(avatar).execute(user.avatarUrl.toString())
-        login.text = user.login
-        name.text = user.name
-        email.text = "email: ${user.email}"
-        location.text = user.location
-        publicRepos.text = "repos: ${user.publicRepos}"
+    override fun onLoadInfoCallback(tag: LoadInfo.Tags, result: String?) {
+        if (tag == LoadInfo.Tags.USER) {
+            user = GsonBuilder().create().fromJson(result, GitHubUser::class.java)
+            DownloadImage(avatar).execute(user.avatarUrl.toString())
+            login.text = user.login
+            name.text = user.name
+            email.text = "email: ${user.email}"
+            location.text = user.location
+            publicRepos.text = "repos: ${user.publicRepos}"
+        }
     }
 
-    override fun onErrorCallback(result: String?) {
-        if (result != null) {
-            showToast("Network error: $result")
-        } else {
-            showToast("Network error")
+    override fun onErrorCallback(tag: LoadInfo.Tags) {
+        if (tag == LoadInfo.Tags.USER) {
+            showToast("Network error while loading user info")
         }
     }
 }

@@ -39,7 +39,7 @@ class ReposFragment : Fragment(), LoadInfo {
             setupRecycler()
         } else {
             if (isOnline()) {
-                DownloadInfo(this).execute("https://api.github.com/users/hbvhuwe/repos")
+                DownloadInfo(this, LoadInfo.Tags.REPOS).execute("https://api.github.com/users/hbvhuwe/repos")
             } else {
                 showToast("Internet not available")
             }
@@ -56,16 +56,16 @@ class ReposFragment : Fragment(), LoadInfo {
     }
 
 
-    override fun onLoadInfoCallback(result: String?) {
-        repos = GsonBuilder().create().fromJson(result, Array<GitHubRepo>::class.java)
-        setupRecycler()
+    override fun onLoadInfoCallback(tag: LoadInfo.Tags, result: String?) {
+        if (tag == LoadInfo.Tags.REPOS) {
+            repos = GsonBuilder().create().fromJson(result, Array<GitHubRepo>::class.java)
+            setupRecycler()
+        }
     }
 
-    override fun onErrorCallback(result: String?) {
-        if (result != null) {
-            showToast("Network error: $result")
-        } else {
-            showToast("Network error")
+    override fun onErrorCallback(tag: LoadInfo.Tags) {
+        if (tag == LoadInfo.Tags.REPOS) {
+            showToast("Network error while loading repos info")
         }
     }
 
