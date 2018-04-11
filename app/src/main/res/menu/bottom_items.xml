@@ -3,13 +3,13 @@
     <item
         android:id="@+id/action_user"
         android:icon="@mipmap/ic_account_circle_black_24dp"
-        android:title="@string/item_user"/>
+        android:title="@string/item_user" />
     <item
         android:id="@+id/action_repos"
         android:icon="@mipmap/ic_book_black_24dp"
-        android:title="@string/item_repos"/>
+        android:title="@string/item_repos" />
     <item
         android:id="@+id/action_search"
         android:icon="@mipmap/ic_search_black_24dp"
-        android:title="@string/item_search"/>
+        android:title="@string/item_search" />
 </menu>

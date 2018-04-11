@@ -10,7 +10,7 @@ import com.hbvhuwe.explorergithub.R
 import com.hbvhuwe.explorergithub.RepoActivity
 import com.hbvhuwe.explorergithub.models.GitHubRepo
 
-class ReposAdapter(private val dataset: Array<GitHubRepo>):
+class ReposAdapter(private val dataset: Array<GitHubRepo>) :
         RecyclerView.Adapter<ReposAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -19,6 +19,7 @@ class ReposAdapter(private val dataset: Array<GitHubRepo>):
         var description: TextView = itemView.findViewById(R.id.repo_description)
         var stars: TextView = itemView.findViewById(R.id.repo_stars)
         var language: TextView = itemView.findViewById(R.id.repo_language)
+
         init {
             itemView.setOnClickListener {
                 val intent = Intent(this.itemView.context, RepoActivity::class.java).apply {

@@ -7,11 +7,11 @@ interface LoadInfo {
     fun onLoadInfoCallback(tag: Tags, result: String?)
     fun onErrorCallback(tag: Tags)
     enum class Tags {
-        USER , FILES, REPOS, BRANCHES, COMMITS
+        USER, FILES, REPOS, BRANCHES, COMMITS
     }
 }
 
-class DownloadInfo(private val callback: LoadInfo, private val tag: LoadInfo.Tags): AsyncTask<String, Void, String>() {
+class DownloadInfo(private val callback: LoadInfo, private val tag: LoadInfo.Tags) : AsyncTask<String, Void, String>() {
     private var ex: Exception? = null
     override fun doInBackground(vararg params: String?): String {
         return try {

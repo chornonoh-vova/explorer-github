@@ -3,7 +3,7 @@ package com.hbvhuwe.explorergithub.models
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class GitHubRepo (
+data class GitHubRepo(
         val id: Int,
         val owner: GitHubUser,
         val name: String,
@@ -13,4 +13,4 @@ data class GitHubRepo (
         val language: String?,
         @SerializedName("stargazers_count") val starsCount: Int,
         val fork: Boolean
-): Serializable
+) : Serializable

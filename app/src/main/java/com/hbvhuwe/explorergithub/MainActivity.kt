@@ -10,7 +10,7 @@ import com.hbvhuwe.explorergithub.fragments.UserFragment
 
 
 class MainActivity : AppCompatActivity() {
-
+    private var currentFragment = R.id.action_user
     private val bottomNavigationView by lazy {
         findViewById<BottomNavigationView>(R.id.navigation)
     }
@@ -19,13 +19,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setSupportActionBar(findViewById(R.id.toolbar_main))
 
-        bottomNavigationView.setOnNavigationItemSelectedListener{
+        bottomNavigationView.setOnNavigationItemSelectedListener {
             setupFragment(it.itemId)
             true
         }
         if (savedInstanceState != null) {
             this.fragment = supportFragmentManager.findFragmentByTag("fragment")
+            currentFragment = savedInstanceState.getInt("currentFragment")
 
             supportFragmentManager.beginTransaction().apply {
                 replace(R.id.frame_layout, fragment, "fragment")
@@ -46,7 +48,7 @@ class MainActivity : AppCompatActivity() {
                 this.fragment = ReposFragment.newInstance()
                 currentFragment = R.id.action_repos
             }
-            R.id.action_search ->  {
+            R.id.action_search -> {
                 this.fragment = SearchFragment.newInstance()
                 currentFragment = R.id.action_search
             }
@@ -59,7 +61,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    companion object {
-        var currentFragment = R.id.action_user
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.putInt("currentFragment", currentFragment)
     }
 }

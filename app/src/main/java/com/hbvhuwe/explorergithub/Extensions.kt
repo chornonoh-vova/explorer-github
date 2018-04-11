@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 
 fun Fragment.isOnline(): Boolean {
-    val cm = this.activity.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val cm = this.activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val netInfo = cm.activeNetworkInfo
     return netInfo != null && netInfo.isConnectedOrConnecting
 }

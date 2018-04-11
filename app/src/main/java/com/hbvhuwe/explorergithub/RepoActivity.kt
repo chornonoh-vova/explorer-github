@@ -12,8 +12,9 @@ import com.hbvhuwe.explorergithub.models.GitHubRepo
 import com.hbvhuwe.explorergithub.network.DownloadInfo
 import com.hbvhuwe.explorergithub.network.LoadInfo
 
+
 class RepoActivity : AppCompatActivity(), LoadInfo {
-    private lateinit var repo:GitHubRepo
+    private lateinit var repo: GitHubRepo
     private val repositoryName by lazy {
         findViewById<TextView>(R.id.repository_name)
     }
@@ -31,6 +32,9 @@ class RepoActivity : AppCompatActivity(), LoadInfo {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_repo)
+
+        setSupportActionBar(findViewById(R.id.toolbar_repo))
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         if (savedInstanceState != null) {
             fragment = supportFragmentManager.findFragmentByTag("fragment")

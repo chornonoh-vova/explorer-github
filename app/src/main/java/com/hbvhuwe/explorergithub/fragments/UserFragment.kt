@@ -27,15 +27,15 @@ class UserFragment : Fragment(), LoadInfo {
     private lateinit var avatar: ImageView
     private lateinit var user: GitHubUser
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater!!.inflate(R.layout.fragment_user, container, false)
+        return inflater.inflate(R.layout.fragment_user, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        avatar = view!!.findViewById(R.id.user_avatar)
+        avatar = view.findViewById(R.id.user_avatar)
         login = view.findViewById(R.id.user_login)
         name = view.findViewById(R.id.user_name)
         email = view.findViewById(R.id.user_email)
@@ -61,15 +61,15 @@ class UserFragment : Fragment(), LoadInfo {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState?.putString("login", login.text.toString())
-        outState?.putString("name", name.text.toString())
-        outState?.putString("email", email.text.toString())
-        outState?.putString("location", location.text.toString())
-        outState?.putString("publicRepos", publicRepos.text.toString())
-        outState?.putParcelable("avatar", (avatar.drawable as BitmapDrawable).bitmap)
+        outState.putString("login", login.text.toString())
+        outState.putString("name", name.text.toString())
+        outState.putString("email", email.text.toString())
+        outState.putString("location", location.text.toString())
+        outState.putString("publicRepos", publicRepos.text.toString())
+        outState.putParcelable("avatar", (avatar.drawable as BitmapDrawable).bitmap)
     }
 
     companion object {

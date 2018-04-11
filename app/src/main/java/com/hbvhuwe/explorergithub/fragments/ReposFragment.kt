@@ -21,20 +21,21 @@ class ReposFragment : Fragment(), LoadInfo {
     private lateinit var recyclerView: RecyclerView
     private lateinit var reposAdapter: ReposAdapter
     private lateinit var repos: Array<GitHubRepo>
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater!!.inflate(R.layout.fragment_repos, container, false)
+        return inflater.inflate(R.layout.fragment_repos, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView = view!!.findViewById(R.id.repositories_view)
+        recyclerView = view.findViewById(R.id.repositories_view)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (savedInstanceState != null) {
+            @Suppress("UNCHECKED_CAST")
             repos = savedInstanceState.getSerializable("repos") as Array<GitHubRepo>
             setupRecycler()
         } else {
@@ -46,9 +47,9 @@ class ReposFragment : Fragment(), LoadInfo {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState?.putSerializable("repos", repos)
+        outState.putSerializable("repos", repos)
     }
 
     companion object {

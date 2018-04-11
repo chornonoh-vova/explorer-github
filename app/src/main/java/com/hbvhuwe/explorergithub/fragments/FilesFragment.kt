@@ -29,14 +29,15 @@ class FilesFragment : Fragment(), LoadInfo {
         return inflater.inflate(R.layout.fragment_files, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView = view!!.findViewById(R.id.files_view)
+        recyclerView = view.findViewById(R.id.files_view)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (savedInstanceState != null) {
+            @Suppress("UNCHECKED_CAST")
             files = savedInstanceState.getSerializable("files") as Array<GitHubFile>
             setupRecycler()
         } else {
@@ -48,9 +49,9 @@ class FilesFragment : Fragment(), LoadInfo {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState?.putSerializable("files", files)
+        outState.putSerializable("files", files)
     }
 
     companion object {

@@ -9,12 +9,13 @@ import android.widget.TextView
 import com.hbvhuwe.explorergithub.R
 import com.hbvhuwe.explorergithub.models.GitHubFile
 
-class FilesAdapter(private val dataset: Array<GitHubFile>): RecyclerView.Adapter<FilesAdapter.ViewHolder>() {
+class FilesAdapter(private val dataset: Array<GitHubFile>) : RecyclerView.Adapter<FilesAdapter.ViewHolder>() {
 
-    class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var fileName: TextView = itemView.findViewById(R.id.file_name) as TextView
         var fileIcon: ImageView = itemView.findViewById(R.id.file_icon) as ImageView
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
             ViewHolder(LayoutInflater.from(parent.context)
                     .inflate(R.layout.file_layout, parent, false))
