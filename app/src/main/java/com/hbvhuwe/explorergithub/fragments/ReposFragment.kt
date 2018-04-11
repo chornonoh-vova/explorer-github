@@ -71,6 +71,7 @@ class ReposFragment : Fragment(), LoadInfo {
     }
 
     private fun setupRecycler() {
+        recyclerView.isNestedScrollingEnabled = false
         val layoutManager = LinearLayoutManager(this.context)
         recyclerView.layoutManager = layoutManager
         reposAdapter = ReposAdapter(repos)
