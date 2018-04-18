@@ -1,19 +1,19 @@
 package com.hbvhuwe.explorergithub
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
-import com.google.gson.Gson
 import com.hbvhuwe.explorergithub.fragments.FilesFragment
 import com.hbvhuwe.explorergithub.models.GitHubBranch
 import com.hbvhuwe.explorergithub.models.GitHubCommit
 import com.hbvhuwe.explorergithub.models.GitHubRepo
-import com.hbvhuwe.explorergithub.network.DownloadInfo
-import com.hbvhuwe.explorergithub.network.LoadInfo
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.net.URL
 
 
-class RepoActivity : AppCompatActivity(), LoadInfo {
+class RepoActivity : AppCompatActivity() {
     private lateinit var repo: GitHubRepo
     private val repositoryName by lazy {
         findViewById<TextView>(R.id.repository_name)
@@ -27,7 +27,7 @@ class RepoActivity : AppCompatActivity(), LoadInfo {
     private val repositoryBranches by lazy {
         findViewById<TextView>(R.id.repository_branches)
     }
-    private lateinit var fragment: Fragment
+    private lateinit var fragment: FilesFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +37,8 @@ class RepoActivity : AppCompatActivity(), LoadInfo {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         if (savedInstanceState != null) {
-            fragment = supportFragmentManager.findFragmentByTag("fragment")
+            fragment = supportFragmentManager.findFragmentByTag("fragment") as FilesFragment
+            fragment.repoActivity = this
 
             repo = savedInstanceState.getSerializable("repository") as GitHubRepo
             repositoryName.text = savedInstanceState.getString("repo_name")
@@ -46,7 +47,6 @@ class RepoActivity : AppCompatActivity(), LoadInfo {
             repositoryBranches.text = savedInstanceState.getString("repo_branches")
         } else {
             repo = intent.getSerializableExtra("repository") as GitHubRepo
-            fullPath = "${repo.fullName}/contents"
 
             repositoryName.text = repo.fullName
             repositoryStars.text = repo.starsCount.toString()
@@ -54,6 +54,8 @@ class RepoActivity : AppCompatActivity(), LoadInfo {
             countBranches()
 
             fragment = FilesFragment.newInstance()
+            fragment.currentPath = repo.contentsURL.toString().removeSuffix("{+path}")
+            fragment.repoActivity = this
 
             supportFragmentManager.beginTransaction().apply {
                 replace(R.id.files_frame_layout, fragment, "fragment")
@@ -72,39 +74,57 @@ class RepoActivity : AppCompatActivity(), LoadInfo {
         outState?.putString("repo_branches", repositoryBranches.text.toString())
     }
 
-    override fun onLoadInfoCallback(tag: LoadInfo.Tags, result: String?) {
-        if (tag == LoadInfo.Tags.COMMITS) {
-            //commits loaded
-            val commits = Gson().fromJson(result, Array<GitHubCommit>::class.java)
-            repositoryCommits.text = commits.size.toString()
-        } else if (tag == LoadInfo.Tags.BRANCHES) {
-            //branches loaded
-            val branches = Gson().fromJson(result, Array<GitHubBranch>::class.java)
-            repositoryBranches.text = branches.size.toString()
-        }
-    }
-
-    override fun onErrorCallback(tag: LoadInfo.Tags) {
-        if (tag == LoadInfo.Tags.COMMITS) {
-            showToast("Network error while loading commits")
-        } else if (tag == LoadInfo.Tags.BRANCHES) {
-            showToast("Network error while loading branches")
-        }
-    }
-
     private fun countBranches() {
-        DownloadInfo(this, LoadInfo.Tags.BRANCHES).execute(
-                "https://api.github.com/repos/${repo.fullName}/branches"
-        )
+        val call = App.client.getBranchesForRepo("hbvhuwe", repo.name)
+        call.enqueue(branchesCallback)
     }
 
     private fun countCommits() {
-        DownloadInfo(this, LoadInfo.Tags.COMMITS).execute(
-                "https://api.github.com/repos/${repo.fullName}/commits"
-        )
+        val call = App.client.getCommitsOfRepo("hbvhuwe", repo.name)
+        call.enqueue(commitsCallback)
     }
 
-    companion object {
-        lateinit var fullPath: String
+    fun updateFiles(url: URL) {
+        fragment = FilesFragment.newInstance()
+        fragment.currentPath = url.toString()
+        fragment.repoActivity = this
+
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.files_frame_layout, fragment, "fragment")
+            addToBackStack("fragment")
+            commit()
+        }
+    }
+
+    private val branchesCallback = object : Callback<List<GitHubBranch>> {
+        override fun onFailure(call: Call<List<GitHubBranch>>?, t: Throwable?) {
+            showToast("Network error: " + t?.message)
+        }
+
+        override fun onResponse(call: Call<List<GitHubBranch>>?, response: Response<List<GitHubBranch>>?) {
+            if (response != null) {
+                if (response.isSuccessful) {
+                    val branches = response.body()!!
+                    repositoryBranches.text = branches.size.toString()
+                }
+            }
+        }
+
+    }
+
+    private val commitsCallback = object : Callback<List<GitHubCommit>> {
+        override fun onFailure(call: Call<List<GitHubCommit>>?, t: Throwable?) {
+            showToast("Network error: " + t?.message)
+        }
+
+        override fun onResponse(call: Call<List<GitHubCommit>>?, response: Response<List<GitHubCommit>>?) {
+            if (response != null) {
+                if (response.isSuccessful) {
+                    val commits = response.body()!!
+                    repositoryCommits.text = commits.size.toString()
+                }
+            }
+        }
+
     }
 }

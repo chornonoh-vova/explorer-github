@@ -1,8 +1,10 @@
 package com.hbvhuwe.explorergithub
 
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
-import android.support.v4.app.Fragment
+import android.support.design.widget.TabLayout
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentStatePagerAdapter
+import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import com.hbvhuwe.explorergithub.fragments.ReposFragment
 import com.hbvhuwe.explorergithub.fragments.SearchFragment
@@ -10,59 +12,51 @@ import com.hbvhuwe.explorergithub.fragments.UserFragment
 
 
 class MainActivity : AppCompatActivity() {
-    private var currentFragment = R.id.action_user
-    private val bottomNavigationView by lazy {
-        findViewById<BottomNavigationView>(R.id.navigation)
+
+    private val tabLayout by lazy {
+        findViewById<TabLayout>(R.id.tab_layout_main)
     }
-    private lateinit var fragment: Fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar_main))
 
-        bottomNavigationView.setOnNavigationItemSelectedListener {
-            setupFragment(it.itemId)
-            true
-        }
-        if (savedInstanceState != null) {
-            this.fragment = supportFragmentManager.findFragmentByTag("fragment")
-            currentFragment = savedInstanceState.getInt("currentFragment")
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_user_text))
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_repos_text))
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_search_text))
 
-            supportFragmentManager.beginTransaction().apply {
-                replace(R.id.frame_layout, fragment, "fragment")
-                commit()
+        val viewPager = findViewById<ViewPager>(R.id.main_view_pager)
+        val adapter = ViewPagerAdapter(supportFragmentManager, tabLayout.tabCount)
+        viewPager.adapter = adapter
+
+        viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
+
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+
             }
-        } else {
-            setupFragment(currentFragment)
-        }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                viewPager.currentItem = tab!!.position
+            }
+
+        })
     }
 
-    private fun setupFragment(id: Int) {
-        when (id) {
-            R.id.action_user -> {
-                this.fragment = UserFragment.newInstance()
-                currentFragment = R.id.action_user
-            }
-            R.id.action_repos -> {
-                this.fragment = ReposFragment.newInstance()
-                currentFragment = R.id.action_repos
-            }
-            R.id.action_search -> {
-                this.fragment = SearchFragment.newInstance()
-                currentFragment = R.id.action_search
-            }
-            else -> throw Exception("No Fragment")
+    class ViewPagerAdapter(supportFragmentManager: FragmentManager?, private val tabCount: Int)
+        : FragmentStatePagerAdapter(supportFragmentManager) {
+        override fun getItem(position: Int) = when(position) {
+            0 -> UserFragment.newInstance()
+            1 -> ReposFragment.newInstance()
+            2 -> SearchFragment.newInstance()
+            else -> throw Exception("No fragment")
         }
 
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.frame_layout, fragment, "fragment")
-            commit()
-        }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle?) {
-        super.onSaveInstanceState(outState)
-        outState?.putInt("currentFragment", currentFragment)
+        override fun getCount() = tabCount
     }
 }

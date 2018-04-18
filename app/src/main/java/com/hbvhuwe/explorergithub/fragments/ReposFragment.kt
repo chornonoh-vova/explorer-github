@@ -8,19 +8,20 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.gson.GsonBuilder
-
+import com.hbvhuwe.explorergithub.App
 import com.hbvhuwe.explorergithub.R
+import com.hbvhuwe.explorergithub.adapters.ReposAdapter
 import com.hbvhuwe.explorergithub.isOnline
 import com.hbvhuwe.explorergithub.models.GitHubRepo
-import com.hbvhuwe.explorergithub.network.DownloadInfo
-import com.hbvhuwe.explorergithub.network.LoadInfo
 import com.hbvhuwe.explorergithub.showToast
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class ReposFragment : Fragment(), LoadInfo {
+class ReposFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var reposAdapter: ReposAdapter
-    private lateinit var repos: Array<GitHubRepo>
+    private lateinit var repos: ArrayList<GitHubRepo>
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -36,11 +37,12 @@ class ReposFragment : Fragment(), LoadInfo {
         super.onActivityCreated(savedInstanceState)
         if (savedInstanceState != null) {
             @Suppress("UNCHECKED_CAST")
-            repos = savedInstanceState.getSerializable("repos") as Array<GitHubRepo>
+            repos = savedInstanceState.getSerializable("repos") as ArrayList<GitHubRepo>
             setupRecycler()
         } else {
             if (isOnline()) {
-                DownloadInfo(this, LoadInfo.Tags.REPOS).execute("https://api.github.com/users/hbvhuwe/repos")
+                val call = App.client.getReposForUser("hbvhuwe")
+                call.enqueue(reposCallback)
             } else {
                 showToast("Internet not available")
             }
@@ -56,26 +58,30 @@ class ReposFragment : Fragment(), LoadInfo {
         fun newInstance() = ReposFragment()
     }
 
-
-    override fun onLoadInfoCallback(tag: LoadInfo.Tags, result: String?) {
-        if (tag == LoadInfo.Tags.REPOS) {
-            repos = GsonBuilder().create().fromJson(result, Array<GitHubRepo>::class.java)
-            setupRecycler()
-        }
-    }
-
-    override fun onErrorCallback(tag: LoadInfo.Tags) {
-        if (tag == LoadInfo.Tags.REPOS) {
-            showToast("Network error while loading repos info")
-        }
-    }
-
     private fun setupRecycler() {
         recyclerView.isNestedScrollingEnabled = false
         val layoutManager = LinearLayoutManager(this.context)
         recyclerView.layoutManager = layoutManager
-        reposAdapter = ReposAdapter(repos)
+        reposAdapter = ReposAdapter(repos.toTypedArray())
         recyclerView.adapter = reposAdapter
         recyclerView.addItemDecoration(DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL))
+    }
+
+    private val reposCallback = object : Callback<List<GitHubRepo>> {
+        override fun onFailure(call: Call<List<GitHubRepo>>?, t: Throwable?) {
+            showToast("Network error: " + t?.message)
+        }
+
+        override fun onResponse(call: Call<List<GitHubRepo>>?, response: Response<List<GitHubRepo>>?) {
+            if (response != null) {
+                if (response.isSuccessful) {
+                    val reposResponse = response.body()!!
+                    println(reposResponse.toString())
+                    repos = ArrayList()
+                    repos.addAll(reposResponse)
+                    setupRecycler()
+                }
+            }
+        }
     }
 }

@@ -7,8 +7,6 @@
     android:background="@android:color/transparent"
     tools:context="com.hbvhuwe.explorergithub.fragments.UserFragment">
 
-    <!-- TODO: Update user fragment layout -->
-
     <ImageView
         android:id="@+id/user_avatar"
         android:layout_width="172dp"
@@ -19,7 +17,8 @@
         android:src="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/user_name"

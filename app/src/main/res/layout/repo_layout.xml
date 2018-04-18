@@ -2,7 +2,8 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:minHeight="56dp">
 
 
     <ImageView
@@ -52,13 +53,13 @@
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:contentDescription="stars_icon"
         app:layout_constraintBottom_toBottomOf="@+id/repo_stars"
         app:layout_constraintEnd_toStartOf="@+id/repo_stars"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/repo_stars"
-        app:srcCompat="@mipmap/ic_star_black_18dp"
-        android:contentDescription="stars_icon" />
+        app:srcCompat="@mipmap/ic_star_black_18dp" />
 
     <TextView
         android:id="@+id/repo_stars"
@@ -81,13 +82,13 @@
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:contentDescription="language_icon"
         app:layout_constraintBottom_toBottomOf="@+id/repo_language"
         app:layout_constraintEnd_toStartOf="@+id/repo_language"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/repo_stars"
         app:layout_constraintTop_toTopOf="@+id/repo_language"
-        app:srcCompat="@mipmap/ic_language_black_18dp"
-        android:contentDescription="language_icon" />
+        app:srcCompat="@mipmap/ic_language_black_18dp" />
 
     <TextView
         android:id="@+id/repo_language"

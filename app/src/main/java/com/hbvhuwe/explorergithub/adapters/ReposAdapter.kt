@@ -1,4 +1,4 @@
-package com.hbvhuwe.explorergithub.fragments
+package com.hbvhuwe.explorergithub.adapters
 
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
@@ -22,10 +22,11 @@ class ReposAdapter(private val dataset: Array<GitHubRepo>) :
 
         init {
             itemView.setOnClickListener {
-                val intent = Intent(this.itemView.context, RepoActivity::class.java).apply {
+                val intent = Intent(it.context, RepoActivity::class.java).apply {
                     putExtra("repository", repo)
+                    putExtra("path", "")
                 }
-                itemView.context.startActivity(intent)
+                it.context.startActivity(intent)
             }
         }
     }

@@ -3,22 +3,23 @@ package com.hbvhuwe.explorergithub.fragments
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.google.gson.GsonBuilder
-
+import com.hbvhuwe.explorergithub.App
 import com.hbvhuwe.explorergithub.R
 import com.hbvhuwe.explorergithub.isOnline
 import com.hbvhuwe.explorergithub.models.GitHubUser
 import com.hbvhuwe.explorergithub.network.DownloadImage
-import com.hbvhuwe.explorergithub.network.DownloadInfo
-import com.hbvhuwe.explorergithub.network.LoadInfo
 import com.hbvhuwe.explorergithub.showToast
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class UserFragment : Fragment(), LoadInfo {
+class UserFragment : Fragment() {
     private lateinit var login: TextView
     private lateinit var name: TextView
     private lateinit var email: TextView
@@ -54,7 +55,8 @@ class UserFragment : Fragment(), LoadInfo {
             avatar.setImageBitmap(savedInstanceState.getParcelable("avatar"))
         } else {
             if (isOnline()) {
-                DownloadInfo(this, LoadInfo.Tags.USER).execute("https://api.github.com/users/hbvhuwe")
+                val call = App.client.getUserInfo("hbvhuwe")
+                call.enqueue(userCallback)
             } else {
                 showToast("Internet not available")
             }
@@ -73,24 +75,30 @@ class UserFragment : Fragment(), LoadInfo {
     }
 
     companion object {
-        fun newInstance() = UserFragment()
+        fun newInstance(): Fragment = UserFragment()
     }
 
-    override fun onLoadInfoCallback(tag: LoadInfo.Tags, result: String?) {
-        if (tag == LoadInfo.Tags.USER) {
-            user = GsonBuilder().create().fromJson(result, GitHubUser::class.java)
-            DownloadImage(avatar).execute(user.avatarUrl.toString())
-            login.text = user.login
-            name.text = user.name
-            email.text = "email: ${user.email}"
-            location.text = user.location
-            publicRepos.text = "repos: ${user.publicRepos}"
+    private val userCallback = object: Callback<GitHubUser> {
+        override fun onFailure(call: Call<GitHubUser>?, t: Throwable?) {
+            Log.d("Error", t.toString())
+            showToast("Network error while loading user info " + t.toString())
         }
-    }
 
-    override fun onErrorCallback(tag: LoadInfo.Tags) {
-        if (tag == LoadInfo.Tags.USER) {
-            showToast("Network error while loading user info")
+        override fun onResponse(call: Call<GitHubUser>?, response: Response<GitHubUser>?) {
+            if (response != null) {
+                if (response.isSuccessful) {
+                    user = response.body()!!
+                    DownloadImage(avatar).execute(user.avatarUrl.toString())
+                    login.text = user.login
+                    name.text = user.name
+                    email.text = getString(R.string.user_email, user.email)
+                    location.text = user.location
+                    publicRepos.text = getString(R.string.user_repos, user.publicRepos)
+                } else {
+                    Log.d("Error", response.errorBody().toString())
+                    showToast("Error " + response.errorBody().toString())
+                }
+            }
         }
     }
 }
