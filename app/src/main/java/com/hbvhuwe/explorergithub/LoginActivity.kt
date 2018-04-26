@@ -10,13 +10,12 @@ import android.widget.Button
 import android.widget.TextView
 import com.google.gson.GsonBuilder
 import com.hbvhuwe.explorergithub.network.AccessToken
-import com.hbvhuwe.explorergithub.network.ServiceGenerator
 import okhttp3.*
 import java.io.IOException
 
 class LoginActivity : AppCompatActivity() {
-    private val clientId = "8f8927148244148aec37"
-    private val clientSecret = "f1a07eb8b20e6769fa817918b6cb8da7860300e1"
+    private val clientId by lazy { getString(R.string.application_client_id) }
+    private val clientSecret by lazy { getString(R.string.application_client_secret) }
     private val redirectUri = "login://com.hbvhuwe.explorergithub"
 
     private val loginButton by lazy { findViewById<Button>(R.id.login_button) }
@@ -27,8 +26,6 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
-        checkLogin()
 
         loginButton.setOnClickListener {
             val httpUrl: HttpUrl = HttpUrl.parse("https://github.com/login/oauth/authorize")!!
@@ -62,7 +59,7 @@ class LoginActivity : AppCompatActivity() {
                 override fun onFailure(call: Call?, e: IOException?) {
                     runOnUiThread {
                         loginResult.setTextColor(Color.RED)
-                        loginResult.text = "failure ${e?.message}"
+                        loginResult.text = getString(R.string.activity_login_error)
                     }
                 }
 
@@ -70,10 +67,10 @@ class LoginActivity : AppCompatActivity() {
                     if (response != null) {
                         if (response.isSuccessful) runOnUiThread {
                             val responseText = response.body()?.string()
-                            loginResult.setTextColor(Color.GREEN)
-                            loginResult.text = "successfully logged"
+                            loginResult.setTextColor(resources.getColor(R.color.colorAccent))
+                            loginResult.text = getString(R.string.activity_login_logged)
                             authToken = GsonBuilder().create().fromJson(responseText, AccessToken::class.java)
-                            ServiceGenerator.authToken = authToken
+                            App.createClient(authToken)
                             val sharedPreferences = this@LoginActivity
                                     .getSharedPreferences("preferences", Context.MODE_PRIVATE)
                             with(sharedPreferences.edit()) {
@@ -84,24 +81,14 @@ class LoginActivity : AppCompatActivity() {
                             }
                             println("ACCESS_TOKEN ${authToken.access_token}")
                             println("TOKEN_TYPE ${authToken.token_type}")
-                            checkLogin()
+                            intent = Intent(this@LoginActivity, UserActivity::class.java)
+                            startActivity(intent)
+                            finish()
                         }
                     }
                 }
 
             })
-        }
-    }
-
-    private fun checkLogin() {
-        val sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE)
-        if (sharedPreferences.getBoolean("logged", false)) {
-            val accessToken = sharedPreferences.getString("access_token", "")
-            val tokenType = sharedPreferences.getString("type_token", "")
-            ServiceGenerator.authToken = AccessToken(accessToken, tokenType)
-
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
         }
     }
 }

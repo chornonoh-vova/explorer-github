@@ -1,6 +1,6 @@
 <resources>
-    <string name="client_id">8f8927148244148aec37</string>
-    <string name="client_secret">f1a07eb8b20e6769fa817918b6cb8da7860300e1</string>
+    <string name="application_client_id" translatable="false">8f8927148244148aec37</string>
+    <string name="application_client_secret" translatable="false">f1a07eb8b20e6769fa817918b6cb8da7860300e1</string>
 
     <string name="app_name">Explorer GitHub</string>
     <string name="user_fragment_header">User</string>
@@ -13,7 +13,6 @@
     <string name="item_search">Search</string>
     <string name="repo_activity_label">Repository</string>
     <string name="file_activity_label">File</string>
-    <string name="title_activity_login">Sign in</string>
 
     <string name="tab_user_text">User</string>
     <string name="tab_repos_text">Repos</string>
@@ -21,4 +20,12 @@
 
     <string name="user_email">email: %1$s</string>
     <string name="user_repos">repos: %1$d</string>
+
+    <string name="activity_login_title">Sign in using GitHub</string>
+    <string name="activity_login_logged">Successful sing in</string>
+    <string name="activity_login_error">Error while signing in\nTry again></string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tab_starred_text">Starred</string>
 </resources>

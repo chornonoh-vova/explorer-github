@@ -10,28 +10,33 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.google.gson.GsonBuilder
-import com.hbvhuwe.explorergithub.R
-import com.hbvhuwe.explorergithub.RepoActivity
+import com.hbvhuwe.explorergithub.*
 import com.hbvhuwe.explorergithub.adapters.FilesAdapter
-import com.hbvhuwe.explorergithub.isOnline
 import com.hbvhuwe.explorergithub.models.GitHubFile
-import com.hbvhuwe.explorergithub.network.DownloadFile
-import com.hbvhuwe.explorergithub.network.LoadInfo
-import com.hbvhuwe.explorergithub.showToast
+import com.hbvhuwe.explorergithub.models.GitHubRepo
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class FilesFragment : Fragment(), LoadInfo {
+class FilesFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var filesAdapter: FilesAdapter
-    private lateinit var files: Array<GitHubFile>
+    private lateinit var files: ArrayList<GitHubFile>
     lateinit var currentPath: String
     lateinit var repoActivity: RepoActivity
+    lateinit var repo: GitHubRepo
+
     private val fullFilePath by lazy {
         view!!.findViewById<TextView>(R.id.full_file_path)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        val args = arguments
+        if (args != null) {
+            currentPath = args.getString("currentPath")
+            repo = args.getSerializable("repoObject") as GitHubRepo
+        }
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_files, container, false)
     }
@@ -43,14 +48,27 @@ class FilesFragment : Fragment(), LoadInfo {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         if (savedInstanceState != null) {
             @Suppress("UNCHECKED_CAST")
-            files = savedInstanceState.getSerializable("files") as Array<GitHubFile>
-            fullFilePath.text = savedInstanceState.getCharSequence("pathToDisplay")
+            files = savedInstanceState.getSerializable("files") as ArrayList<GitHubFile>
+            currentPath = savedInstanceState.getString("currentPath")
+            fullFilePath.text = savedInstanceState.getString("pathToDisplay")
             setupRecycler()
         } else {
             if (isOnline()) {
-                DownloadFile(this).execute(this.currentPath)
+//                DownloadFile(this).execute(this.currentPath)
+                var path = currentPath.removePrefix("https://api.github.com/repos/${repo.fullName}/")
+                if (path.endsWith("?ref=master")) {
+                    path = path.removeSuffix("?ref=master")
+                    path = path.replace("contents/", "")
+                } else {
+                    path = path.replace("contents/", "")
+                }
+                val call = App.client.getContentOfPath(repo.owner.login, repo.name, path)
+                call.enqueue(filesCallback)
+                val pathToDisplay = "${repo.fullName}/$path"
+                fullFilePath.text = pathToDisplay
             } else {
                 showToast("Internet not available")
             }
@@ -60,7 +78,8 @@ class FilesFragment : Fragment(), LoadInfo {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putSerializable("files", files)
-        outState.putCharSequence("pathToDisplay", fullFilePath.text)
+        outState.putString("currentPath", currentPath)
+        outState.putSerializable("pathToDisplay", fullFilePath.text.toString())
     }
 
     companion object {
@@ -71,26 +90,27 @@ class FilesFragment : Fragment(), LoadInfo {
         recyclerView.isNestedScrollingEnabled = false
         val layoutManager = LinearLayoutManager(this.context)
         recyclerView.layoutManager = layoutManager
-        filesAdapter = FilesAdapter(files)
+        filesAdapter = FilesAdapter(files.toTypedArray())
         filesAdapter.filesFragment = this
         recyclerView.adapter = filesAdapter
         recyclerView.addItemDecoration(DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL))
-        var pathToDisplay = currentPath.removePrefix("https://api.github.com/repos/")
-        if (pathToDisplay.endsWith("?ref=master")) {
-            pathToDisplay = pathToDisplay.removeSuffix("?ref=master")
-            pathToDisplay = pathToDisplay.replace("contents/", "")
-        } else {
-            pathToDisplay = pathToDisplay.replace("contents/", "")
-        }
-        fullFilePath.text = pathToDisplay
     }
 
-    override fun onLoadInfoCallback(result: String?) {
-            files = GsonBuilder().create().fromJson(result, Array<GitHubFile>::class.java)
-            setupRecycler()
-    }
-
-    override fun onErrorCallback() {
+    private val filesCallback = object : Callback<List<GitHubFile>> {
+        override fun onFailure(call: Call<List<GitHubFile>>?, t: Throwable?) {
             showToast("Network error while loading files info")
+        }
+
+        override fun onResponse(call: Call<List<GitHubFile>>?, response: Response<List<GitHubFile>>?) {
+            if (response != null) {
+                if (response.isSuccessful) {
+                    val filesResponse = response.body()!!
+                    files = ArrayList()
+                    files.addAll(filesResponse)
+                    setupRecycler()
+                }
+            }
+        }
+
     }
 }

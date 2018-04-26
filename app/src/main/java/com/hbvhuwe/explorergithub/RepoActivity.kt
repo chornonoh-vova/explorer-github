@@ -14,7 +14,7 @@ import java.net.URL
 
 
 class RepoActivity : AppCompatActivity() {
-    private lateinit var repo: GitHubRepo
+    lateinit var repo: GitHubRepo
     private val repositoryName by lazy {
         findViewById<TextView>(R.id.repository_name)
     }
@@ -54,7 +54,10 @@ class RepoActivity : AppCompatActivity() {
             countBranches()
 
             fragment = FilesFragment.newInstance()
-            fragment.currentPath = repo.contentsURL.toString().removeSuffix("{+path}")
+            val bundle = Bundle()
+            bundle.putString("currentPath", repo.contentsURL.toString().removeSuffix("{+path}"))
+            bundle.putSerializable("repoObject", repo)
+            fragment.arguments = bundle
             fragment.repoActivity = this
 
             supportFragmentManager.beginTransaction().apply {
@@ -75,18 +78,21 @@ class RepoActivity : AppCompatActivity() {
     }
 
     private fun countBranches() {
-        val call = App.client.getBranchesForRepo("hbvhuwe", repo.name)
+        val call = App.client.getBranchesForRepo(repo.owner.login, repo.name)
         call.enqueue(branchesCallback)
     }
 
     private fun countCommits() {
-        val call = App.client.getCommitsOfRepo("hbvhuwe", repo.name)
+        val call = App.client.getCommitsOfRepo(repo.owner.login, repo.name)
         call.enqueue(commitsCallback)
     }
 
     fun updateFiles(url: URL) {
         fragment = FilesFragment.newInstance()
-        fragment.currentPath = url.toString()
+        val bundle = Bundle()
+        bundle.putString("currentPath", url.toString())
+        bundle.putSerializable("repoObject", repo)
+        fragment.arguments = bundle
         fragment.repoActivity = this
 
         supportFragmentManager.beginTransaction().apply {

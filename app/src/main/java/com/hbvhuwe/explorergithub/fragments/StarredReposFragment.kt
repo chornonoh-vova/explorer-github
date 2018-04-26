@@ -1,5 +1,6 @@
 package com.hbvhuwe.explorergithub.fragments
 
+
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
@@ -18,13 +19,13 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ReposFragment : Fragment() {
+class StarredReposFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var reposAdapter: ReposAdapter
     private lateinit var repos: ArrayList<GitHubRepo>
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_repos, container, false)
     }
 
@@ -37,12 +38,12 @@ class ReposFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         if (savedInstanceState != null) {
             @Suppress("UNCHECKED_CAST")
-            repos = savedInstanceState.getSerializable("repos") as ArrayList<GitHubRepo>
+            repos = savedInstanceState.getSerializable("starredRepos") as ArrayList<GitHubRepo>
             setupRecycler()
         } else {
             if (isOnline()) {
-                val call = App.client.getReposForUser()
-                call.enqueue(reposCallback)
+                val call = App.client.getStarredRepos()
+                call.enqueue(starredReposCallback)
             } else {
                 showToast("Internet not available")
             }
@@ -51,11 +52,11 @@ class ReposFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putSerializable("repos", repos)
+        outState.putSerializable("starredRepos", repos)
     }
 
     companion object {
-        fun newInstance() = ReposFragment()
+        fun newInstance() = StarredReposFragment()
     }
 
     private fun setupRecycler() {
@@ -67,7 +68,7 @@ class ReposFragment : Fragment() {
         recyclerView.addItemDecoration(DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL))
     }
 
-    private val reposCallback = object : Callback<List<GitHubRepo>> {
+    private val starredReposCallback = object : Callback<List<GitHubRepo>> {
         override fun onFailure(call: Call<List<GitHubRepo>>?, t: Throwable?) {
             showToast("Network error: " + t?.message)
         }
@@ -83,5 +84,6 @@ class ReposFragment : Fragment() {
                 }
             }
         }
+
     }
 }

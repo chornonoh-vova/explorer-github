@@ -8,10 +8,11 @@ import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import com.hbvhuwe.explorergithub.fragments.ReposFragment
 import com.hbvhuwe.explorergithub.fragments.SearchFragment
+import com.hbvhuwe.explorergithub.fragments.StarredReposFragment
 import com.hbvhuwe.explorergithub.fragments.UserFragment
 
 
-class MainActivity : AppCompatActivity() {
+class UserActivity : AppCompatActivity() {
 
     private val tabLayout by lazy {
         findViewById<TabLayout>(R.id.tab_layout_main)
@@ -19,11 +20,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_user)
         setSupportActionBar(findViewById(R.id.toolbar_main))
 
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_user_text))
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_repos_text))
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_starred_text))
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_search_text))
 
         val viewPager = findViewById<ViewPager>(R.id.main_view_pager)
@@ -53,7 +55,8 @@ class MainActivity : AppCompatActivity() {
         override fun getItem(position: Int) = when(position) {
             0 -> UserFragment.newInstance()
             1 -> ReposFragment.newInstance()
-            2 -> SearchFragment.newInstance()
+            2 -> StarredReposFragment.newInstance()
+            3 -> SearchFragment.newInstance()
             else -> throw Exception("No fragment")
         }
 

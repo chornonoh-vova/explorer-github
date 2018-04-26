@@ -55,7 +55,7 @@ class UserFragment : Fragment() {
             avatar.setImageBitmap(savedInstanceState.getParcelable("avatar"))
         } else {
             if (isOnline()) {
-                val call = App.client.getUserInfo("hbvhuwe")
+                val call = App.client.getUserInfo()
                 call.enqueue(userCallback)
             } else {
                 showToast("Internet not available")
