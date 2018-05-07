@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="56dp">
+    android:maxHeight="160dp">
 
 
     <ImageView
@@ -28,6 +29,7 @@
         android:textColor="@android:color/black"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/repo_icon"
         app:layout_constraintTop_toTopOf="@+id/repo_icon" />
 
@@ -35,14 +37,16 @@
         android:id="@+id/repo_description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:lines="3"
+        android:outlineProvider="background"
         android:padding="4dp"
         android:text="repo_description"
-        app:layout_constraintBottom_toTopOf="@+id/repo_stars"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/repository_name" />
 
@@ -54,11 +58,12 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:contentDescription="stars_icon"
-        app:layout_constraintBottom_toBottomOf="@+id/repo_stars"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/repo_stars"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/repo_stars"
+        app:layout_constraintTop_toBottomOf="@+id/repo_description"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@mipmap/ic_star_black_18dp" />
 
     <TextView
@@ -69,11 +74,12 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="stars"
-        app:layout_constraintBottom_toBottomOf="@+id/language_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/language_icon"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/stars_icon"
-        app:layout_constraintTop_toTopOf="@+id/language_icon" />
+        app:layout_constraintTop_toBottomOf="@+id/repo_description"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/language_icon"
@@ -83,11 +89,12 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:contentDescription="language_icon"
-        app:layout_constraintBottom_toBottomOf="@+id/repo_language"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/repo_language"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/repo_stars"
-        app:layout_constraintTop_toTopOf="@+id/repo_language"
+        app:layout_constraintTop_toBottomOf="@+id/repo_description"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@mipmap/ic_language_black_18dp" />
 
     <TextView
@@ -103,5 +110,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/language_icon"
-        app:layout_constraintTop_toBottomOf="@+id/repo_description" />
+        app:layout_constraintTop_toBottomOf="@+id/repo_description"
+        app:layout_constraintVertical_bias="0.0" />
 </android.support.constraint.ConstraintLayout>

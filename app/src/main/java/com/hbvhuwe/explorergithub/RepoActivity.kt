@@ -2,6 +2,8 @@ package com.hbvhuwe.explorergithub
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
+import android.widget.ProgressBar
 import android.widget.TextView
 import com.hbvhuwe.explorergithub.fragments.FilesFragment
 import com.hbvhuwe.explorergithub.models.GitHubBranch
@@ -45,6 +47,7 @@ class RepoActivity : AppCompatActivity() {
             repositoryStars.text = savedInstanceState.getString("repo_stars")
             repositoryCommits.text = savedInstanceState.getString("repo_commits")
             repositoryBranches.text = savedInstanceState.getString("repo_branches")
+            findViewById<ProgressBar>(R.id.loading_panel_activity_repo).visibility = View.GONE
         } else {
             repo = intent.getSerializableExtra("repository") as GitHubRepo
 
@@ -64,6 +67,7 @@ class RepoActivity : AppCompatActivity() {
                 replace(R.id.files_frame_layout, fragment, "fragment")
                 commit()
             }
+            findViewById<ProgressBar>(R.id.loading_panel_activity_repo).visibility = View.GONE
         }
     }
 

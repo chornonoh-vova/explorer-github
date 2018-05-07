@@ -60,7 +60,7 @@ class StarredReposFragment : Fragment() {
     }
 
     private fun setupRecycler() {
-        recyclerView.isNestedScrollingEnabled = false
+//        recyclerView.isNestedScrollingEnabled = false
         val layoutManager = LinearLayoutManager(this.context)
         recyclerView.layoutManager = layoutManager
         reposAdapter = ReposAdapter(repos.toTypedArray())

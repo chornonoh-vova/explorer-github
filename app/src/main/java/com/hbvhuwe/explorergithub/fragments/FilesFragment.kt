@@ -57,7 +57,6 @@ class FilesFragment : Fragment() {
             setupRecycler()
         } else {
             if (isOnline()) {
-//                DownloadFile(this).execute(this.currentPath)
                 var path = currentPath.removePrefix("https://api.github.com/repos/${repo.fullName}/")
                 if (path.endsWith("?ref=master")) {
                     path = path.removeSuffix("?ref=master")

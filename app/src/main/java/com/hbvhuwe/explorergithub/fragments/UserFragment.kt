@@ -80,7 +80,7 @@ class UserFragment : Fragment() {
 
     private val userCallback = object: Callback<GitHubUser> {
         override fun onFailure(call: Call<GitHubUser>?, t: Throwable?) {
-            Log.d("Error", t.toString())
+            Log.d("Error", t!!.message)
             showToast("Network error while loading user info " + t.toString())
         }
 

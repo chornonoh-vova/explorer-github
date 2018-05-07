@@ -3,7 +3,7 @@ package com.hbvhuwe.explorergithub
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.widget.RelativeLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import com.hbvhuwe.explorergithub.models.GitHubFile
 import com.hbvhuwe.explorergithub.network.DownloadFile
@@ -29,7 +29,7 @@ class FileActivity : AppCompatActivity(), LoadInfo {
             fileToShow = savedInstanceState.getSerializable("fileToShow") as GitHubFile
             fileName.text = fileToShow.name
             fileContent.text = savedInstanceState.getCharSequence("fileContent")
-            findViewById<RelativeLayout>(R.id.loading_panel_activity_file)?.visibility = View.GONE
+            findViewById<ProgressBar>(R.id.loading_panel_activity_file)
         } else {
             fileToShow = intent.getSerializableExtra("fileToShow") as GitHubFile
             fileName.text = fileToShow.name
@@ -46,7 +46,7 @@ class FileActivity : AppCompatActivity(), LoadInfo {
 
     override fun onLoadInfoCallback(result: String?) {
         fileContent.text = result
-        findViewById<RelativeLayout>(R.id.loading_panel_activity_file)?.visibility = View.GONE
+        findViewById<ProgressBar>(R.id.loading_panel_activity_file).visibility = View.GONE
     }
 
     override fun onErrorCallback() {

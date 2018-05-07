@@ -35,14 +35,15 @@ class ReposFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         if (savedInstanceState != null) {
             @Suppress("UNCHECKED_CAST")
             repos = savedInstanceState.getSerializable("repos") as ArrayList<GitHubRepo>
             setupRecycler()
         } else {
             if (isOnline()) {
-                val call = App.client.getReposForUser()
-                call.enqueue(reposCallback)
+                        val call = App.client.getReposForUser()
+                        call.enqueue(reposCallback)
             } else {
                 showToast("Internet not available")
             }
@@ -59,7 +60,7 @@ class ReposFragment : Fragment() {
     }
 
     private fun setupRecycler() {
-        recyclerView.isNestedScrollingEnabled = false
+//        recyclerView.isNestedScrollingEnabled = false
         val layoutManager = LinearLayoutManager(this.context)
         recyclerView.layoutManager = layoutManager
         reposAdapter = ReposAdapter(repos.toTypedArray())

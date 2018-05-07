@@ -23,10 +23,10 @@ class UserActivity : AppCompatActivity() {
         setContentView(R.layout.activity_user)
         setSupportActionBar(findViewById(R.id.toolbar_main))
 
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_user_text))
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_repos_text))
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_starred_text))
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_search_text))
+//        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_user_text))
+//        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_repos_text))
+//        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_starred_text))
+//        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_search_text))
 
         val viewPager = findViewById<ViewPager>(R.id.main_view_pager)
         val adapter = ViewPagerAdapter(supportFragmentManager, tabLayout.tabCount)
