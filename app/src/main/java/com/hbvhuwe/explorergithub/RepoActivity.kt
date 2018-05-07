@@ -16,7 +16,7 @@ import java.net.URL
 
 
 class RepoActivity : AppCompatActivity() {
-    lateinit var repo: GitHubRepo
+    private lateinit var repo: GitHubRepo
     private val repositoryName by lazy {
         findViewById<TextView>(R.id.repository_name)
     }

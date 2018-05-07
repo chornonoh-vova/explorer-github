@@ -2,14 +2,14 @@ package com.hbvhuwe.explorergithub
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.hbvhuwe.explorergithub.models.GitHubFile
-import com.hbvhuwe.explorergithub.network.DownloadFile
-import com.hbvhuwe.explorergithub.network.LoadInfo
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class FileActivity : AppCompatActivity(), LoadInfo {
+class FileActivity : AppCompatActivity() {
     private lateinit var fileToShow: GitHubFile
     private val fileName by lazy {
         findViewById<TextView>(R.id.activity_file_name)
@@ -33,7 +33,8 @@ class FileActivity : AppCompatActivity(), LoadInfo {
         } else {
             fileToShow = intent.getSerializableExtra("fileToShow") as GitHubFile
             fileName.text = fileToShow.name
-            DownloadFile(this).execute(fileToShow.downloadUrl.toString())
+            val call = App.client.getFile(fileToShow.downloadUrl.toString())
+            call.enqueue(fileCallback)
         }
     }
 
@@ -44,13 +45,20 @@ class FileActivity : AppCompatActivity(), LoadInfo {
         outState?.putCharSequence("fileContent", fileContent.text)
     }
 
-    override fun onLoadInfoCallback(result: String?) {
-        fileContent.text = result
-        findViewById<ProgressBar>(R.id.loading_panel_activity_file).visibility = View.GONE
-    }
+    private val fileCallback = object : Callback<String> {
+        override fun onFailure(call: Call<String>?, t: Throwable?) {
+            if (t != null) {
+                showToast(t.message!!)
+            }
+        }
 
-    override fun onErrorCallback() {
-        showToast("Error while loading file content")
-    }
+        override fun onResponse(call: Call<String>?, response: Response<String>?) {
+            if (response != null) {
+                if (response.isSuccessful) {
+                    fileContent.text = response.body()
+                }
+            }
+        }
 
+    }
 }

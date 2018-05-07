@@ -22,9 +22,9 @@ class FilesFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var filesAdapter: FilesAdapter
     private lateinit var files: ArrayList<GitHubFile>
-    lateinit var currentPath: String
+    private lateinit var currentPath: String
     lateinit var repoActivity: RepoActivity
-    lateinit var repo: GitHubRepo
+    private lateinit var repo: GitHubRepo
 
     private val fullFilePath by lazy {
         view!!.findViewById<TextView>(R.id.full_file_path)

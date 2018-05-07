@@ -13,8 +13,8 @@ import com.hbvhuwe.explorergithub.App
 import com.hbvhuwe.explorergithub.R
 import com.hbvhuwe.explorergithub.isOnline
 import com.hbvhuwe.explorergithub.models.GitHubUser
-import com.hbvhuwe.explorergithub.network.DownloadImage
 import com.hbvhuwe.explorergithub.showToast
+import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -88,7 +88,7 @@ class UserFragment : Fragment() {
             if (response != null) {
                 if (response.isSuccessful) {
                     user = response.body()!!
-                    DownloadImage(avatar).execute(user.avatarUrl.toString())
+                    Picasso.get().load(user.avatarUrl.toString()).into(avatar)
                     login.text = user.login
                     name.text = user.name
                     email.text = getString(R.string.user_email, user.email)
