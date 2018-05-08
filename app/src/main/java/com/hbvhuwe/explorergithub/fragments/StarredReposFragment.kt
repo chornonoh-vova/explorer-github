@@ -42,7 +42,7 @@ class StarredReposFragment : Fragment() {
             setupRecycler()
         } else {
             if (isOnline()) {
-                val call = App.client.getStarredRepos()
+                val call = App.api.getStarredRepos()
                 call.enqueue(starredReposCallback)
             } else {
                 showToast("Internet not available")

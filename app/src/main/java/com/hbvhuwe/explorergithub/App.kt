@@ -3,7 +3,7 @@ package com.hbvhuwe.explorergithub
 import android.app.Application
 import com.hbvhuwe.explorergithub.network.AccessToken
 import com.hbvhuwe.explorergithub.network.AuthenticationInterceptor
-import com.hbvhuwe.explorergithub.network.GitHubClient
+import com.hbvhuwe.explorergithub.network.GitHubApi
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -12,7 +12,7 @@ class App : Application() {
     companion object {
         private lateinit var retrofit: Retrofit
         private val httpClientBuilder = OkHttpClient.Builder()
-        lateinit var client: GitHubClient
+        lateinit var api: GitHubApi
         private lateinit var access: AccessToken
 
         fun createClient(accessToken: AccessToken) {
@@ -24,7 +24,7 @@ class App : Application() {
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(httpClientBuilder.build())
                     .build()
-            client = retrofit.create(GitHubClient::class.java)
+            api = retrofit.create(GitHubApi::class.java)
         }
     }
 }

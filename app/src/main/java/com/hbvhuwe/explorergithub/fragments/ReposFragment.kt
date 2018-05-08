@@ -42,7 +42,7 @@ class ReposFragment : Fragment() {
             setupRecycler()
         } else {
             if (isOnline()) {
-                        val call = App.client.getReposForUser()
+                        val call = App.api.getReposForUser()
                         call.enqueue(reposCallback)
             } else {
                 showToast("Internet not available")

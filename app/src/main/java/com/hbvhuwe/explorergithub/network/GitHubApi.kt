@@ -3,6 +3,7 @@ package com.hbvhuwe.explorergithub.network
 import com.hbvhuwe.explorergithub.models.*
 import okhttp3.Interceptor
 import okhttp3.Response
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -11,7 +12,7 @@ import retrofit2.http.Url
 import java.io.IOException
 import java.io.Serializable
 
-interface GitHubClient {
+interface GitHubApi {
     @GET("/users/{user}/repos")
     fun getReposForUser(@Path("user") user: String): Call<List<GitHubRepo>>
 
@@ -47,7 +48,7 @@ interface GitHubClient {
             @Path("path") path: String,
             @Query("ref") branch: String = "master"): Call<List<GitHubFile>>
     @GET
-    fun getFile(@Url url: String): Call<String>
+    fun getFile(@Url url: String): Call<ResponseBody>
 }
 
 class AuthenticationInterceptor(private val authToken: AccessToken) : Interceptor {

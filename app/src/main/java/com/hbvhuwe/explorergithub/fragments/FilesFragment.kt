@@ -64,7 +64,7 @@ class FilesFragment : Fragment() {
                 } else {
                     path = path.replace("contents/", "")
                 }
-                val call = App.client.getContentOfPath(repo.owner.login, repo.name, path)
+                val call = App.api.getContentOfPath(repo.owner.login, repo.name, path)
                 call.enqueue(filesCallback)
                 val pathToDisplay = "${repo.fullName}/$path"
                 fullFilePath.text = pathToDisplay

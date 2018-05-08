@@ -2,9 +2,11 @@ package com.hbvhuwe.explorergithub
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.hbvhuwe.explorergithub.models.GitHubFile
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,7 +35,7 @@ class FileActivity : AppCompatActivity() {
         } else {
             fileToShow = intent.getSerializableExtra("fileToShow") as GitHubFile
             fileName.text = fileToShow.name
-            val call = App.client.getFile(fileToShow.downloadUrl.toString())
+            val call = App.api.getFile(fileToShow.downloadUrl.toString())
             call.enqueue(fileCallback)
         }
     }
@@ -45,17 +47,18 @@ class FileActivity : AppCompatActivity() {
         outState?.putCharSequence("fileContent", fileContent.text)
     }
 
-    private val fileCallback = object : Callback<String> {
-        override fun onFailure(call: Call<String>?, t: Throwable?) {
+    private val fileCallback = object : Callback<ResponseBody> {
+        override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
             if (t != null) {
                 showToast(t.message!!)
             }
         }
 
-        override fun onResponse(call: Call<String>?, response: Response<String>?) {
+        override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
             if (response != null) {
                 if (response.isSuccessful) {
-                    fileContent.text = response.body()
+                    fileContent.text = response.body()?.string()
+                    findViewById<ProgressBar>(R.id.loading_panel_activity_file).visibility = View.GONE
                 }
             }
         }

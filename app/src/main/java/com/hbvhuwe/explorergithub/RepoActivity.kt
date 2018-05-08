@@ -82,12 +82,12 @@ class RepoActivity : AppCompatActivity() {
     }
 
     private fun countBranches() {
-        val call = App.client.getBranchesForRepo(repo.owner.login, repo.name)
+        val call = App.api.getBranchesForRepo(repo.owner.login, repo.name)
         call.enqueue(branchesCallback)
     }
 
     private fun countCommits() {
-        val call = App.client.getCommitsOfRepo(repo.owner.login, repo.name)
+        val call = App.api.getCommitsOfRepo(repo.owner.login, repo.name)
         call.enqueue(commitsCallback)
     }
 
