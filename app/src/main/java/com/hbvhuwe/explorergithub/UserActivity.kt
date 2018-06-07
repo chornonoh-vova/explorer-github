@@ -1,5 +1,6 @@
 package com.hbvhuwe.explorergithub
 
+import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.FragmentManager
@@ -10,6 +11,7 @@ import com.hbvhuwe.explorergithub.fragments.ReposFragment
 import com.hbvhuwe.explorergithub.fragments.SearchFragment
 import com.hbvhuwe.explorergithub.fragments.StarredReposFragment
 import com.hbvhuwe.explorergithub.fragments.UserFragment
+import com.hbvhuwe.explorergithub.network.AccessToken
 
 
 class UserActivity : AppCompatActivity() {
@@ -23,20 +25,28 @@ class UserActivity : AppCompatActivity() {
         setContentView(R.layout.activity_user)
         setSupportActionBar(findViewById(R.id.toolbar_main))
 
-//        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_user_text))
-//        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_repos_text))
-//        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_starred_text))
-//        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_search_text))
+        if (App.access == null) {
+            val preferences = getSharedPreferences("preferences", Context.MODE_PRIVATE)
+            val accessToken = preferences.getString("access_token", "")
+            val tokenType = preferences.getString("token_type", "")
+
+            App.access = AccessToken(accessToken, tokenType)
+        }
+
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_user_text))
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_repos_text))
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_starred_text))
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_search_text))
 
         val viewPager = findViewById<ViewPager>(R.id.main_view_pager)
         val adapter = ViewPagerAdapter(supportFragmentManager, tabLayout.tabCount)
         viewPager.adapter = adapter
 
         viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
-
+        viewPager.offscreenPageLimit = 2
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
-
+                viewPager.currentItem = tab!!.position
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {

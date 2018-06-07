@@ -12,10 +12,12 @@ class App : Application() {
     companion object {
         private lateinit var retrofit: Retrofit
         private val httpClientBuilder = OkHttpClient.Builder()
-        lateinit var api: GitHubApi
-        private lateinit var access: AccessToken
+        val api by lazy {
+            createClient(access)
+        }
+        var access: AccessToken? = null
 
-        fun createClient(accessToken: AccessToken) {
+        fun createClient(accessToken: AccessToken?): GitHubApi {
             access = accessToken
             val authInterceptor = AuthenticationInterceptor(access)
             httpClientBuilder.addInterceptor(authInterceptor)
@@ -24,7 +26,7 @@ class App : Application() {
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(httpClientBuilder.build())
                     .build()
-            api = retrofit.create(GitHubApi::class.java)
+            return retrofit.create(GitHubApi::class.java)
         }
     }
 }

@@ -22,6 +22,8 @@ class ReposFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var reposAdapter: ReposAdapter
     private lateinit var repos: ArrayList<GitHubRepo>
+    private val call = App.api.getReposForUser()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -42,8 +44,7 @@ class ReposFragment : Fragment() {
             setupRecycler()
         } else {
             if (isOnline()) {
-                        val call = App.api.getReposForUser()
-                        call.enqueue(reposCallback)
+                call.enqueue(reposCallback)
             } else {
                 showToast("Internet not available")
             }
@@ -53,6 +54,13 @@ class ReposFragment : Fragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putSerializable("repos", repos)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (!call.isExecuted) {
+            call.cancel()
+        }
     }
 
     companion object {

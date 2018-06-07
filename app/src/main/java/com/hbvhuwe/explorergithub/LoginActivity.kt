@@ -70,7 +70,7 @@ class LoginActivity : AppCompatActivity() {
                             loginResult.setTextColor(resources.getColor(R.color.colorAccent))
                             loginResult.text = getString(R.string.activity_login_logged)
                             authToken = GsonBuilder().create().fromJson(responseText, AccessToken::class.java)
-                            App.createClient(authToken)
+                            App.access = authToken
                             val sharedPreferences = this@LoginActivity
                                     .getSharedPreferences("preferences", Context.MODE_PRIVATE)
                             with(sharedPreferences.edit()) {

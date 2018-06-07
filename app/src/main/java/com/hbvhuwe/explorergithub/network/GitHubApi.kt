@@ -51,14 +51,14 @@ interface GitHubApi {
     fun getFile(@Url url: String): Call<ResponseBody>
 }
 
-class AuthenticationInterceptor(private val authToken: AccessToken) : Interceptor {
+class AuthenticationInterceptor(private val authToken: AccessToken?) : Interceptor {
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain?): Response {
         val original = chain!!.request()
 
         val builder = original.newBuilder()
-                .addHeader("Authorization", "Bearer ${authToken.access_token}")
+                .addHeader("Authorization", "Bearer ${authToken?.access_token}")
 
         val request = builder.build()
         return chain.proceed(request)

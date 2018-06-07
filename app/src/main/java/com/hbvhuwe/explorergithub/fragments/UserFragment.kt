@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import com.hbvhuwe.explorergithub.App
 import com.hbvhuwe.explorergithub.R
@@ -27,6 +28,7 @@ class UserFragment : Fragment() {
     private lateinit var location: TextView
     private lateinit var avatar: ImageView
     private lateinit var user: GitHubUser
+    private val call = App.api.getUserInfo()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -53,9 +55,9 @@ class UserFragment : Fragment() {
             location.text = savedInstanceState.getString("location")
             publicRepos.text = savedInstanceState.getString("publicRepos")
             avatar.setImageBitmap(savedInstanceState.getParcelable("avatar"))
+            view!!.findViewById<ProgressBar>(R.id.user_fragment_progress_bar)!!.visibility = View.GONE
         } else {
             if (isOnline()) {
-                val call = App.api.getUserInfo()
                 call.enqueue(userCallback)
             } else {
                 showToast("Internet not available")
@@ -66,12 +68,21 @@ class UserFragment : Fragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState.putString("login", login.text.toString())
-        outState.putString("name", name.text.toString())
-        outState.putString("email", email.text.toString())
-        outState.putString("location", location.text.toString())
-        outState.putString("publicRepos", publicRepos.text.toString())
-        outState.putParcelable("avatar", (avatar.drawable as BitmapDrawable).bitmap)
+        if (!call.isCanceled) {
+            outState.putString("login", login.text.toString())
+            outState.putString("name", name.text.toString())
+            outState.putString("email", email.text.toString())
+            outState.putString("location", location.text.toString())
+            outState.putString("publicRepos", publicRepos.text.toString())
+            outState.putParcelable("avatar", (avatar.drawable as BitmapDrawable).bitmap)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (!call.isExecuted) {
+            call.cancel()
+        }
     }
 
     companion object {
@@ -88,7 +99,10 @@ class UserFragment : Fragment() {
             if (response != null) {
                 if (response.isSuccessful) {
                     user = response.body()!!
-                    Picasso.get().load(user.avatarUrl.toString()).into(avatar)
+                    Picasso.get()
+                            .load(user.avatarUrl.toString())
+                            .placeholder(R.mipmap.ic_account_circle_black_24dp)
+                            .into(avatar)
                     login.text = user.login
                     name.text = user.name
                     email.text = getString(R.string.user_email, user.email)
@@ -99,6 +113,7 @@ class UserFragment : Fragment() {
                     showToast("Error " + response.errorBody().toString())
                 }
             }
+            view!!.findViewById<ProgressBar>(R.id.user_fragment_progress_bar)!!.visibility = View.GONE
         }
     }
 }

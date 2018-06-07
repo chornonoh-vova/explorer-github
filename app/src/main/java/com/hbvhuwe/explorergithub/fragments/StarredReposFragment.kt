@@ -23,6 +23,7 @@ class StarredReposFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var reposAdapter: ReposAdapter
     private lateinit var repos: ArrayList<GitHubRepo>
+    private val call = App.api.getStarredRepos()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -42,7 +43,6 @@ class StarredReposFragment : Fragment() {
             setupRecycler()
         } else {
             if (isOnline()) {
-                val call = App.api.getStarredRepos()
                 call.enqueue(starredReposCallback)
             } else {
                 showToast("Internet not available")
@@ -53,6 +53,13 @@ class StarredReposFragment : Fragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putSerializable("starredRepos", repos)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (!call.isExecuted) {
+            call.cancel()
+        }
     }
 
     companion object {

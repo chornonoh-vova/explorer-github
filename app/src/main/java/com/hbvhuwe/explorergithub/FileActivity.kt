@@ -31,7 +31,7 @@ class FileActivity : AppCompatActivity() {
             fileToShow = savedInstanceState.getSerializable("fileToShow") as GitHubFile
             fileName.text = fileToShow.name
             fileContent.text = savedInstanceState.getCharSequence("fileContent")
-            findViewById<ProgressBar>(R.id.loading_panel_activity_file)
+            findViewById<ProgressBar>(R.id.loading_panel_activity_file).visibility = View.GONE
         } else {
             fileToShow = intent.getSerializableExtra("fileToShow") as GitHubFile
             fileName.text = fileToShow.name

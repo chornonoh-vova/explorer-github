@@ -17,7 +17,7 @@ class SplashActivity : AppCompatActivity() {
             val accessToken = preferences.getString("access_token", "")
             val tokenType = preferences.getString("token_type", "")
 
-            App.createClient(AccessToken(accessToken, tokenType))
+            App.access = AccessToken(accessToken, tokenType)
 
             val intent = Intent(this, UserActivity::class.java)
             startActivity(intent)
