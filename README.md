@@ -1,4 +1,4 @@
-# explorer-github
+# explorer-github [![Build Status](https://travis-ci.org/hbvhuwe/explorer-github.svg?branch=master)](https://travis-ci.org/hbvhuwe/explorer-github)
 Android application that uses GitHub API with OAuth authorization
 
 ## Screenshots
