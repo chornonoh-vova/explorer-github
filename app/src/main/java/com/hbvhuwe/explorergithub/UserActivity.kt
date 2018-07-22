@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import com.hbvhuwe.explorergithub.fragments.ReposFragment
+import com.hbvhuwe.explorergithub.fragments.UserFragment
 import com.hbvhuwe.explorergithub.net.Credentials
 
 
@@ -43,6 +44,7 @@ class UserActivity : AppCompatActivity() {
         val viewPager = findViewById<ViewPager>(R.id.main_view_pager)
         val adapter = ViewPagerAdapter(supportFragmentManager, tabLayout.tabCount, user)
         viewPager.adapter = adapter
+        viewPager.offscreenPageLimit = tabLayout.tabCount
 
         viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -71,15 +73,15 @@ class UserActivity : AppCompatActivity() {
             val args = Bundle()
             args.putString(Const.USER_KEY, user)
             val fragment = when(position) {
-//                0 -> UserFragment.newInstance()
+                0 -> UserFragment.newInstance()
                 1 -> {
                     args.putInt(Const.MODE_KEY, Const.REPOS_MODE_REPOS)
                     ReposFragment.newInstance()
-                }/*
+                }
                 2 -> {
                     args.putInt(Const.MODE_KEY, Const.REPOS_MODE_STARRED)
                     ReposFragment.newInstance()
-                }*/
+                }
                 else -> Fragment()
             }
             fragment.arguments = args

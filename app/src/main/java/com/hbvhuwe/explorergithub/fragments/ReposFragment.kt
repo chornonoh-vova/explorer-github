@@ -13,7 +13,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.hbvhuwe.explorergithub.App
 import com.hbvhuwe.explorergithub.Const
-import com.hbvhuwe.explorergithub.R
 import com.hbvhuwe.explorergithub.adapters.ReposAdapter
 import com.hbvhuwe.explorergithub.viewmodel.ReposViewModel
 
@@ -29,11 +28,9 @@ class ReposFragment : Fragment() {
         mode = arguments!!.getInt(Const.MODE_KEY)
         user = arguments!!.getString(Const.USER_KEY)
 
-        val view = inflater.inflate(R.layout.fragment_repos, container, false)
-
         reposAdapter = ReposAdapter(emptyList())
 
-        recyclerView = view.findViewById<RecyclerView>(R.id.repositories_view).apply {
+        recyclerView = RecyclerView(activity).apply {
             isNestedScrollingEnabled = false
             layoutManager = LinearLayoutManager(activity)
             addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
@@ -51,7 +48,7 @@ class ReposFragment : Fragment() {
             }
         })
 
-        return view
+        return recyclerView
     }
 
     companion object {
