@@ -6,7 +6,7 @@ import java.net.URL
 
 data class GitHubRepo(
         val id: Int,
-        val owner: GitHubUser,
+        val owner: User,
         val name: String,
         @SerializedName("full_name") val fullName: String,
         @SerializedName("contents_url") val contentsURL: URL,

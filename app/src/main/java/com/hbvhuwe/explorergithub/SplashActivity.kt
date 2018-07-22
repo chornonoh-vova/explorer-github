@@ -1,10 +1,8 @@
 package com.hbvhuwe.explorergithub
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.hbvhuwe.explorergithub.network.AccessToken
 
 class SplashActivity : AppCompatActivity() {
 
@@ -12,13 +10,9 @@ class SplashActivity : AppCompatActivity() {
         setTheme(R.style.SplashTheme)
         super.onCreate(savedInstanceState)
 
-        val preferences = getSharedPreferences("preferences", Context.MODE_PRIVATE)
-        if (preferences.getBoolean("logged", false)) {
-            val accessToken = preferences.getString("access_token", "")
-            val tokenType = preferences.getString("token_type", "")
+        val credentials = (application as App).loadCredentials()
 
-            App.access = AccessToken(accessToken, tokenType)
-
+        if (!credentials.isEmpty()) {
             val intent = Intent(this, UserActivity::class.java)
             startActivity(intent)
             finish()

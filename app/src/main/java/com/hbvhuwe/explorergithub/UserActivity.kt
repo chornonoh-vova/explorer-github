@@ -11,7 +11,7 @@ import com.hbvhuwe.explorergithub.fragments.ReposFragment
 import com.hbvhuwe.explorergithub.fragments.SearchFragment
 import com.hbvhuwe.explorergithub.fragments.StarredReposFragment
 import com.hbvhuwe.explorergithub.fragments.UserFragment
-import com.hbvhuwe.explorergithub.network.AccessToken
+import com.hbvhuwe.explorergithub.net.Credentials
 
 
 class UserActivity : AppCompatActivity() {
@@ -25,12 +25,14 @@ class UserActivity : AppCompatActivity() {
         setContentView(R.layout.activity_user)
         setSupportActionBar(findViewById(R.id.toolbar_main))
 
+        App.netComponent = (application as App).createNetComponent()
+
         if (App.access == null) {
             val preferences = getSharedPreferences("preferences", Context.MODE_PRIVATE)
-            val accessToken = preferences.getString("access_token", "")
-            val tokenType = preferences.getString("token_type", "")
+            val accessToken = preferences.getString("accessToken", "")
+            val tokenType = preferences.getString("tokenType", "")
 
-            App.access = AccessToken(accessToken, tokenType)
+            App.access = Credentials(accessToken, tokenType)
         }
 
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_user_text))

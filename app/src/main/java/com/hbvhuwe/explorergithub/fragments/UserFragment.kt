@@ -1,24 +1,18 @@
 package com.hbvhuwe.explorergithub.fragments
 
-import android.graphics.drawable.BitmapDrawable
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
 import com.hbvhuwe.explorergithub.App
 import com.hbvhuwe.explorergithub.R
-import com.hbvhuwe.explorergithub.isOnline
-import com.hbvhuwe.explorergithub.models.GitHubUser
-import com.hbvhuwe.explorergithub.showToast
+import com.hbvhuwe.explorergithub.viewmodel.UserViewModel
 import com.squareup.picasso.Picasso
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class UserFragment : Fragment() {
     private lateinit var login: TextView
@@ -27,8 +21,8 @@ class UserFragment : Fragment() {
     private lateinit var publicRepos: TextView
     private lateinit var location: TextView
     private lateinit var avatar: ImageView
-    private lateinit var user: GitHubUser
-    private val call = App.api.getUserInfo()
+
+    lateinit var userViewModel: UserViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -48,72 +42,28 @@ class UserFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (savedInstanceState != null) {
-            login.text = savedInstanceState.getString("login")
-            name.text = savedInstanceState.getString("name")
-            email.text = savedInstanceState.getString("email")
-            location.text = savedInstanceState.getString("location")
-            publicRepos.text = savedInstanceState.getString("publicRepos")
-            avatar.setImageBitmap(savedInstanceState.getParcelable("avatar"))
-            view!!.findViewById<ProgressBar>(R.id.user_fragment_progress_bar)!!.visibility = View.GONE
-        } else {
-            if (isOnline()) {
-                call.enqueue(userCallback)
-            } else {
-                showToast("Internet not available")
+
+        userViewModel = ViewModelProviders.of(this).get(UserViewModel::class.java)
+        App.netComponent.inject(userViewModel)
+        userViewModel.init("hbvhuwe")
+
+        userViewModel.getUser()?.observe(this, Observer {
+            if (it != null) {
+                login.text = it.login
+                name.text = it.name
+                email.text = "email: ${it.email}"
+                location.text = it?.location
+                publicRepos.text = "repos: ${it.publicRepos}"
+                it.avatarUrl.let {
+                    Picasso.get().load(it.toString())
+                            .placeholder(R.mipmap.ic_account_circle_black_24dp)
+                            .into(avatar)
+                }
             }
-        }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-
-        if (!call.isCanceled) {
-            outState.putString("login", login.text.toString())
-            outState.putString("name", name.text.toString())
-            outState.putString("email", email.text.toString())
-            outState.putString("location", location.text.toString())
-            outState.putString("publicRepos", publicRepos.text.toString())
-            outState.putParcelable("avatar", (avatar.drawable as BitmapDrawable).bitmap)
-        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        if (!call.isExecuted) {
-            call.cancel()
-        }
+        })
     }
 
     companion object {
         fun newInstance(): Fragment = UserFragment()
-    }
-
-    private val userCallback = object: Callback<GitHubUser> {
-        override fun onFailure(call: Call<GitHubUser>?, t: Throwable?) {
-            Log.d("Error", t!!.message)
-            showToast("Network error while loading user info " + t.toString())
-        }
-
-        override fun onResponse(call: Call<GitHubUser>?, response: Response<GitHubUser>?) {
-            if (response != null) {
-                if (response.isSuccessful) {
-                    user = response.body()!!
-                    Picasso.get()
-                            .load(user.avatarUrl.toString())
-                            .placeholder(R.mipmap.ic_account_circle_black_24dp)
-                            .into(avatar)
-                    login.text = user.login
-                    name.text = user.name
-                    email.text = getString(R.string.user_email, user.email)
-                    location.text = user.location
-                    publicRepos.text = getString(R.string.user_repos, user.publicRepos)
-                } else {
-                    Log.d("Error", response.errorBody().toString())
-                    showToast("Error " + response.errorBody().toString())
-                }
-            }
-            view!!.findViewById<ProgressBar>(R.id.user_fragment_progress_bar)!!.visibility = View.GONE
-        }
     }
 }

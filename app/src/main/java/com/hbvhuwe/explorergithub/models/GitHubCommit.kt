@@ -6,7 +6,7 @@ import java.net.URL
 data class GitHubCommit(
         val sha: String,
         val url: URL,
-        val author: GitHubUser?,
-        val committer: GitHubUser?,
+        val author: User?,
+        val committer: User?,
         val parents: Array<GitHubCommit?>
 ) : Serializable
