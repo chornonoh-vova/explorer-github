@@ -13,7 +13,7 @@ import com.hbvhuwe.explorergithub.App
 import com.hbvhuwe.explorergithub.R
 import com.hbvhuwe.explorergithub.adapters.ReposAdapter
 import com.hbvhuwe.explorergithub.isOnline
-import com.hbvhuwe.explorergithub.models.GitHubRepo
+import com.hbvhuwe.explorergithub.models.Repo
 import com.hbvhuwe.explorergithub.showToast
 import retrofit2.Call
 import retrofit2.Callback
@@ -22,7 +22,7 @@ import retrofit2.Response
 class StarredReposFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var reposAdapter: ReposAdapter
-    private lateinit var repos: ArrayList<GitHubRepo>
+    private lateinit var repos: ArrayList<Repo>
     private val call = App.api.getStarredRepos()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +39,7 @@ class StarredReposFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         if (savedInstanceState != null) {
             @Suppress("UNCHECKED_CAST")
-            repos = savedInstanceState.getSerializable("starredRepos") as ArrayList<GitHubRepo>
+            repos = savedInstanceState.getSerializable("starredRepos") as ArrayList<Repo>
             setupRecycler()
         } else {
             if (isOnline()) {
@@ -70,17 +70,17 @@ class StarredReposFragment : Fragment() {
 //        recyclerView.isNestedScrollingEnabled = false
         val layoutManager = LinearLayoutManager(this.context)
         recyclerView.layoutManager = layoutManager
-        reposAdapter = ReposAdapter(repos.toTypedArray())
+        reposAdapter = ReposAdapter(repos)
         recyclerView.adapter = reposAdapter
         recyclerView.addItemDecoration(DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL))
     }
 
-    private val starredReposCallback = object : Callback<List<GitHubRepo>> {
-        override fun onFailure(call: Call<List<GitHubRepo>>?, t: Throwable?) {
+    private val starredReposCallback = object : Callback<List<Repo>> {
+        override fun onFailure(call: Call<List<Repo>>?, t: Throwable?) {
             showToast("Network error: " + t?.message)
         }
 
-        override fun onResponse(call: Call<List<GitHubRepo>>?, response: Response<List<GitHubRepo>>?) {
+        override fun onResponse(call: Call<List<Repo>>?, response: Response<List<Repo>>?) {
             if (response != null) {
                 if (response.isSuccessful) {
                     val reposResponse = response.body()!!

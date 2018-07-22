@@ -10,11 +10,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.hbvhuwe.explorergithub.App
+import com.hbvhuwe.explorergithub.Const
 import com.hbvhuwe.explorergithub.R
 import com.hbvhuwe.explorergithub.viewmodel.UserViewModel
 import com.squareup.picasso.Picasso
 
 class UserFragment : Fragment() {
+    private lateinit var user: String
     private lateinit var login: TextView
     private lateinit var name: TextView
     private lateinit var email: TextView
@@ -22,11 +24,11 @@ class UserFragment : Fragment() {
     private lateinit var location: TextView
     private lateinit var avatar: ImageView
 
-    lateinit var userViewModel: UserViewModel
+    private lateinit var userViewModel: UserViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
+        user = arguments!!.getString(Const.USER_KEY)
         return inflater.inflate(R.layout.fragment_user, container, false)
     }
 
@@ -45,18 +47,19 @@ class UserFragment : Fragment() {
 
         userViewModel = ViewModelProviders.of(this).get(UserViewModel::class.java)
         App.netComponent.inject(userViewModel)
-        userViewModel.init("hbvhuwe")
+        userViewModel.init(user)
 
         userViewModel.getUser()?.observe(this, Observer {
             if (it != null) {
                 login.text = it.login
                 name.text = it.name
                 email.text = "email: ${it.email}"
-                location.text = it?.location
+                location.text = it.location
                 publicRepos.text = "repos: ${it.publicRepos}"
                 it.avatarUrl.let {
                     Picasso.get().load(it.toString())
                             .placeholder(R.mipmap.ic_account_circle_black_24dp)
+                            .fit()
                             .into(avatar)
                 }
             }

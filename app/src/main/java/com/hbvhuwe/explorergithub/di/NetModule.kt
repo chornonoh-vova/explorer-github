@@ -13,12 +13,11 @@ import javax.inject.Singleton
 
 @Module
 class NetModule(private val credentials: Credentials) {
-    private val baseUrl = "https://api.github.com"
+    private val API_BASE_URL = "https://api.github.com"
 
     @Provides
     @Singleton
-    fun provideAuthInterceptor() =
-            AuthenticationInterceptor(credentials)
+    fun provideAuthInterceptor() = AuthenticationInterceptor(credentials)
 
     @Provides
     @Singleton
@@ -33,11 +32,10 @@ class NetModule(private val credentials: Credentials) {
             Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(httpClient)
-                    .baseUrl(baseUrl)
+                    .baseUrl(API_BASE_URL)
                     .build()
 
     @Provides
-    @Singleton
     fun provideApi(retrofit: Retrofit): Api =
             retrofit.create(Api::class.java)
 

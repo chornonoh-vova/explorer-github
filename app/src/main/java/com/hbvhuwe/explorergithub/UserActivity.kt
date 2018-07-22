@@ -3,19 +3,19 @@ package com.hbvhuwe.explorergithub
 import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.TabLayout
+import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import com.hbvhuwe.explorergithub.fragments.ReposFragment
-import com.hbvhuwe.explorergithub.fragments.SearchFragment
-import com.hbvhuwe.explorergithub.fragments.StarredReposFragment
-import com.hbvhuwe.explorergithub.fragments.UserFragment
 import com.hbvhuwe.explorergithub.net.Credentials
 
 
 class UserActivity : AppCompatActivity() {
-
+    private val user by lazy {
+        intent.getStringExtra("user")
+    }
     private val tabLayout by lazy {
         findViewById<TabLayout>(R.id.tab_layout_main)
     }
@@ -41,11 +41,10 @@ class UserActivity : AppCompatActivity() {
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_search_text))
 
         val viewPager = findViewById<ViewPager>(R.id.main_view_pager)
-        val adapter = ViewPagerAdapter(supportFragmentManager, tabLayout.tabCount)
+        val adapter = ViewPagerAdapter(supportFragmentManager, tabLayout.tabCount, user)
         viewPager.adapter = adapter
 
         viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
-        viewPager.offscreenPageLimit = 2
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 viewPager.currentItem = tab!!.position
@@ -62,14 +61,29 @@ class UserActivity : AppCompatActivity() {
         })
     }
 
-    class ViewPagerAdapter(supportFragmentManager: FragmentManager?, private val tabCount: Int)
+    class ViewPagerAdapter(supportFragmentManager: FragmentManager?,
+                           private val tabCount: Int,
+                           private val user: String)
         : FragmentStatePagerAdapter(supportFragmentManager) {
-        override fun getItem(position: Int) = when(position) {
-            0 -> UserFragment.newInstance()
-            1 -> ReposFragment.newInstance()
-            2 -> StarredReposFragment.newInstance()
-            3 -> SearchFragment.newInstance()
-            else -> throw Exception("No fragment")
+        override fun getItem(position: Int) = getFragment(position)
+
+        private fun getFragment(position: Int): Fragment {
+            val args = Bundle()
+            args.putString(Const.USER_KEY, user)
+            val fragment = when(position) {
+//                0 -> UserFragment.newInstance()
+                1 -> {
+                    args.putInt(Const.MODE_KEY, Const.REPOS_MODE_REPOS)
+                    ReposFragment.newInstance()
+                }/*
+                2 -> {
+                    args.putInt(Const.MODE_KEY, Const.REPOS_MODE_STARRED)
+                    ReposFragment.newInstance()
+                }*/
+                else -> Fragment()
+            }
+            fragment.arguments = args
+            return fragment
         }
 
         override fun getCount() = tabCount

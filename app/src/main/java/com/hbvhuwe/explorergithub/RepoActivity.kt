@@ -8,7 +8,7 @@ import android.widget.TextView
 import com.hbvhuwe.explorergithub.fragments.FilesFragment
 import com.hbvhuwe.explorergithub.models.GitHubBranch
 import com.hbvhuwe.explorergithub.models.GitHubCommit
-import com.hbvhuwe.explorergithub.models.GitHubRepo
+import com.hbvhuwe.explorergithub.models.Repo
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -16,7 +16,7 @@ import java.net.URL
 
 
 class RepoActivity : AppCompatActivity() {
-    private lateinit var repo: GitHubRepo
+    private lateinit var repo: Repo
     private val repositoryName by lazy {
         findViewById<TextView>(R.id.repository_name)
     }
@@ -42,14 +42,14 @@ class RepoActivity : AppCompatActivity() {
             fragment = supportFragmentManager.findFragmentByTag("fragment") as FilesFragment
             fragment.repoActivity = this
 
-            repo = savedInstanceState.getSerializable("repository") as GitHubRepo
+            repo = savedInstanceState.getSerializable("repository") as Repo
             repositoryName.text = savedInstanceState.getString("repo_name")
             repositoryStars.text = savedInstanceState.getString("repo_stars")
             repositoryCommits.text = savedInstanceState.getString("repo_commits")
             repositoryBranches.text = savedInstanceState.getString("repo_branches")
             findViewById<ProgressBar>(R.id.loading_panel_activity_repo).visibility = View.GONE
         } else {
-            repo = intent.getSerializableExtra("repository") as GitHubRepo
+            repo = intent.getSerializableExtra("repository") as Repo
 
             repositoryName.text = repo.fullName
             repositoryStars.text = repo.starsCount.toString()
@@ -82,12 +82,12 @@ class RepoActivity : AppCompatActivity() {
     }
 
     private fun countBranches() {
-        val call = App.api.getBranchesForRepo(repo.owner.login, repo.name)
+        val call = App.api.getBranchesForRepo(repo.owner!!.login, repo.name!!)
         call.enqueue(branchesCallback)
     }
 
     private fun countCommits() {
-        val call = App.api.getCommitsOfRepo(repo.owner.login, repo.name)
+        val call = App.api.getCommitsOfRepo(repo.owner!!.login, repo.name!!)
         call.enqueue(commitsCallback)
     }
 

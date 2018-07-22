@@ -13,8 +13,12 @@ class DbModule {
     @Provides
     @Singleton
     fun provideDb(app: App) = Room.databaseBuilder(app,
-            AppDatabase::class.java, "app.db").build()
+            AppDatabase::class.java, "app.db")
+            .fallbackToDestructiveMigration().build()
 
     @Provides
     fun provideUserDao(appDatabase: AppDatabase) = appDatabase.userDao()
+
+    @Provides
+    fun provideRepoDao(appDatabase: AppDatabase) = appDatabase.repoDao()
 }

@@ -18,8 +18,5 @@ class UserViewModel : ViewModel() {
         user = repository.getUser(login)
     }
 
-    fun getUser(): LiveData<User>? {
-        return user
-    }
-
+    fun getUser(): LiveData<User>? = user
 }

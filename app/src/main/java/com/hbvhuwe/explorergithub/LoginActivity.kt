@@ -16,17 +16,20 @@ import java.io.IOException
 class LoginActivity : AppCompatActivity() {
     private val clientId by lazy { getString(R.string.application_client_id) }
     private val clientSecret by lazy { getString(R.string.application_client_secret) }
-    private val redirectUri = "login://com.hbvhuwe.explorergithub"
+    private val redirectUri by lazy { getString(R.string.application_redirect_uri) }
 
     private val loginButton by lazy { findViewById<Button>(R.id.login_button) }
     private val loginResult by lazy { findViewById<TextView>(R.id.login_result) }
+
+    private val authUrl = "https://github.com/login/oauth/authorize"
+    private val tokenUrl = "https://github.com/login/oauth/access_token"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
         loginButton.setOnClickListener {
-            val httpUrl: HttpUrl = HttpUrl.parse("https://github.com/login/oauth/authorize")!!
+            val httpUrl: HttpUrl = HttpUrl.parse(authUrl)!!
                     .newBuilder()
                     .addQueryParameter("client_id", clientId)
                     .build()
@@ -44,7 +47,7 @@ class LoginActivity : AppCompatActivity() {
             val code = intent.data.getQueryParameter("code")
 
             val request = Request.Builder()
-                    .url("https://github.com/login/oauth/access_token")
+                    .url(tokenUrl)
                     .header("Accept", "application/json")
                     .post(FormBody.Builder()
                             .add("client_id", clientId)
@@ -71,11 +74,12 @@ class LoginActivity : AppCompatActivity() {
                         val authCredentials = GsonBuilder().create().fromJson(responseText, Credentials::class.java)
 
                         (application as App).saveCredentials(authCredentials)
-
-                        intent = Intent(this@LoginActivity, UserActivity::class.java)
-                        startActivity(intent)
-                        finish()
                     }
+
+                    intent = Intent(this@LoginActivity, UserActivity::class.java)
+                    intent.putExtra(Const.USER_KEY, Const.LOGGED_IN_KEY)
+                    startActivity(intent)
+                    finish()
                 }
 
             })

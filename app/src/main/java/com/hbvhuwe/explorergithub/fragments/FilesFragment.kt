@@ -13,7 +13,7 @@ import android.widget.TextView
 import com.hbvhuwe.explorergithub.*
 import com.hbvhuwe.explorergithub.adapters.FilesAdapter
 import com.hbvhuwe.explorergithub.models.GitHubFile
-import com.hbvhuwe.explorergithub.models.GitHubRepo
+import com.hbvhuwe.explorergithub.models.Repo
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,7 +24,7 @@ class FilesFragment : Fragment() {
     private lateinit var files: ArrayList<GitHubFile>
     private lateinit var currentPath: String
     lateinit var repoActivity: RepoActivity
-    private lateinit var repo: GitHubRepo
+    private lateinit var repo: Repo
 
     private val fullFilePath by lazy {
         view!!.findViewById<TextView>(R.id.full_file_path)
@@ -35,7 +35,7 @@ class FilesFragment : Fragment() {
         val args = arguments
         if (args != null) {
             currentPath = args.getString("currentPath")
-            repo = args.getSerializable("repoObject") as GitHubRepo
+            repo = args.getSerializable("repoObject") as Repo
         }
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_files, container, false)
@@ -64,7 +64,7 @@ class FilesFragment : Fragment() {
                 } else {
                     path = path.replace("contents/", "")
                 }
-                val call = App.api.getContentOfPath(repo.owner.login, repo.name, path)
+                val call = App.api.getContentOfPath(repo.owner!!.login, repo.name!!, path)
                 call.enqueue(filesCallback)
                 val pathToDisplay = "${repo.fullName}/$path"
                 fullFilePath.text = pathToDisplay

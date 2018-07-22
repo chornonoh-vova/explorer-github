@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.hbvhuwe.explorergithub.R
 import com.hbvhuwe.explorergithub.RepoActivity
-import com.hbvhuwe.explorergithub.models.GitHubRepo
+import com.hbvhuwe.explorergithub.models.Repo
 
-class ReposAdapter(private val dataset: Array<GitHubRepo>) :
+class ReposAdapter(private var dataset: List<Repo>) :
         RecyclerView.Adapter<ReposAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        lateinit var repo: GitHubRepo
+        lateinit var repo: Repo
         var fullName: TextView = itemView.findViewById(R.id.repository_name)
         var description: TextView = itemView.findViewById(R.id.repo_description)
         var stars: TextView = itemView.findViewById(R.id.repo_stars)
@@ -43,5 +43,10 @@ class ReposAdapter(private val dataset: Array<GitHubRepo>) :
         holder.description.text = dataset[position].description
         holder.stars.text = "${dataset[position].starsCount}"
         holder.language.text = dataset[position].language
+    }
+
+    fun setRepos(repos: List<Repo>) {
+        dataset = repos
+        notifyDataSetChanged()
     }
 }
