@@ -14,19 +14,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".UserActivity"
+            android:name=".ui.UserActivity"
             android:label="@string/app_name">
         </activity>
         <activity
-            android:name=".RepoActivity"
+            android:name=".ui.RepoActivity"
             android:label="@string/repo_activity_label"
-            android:parentActivityName=".UserActivity" />
+            android:parentActivityName=".ui.UserActivity" />
         <activity
-            android:name=".FileActivity"
+            android:name=".ui.FileActivity"
             android:label="@string/file_activity_label"
-            android:parentActivityName=".FileActivity" />
+            android:parentActivityName=".ui.FileActivity" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".ui.LoginActivity"
             android:label="@string/app_name"
             android:noHistory="true">
             <intent-filter>
@@ -43,7 +43,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SplashActivity"
+            android:name=".ui.SplashActivity"
             android:theme="@style/SplashTheme"
             android:noHistory="true">
             <intent-filter>

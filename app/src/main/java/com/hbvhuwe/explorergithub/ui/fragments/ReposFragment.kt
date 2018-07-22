@@ -1,4 +1,4 @@
-package com.hbvhuwe.explorergithub.fragments
+package com.hbvhuwe.explorergithub.ui.fragments
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -13,7 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.hbvhuwe.explorergithub.App
 import com.hbvhuwe.explorergithub.Const
-import com.hbvhuwe.explorergithub.adapters.ReposAdapter
+import com.hbvhuwe.explorergithub.ui.adapters.ReposAdapter
 import com.hbvhuwe.explorergithub.viewmodel.ReposViewModel
 
 class ReposFragment : Fragment() {

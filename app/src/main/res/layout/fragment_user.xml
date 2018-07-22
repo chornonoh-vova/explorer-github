@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
-    tools:context="com.hbvhuwe.explorergithub.fragments.UserFragment">
+    tools:context=".ui.fragments.UserFragment">
 
     <ImageView
         android:id="@+id/user_avatar"

@@ -1,4 +1,4 @@
-package com.hbvhuwe.explorergithub.fragments
+package com.hbvhuwe.explorergithub.ui.fragments
 
 
 import android.os.Bundle
@@ -11,9 +11,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.hbvhuwe.explorergithub.*
-import com.hbvhuwe.explorergithub.adapters.FilesAdapter
+import com.hbvhuwe.explorergithub.ui.adapters.FilesAdapter
 import com.hbvhuwe.explorergithub.models.GitHubFile
 import com.hbvhuwe.explorergithub.models.Repo
+import com.hbvhuwe.explorergithub.ui.RepoActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

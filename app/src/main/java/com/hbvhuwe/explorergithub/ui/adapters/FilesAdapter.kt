@@ -1,4 +1,4 @@
-package com.hbvhuwe.explorergithub.adapters
+package com.hbvhuwe.explorergithub.ui.adapters
 
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.hbvhuwe.explorergithub.FileActivity
+import com.hbvhuwe.explorergithub.ui.FileActivity
 import com.hbvhuwe.explorergithub.R
-import com.hbvhuwe.explorergithub.fragments.FilesFragment
+import com.hbvhuwe.explorergithub.ui.fragments.FilesFragment
 import com.hbvhuwe.explorergithub.models.GitHubFile
 
 class FilesAdapter(private val dataset: Array<GitHubFile>) : RecyclerView.Adapter<FilesAdapter.ViewHolder>() {

@@ -1,4 +1,4 @@
-package com.hbvhuwe.explorergithub.fragments
+package com.hbvhuwe.explorergithub.ui.fragments
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders

@@ -1,4 +1,4 @@
-package com.hbvhuwe.explorergithub
+package com.hbvhuwe.explorergithub.ui
 
 import android.content.Intent
 import android.graphics.Color
@@ -9,6 +9,9 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import android.widget.TextView
 import com.google.gson.GsonBuilder
+import com.hbvhuwe.explorergithub.App
+import com.hbvhuwe.explorergithub.Const
+import com.hbvhuwe.explorergithub.R
 import com.hbvhuwe.explorergithub.net.Credentials
 import okhttp3.*
 import java.io.IOException

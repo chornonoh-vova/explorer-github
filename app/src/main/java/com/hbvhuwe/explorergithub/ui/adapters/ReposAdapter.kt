@@ -1,4 +1,4 @@
-package com.hbvhuwe.explorergithub.adapters
+package com.hbvhuwe.explorergithub.ui.adapters
 
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.hbvhuwe.explorergithub.R
-import com.hbvhuwe.explorergithub.RepoActivity
+import com.hbvhuwe.explorergithub.ui.RepoActivity
 import com.hbvhuwe.explorergithub.models.Repo
 
 class ReposAdapter(private var dataset: List<Repo>) :

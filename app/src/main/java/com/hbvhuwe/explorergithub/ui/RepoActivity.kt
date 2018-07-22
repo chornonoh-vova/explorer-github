@@ -1,14 +1,17 @@
-package com.hbvhuwe.explorergithub
+package com.hbvhuwe.explorergithub.ui
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
-import com.hbvhuwe.explorergithub.fragments.FilesFragment
+import com.hbvhuwe.explorergithub.App
+import com.hbvhuwe.explorergithub.R
+import com.hbvhuwe.explorergithub.ui.fragments.FilesFragment
 import com.hbvhuwe.explorergithub.models.GitHubBranch
 import com.hbvhuwe.explorergithub.models.GitHubCommit
 import com.hbvhuwe.explorergithub.models.Repo
+import com.hbvhuwe.explorergithub.showToast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

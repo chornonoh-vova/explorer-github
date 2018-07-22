@@ -31,7 +31,7 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            tools:context=".RepoActivity">
+            tools:context=".ui.RepoActivity">
 
             <ProgressBar
                 android:id="@+id/loading_panel_activity_repo"
