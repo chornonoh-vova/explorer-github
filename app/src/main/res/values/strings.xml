@@ -15,18 +15,22 @@
     <string name="repo_activity_label">Repository</string>
     <string name="file_activity_label">File</string>
 
-    <string name="tab_user_text">User</string>
-    <string name="tab_repos_text">Repos</string>
+    <string name="tab_user_text">Overview</string>
+    <string name="tab_repos_text">Repositories</string>
     <string name="tab_search_text">Search</string>
+    <string name="tab_starred_text">Stars</string>
+    <string name="tab_followers_text">Followers</string>
+    <string name="tab_following_text">Following</string>
 
     <string name="user_email">email: %1$s</string>
     <string name="user_repos">repos: %1$d</string>
 
     <string name="activity_login_title">Sign in using GitHub</string>
     <string name="activity_login_logged">Successful sing in</string>
-    <string name="activity_login_error">Error while signing in\nTry again></string>
+    <string name="activity_login_error">Error while signing in\nTry again</string>
+    <string name="network_error">Network error\nCheck your network settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="tab_starred_text">Starred</string>
+    <string name="logout_action">Logout</string>
 </resources>

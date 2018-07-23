@@ -9,4 +9,7 @@ data class Credentials(
 ): Serializable {
     fun isEmpty() = (accessToken.isEmpty() && tokenType.isEmpty())
     override fun toString() = "$tokenType $accessToken"
+    companion object {
+        fun empty() = Credentials("", "")
+    }
 }

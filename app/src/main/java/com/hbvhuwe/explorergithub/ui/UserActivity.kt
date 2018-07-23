@@ -1,6 +1,7 @@
 package com.hbvhuwe.explorergithub.ui
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
@@ -8,12 +9,14 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuItem
 import com.hbvhuwe.explorergithub.App
 import com.hbvhuwe.explorergithub.Const
 import com.hbvhuwe.explorergithub.R
+import com.hbvhuwe.explorergithub.net.Credentials
 import com.hbvhuwe.explorergithub.ui.fragments.ReposFragment
 import com.hbvhuwe.explorergithub.ui.fragments.UserFragment
-import com.hbvhuwe.explorergithub.net.Credentials
 
 
 class UserActivity : AppCompatActivity() {
@@ -42,7 +45,6 @@ class UserActivity : AppCompatActivity() {
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_user_text))
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_repos_text))
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_starred_text))
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_search_text))
 
         val viewPager = findViewById<ViewPager>(R.id.main_view_pager)
         val adapter = ViewPagerAdapter(supportFragmentManager, tabLayout.tabCount, user)
@@ -66,6 +68,33 @@ class UserActivity : AppCompatActivity() {
         })
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.user_activity_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.action_logout -> { logout() ; true }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun logout() {
+        val credentials = Credentials.empty()
+        val sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE)
+        with(sharedPreferences.edit()) {
+            putBoolean("logged", false)
+            putString("access_token", credentials.accessToken)
+            putString("toke_type", credentials.tokenType)
+            apply()
+        }
+        val intent = Intent(this, SplashActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
     class ViewPagerAdapter(supportFragmentManager: FragmentManager?,
                            private val tabCount: Int,
                            private val user: String)
@@ -78,11 +107,11 @@ class UserActivity : AppCompatActivity() {
             val fragment = when(position) {
                 0 -> UserFragment.newInstance()
                 1 -> {
-                    args.putInt(Const.MODE_KEY, Const.REPOS_MODE_REPOS)
+                    args.putInt(Const.REPOS_MODE_KEY, Const.REPOS_MODE_REPOS)
                     ReposFragment.newInstance()
                 }
                 2 -> {
-                    args.putInt(Const.MODE_KEY, Const.REPOS_MODE_STARRED)
+                    args.putInt(Const.REPOS_MODE_KEY, Const.REPOS_MODE_STARRED)
                     ReposFragment.newInstance()
                 }
                 else -> Fragment()
