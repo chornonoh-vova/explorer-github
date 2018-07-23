@@ -53,12 +53,13 @@ class UserFragment : Fragment() {
             if (it != null) {
                 login.text = it.login
                 name.text = it.name
-                email.text = "email: ${it.email}"
+                email.text = getString(R.string.user_email, it.email)
                 location.text = it.location
-                publicRepos.text = "repos: ${it.publicRepos}"
+                publicRepos.text = getString(R.string.user_repos, it.publicRepos)
                 it.avatarUrl.let {
                     Picasso.get().load(it.toString())
                             .placeholder(R.mipmap.ic_account_circle_black_24dp)
+                            .error(R.drawable.ic_error)
                             .fit()
                             .into(avatar)
                 }

@@ -2,6 +2,7 @@ package com.hbvhuwe.explorergithub
 
 import android.app.Application
 import android.content.Context
+import android.widget.Toast
 import com.hbvhuwe.explorergithub.di.*
 import com.hbvhuwe.explorergithub.net.Api
 import com.hbvhuwe.explorergithub.net.AuthenticationInterceptor
@@ -28,7 +29,7 @@ class App : Application() {
             val tokenType = preferences.getString("tokenType", "")
             Credentials(accessToken, tokenType)
         } else {
-            Credentials("", "");
+            Credentials("", "")
         }
     }
 
@@ -41,6 +42,12 @@ class App : Application() {
             apply()
         }
     }
+
+    fun showNetworkError() = Toast.makeText(
+            this.applicationContext,
+            R.string.network_error,
+            Toast.LENGTH_LONG
+    ).show()
 
     companion object {
         private lateinit var retrofit: Retrofit

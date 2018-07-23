@@ -25,7 +25,7 @@ class ReposFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        mode = arguments!!.getInt(Const.MODE_KEY)
+        mode = arguments!!.getInt(Const.REPOS_MODE_KEY)
         user = arguments!!.getString(Const.USER_KEY)
 
         reposAdapter = ReposAdapter(emptyList())

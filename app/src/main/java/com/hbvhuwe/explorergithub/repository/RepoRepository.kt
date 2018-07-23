@@ -2,6 +2,7 @@ package com.hbvhuwe.explorergithub.repository
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import com.hbvhuwe.explorergithub.App
 import com.hbvhuwe.explorergithub.Const
 import com.hbvhuwe.explorergithub.db.RepoDao
 import com.hbvhuwe.explorergithub.models.Repo
@@ -15,16 +16,26 @@ import javax.inject.Inject
 class RepoRepository @Inject constructor(
         private val api: Api,
         private val repoDao: RepoDao,
-        private val executor: ExecutorService
+        private val executor: ExecutorService,
+        private val app: App
 ) {
     fun getRepos(login: String): LiveData<List<Repo>> {
-        val repos = MutableLiveData<List<Repo>>()
-        executor.execute {
-            if (login == Const.LOGGED_IN_KEY) {
-                repos.postValue(api.getReposForUser().execute().body())
-            } else {
-                repos.postValue(api.getReposForUser(login).execute().body())
+        var repos = MutableLiveData<List<Repo>>()
+        val callback = object : Callback<List<Repo>> {
+            override fun onFailure(call: Call<List<Repo>>?, t: Throwable?) {
+                app.showNetworkError()
             }
+
+            override fun onResponse(call: Call<List<Repo>>?, response: Response<List<Repo>>?) {
+                repos.value = response?.body()
+            }
+        }
+        if (login == Const.USER_LOGGED_IN) {
+            api.getReposForUser().enqueue(callback)
+        } else {
+            repos = repoDao.load(login) as MutableLiveData<List<Repo>>
+            api.getReposForUser(login).enqueue(callback)
+            executeSave(repos)
         }
         return repos
     }
@@ -33,17 +44,24 @@ class RepoRepository @Inject constructor(
         val repos = MutableLiveData<List<Repo>>()
         val callback = object : Callback<List<Repo>> {
             override fun onFailure(call: Call<List<Repo>>?, t: Throwable?) {
+                app.showNetworkError()
             }
 
             override fun onResponse(call: Call<List<Repo>>?, response: Response<List<Repo>>?) {
                 repos.value = response?.body()
             }
         }
-        if (login == Const.LOGGED_IN_KEY) {
+        if (login == Const.USER_LOGGED_IN) {
             api.getStarredRepos().enqueue(callback)
         } else {
             api.getStarredRepos(login).enqueue(callback)
         }
         return repos
+    }
+
+    private fun executeSave(repos: LiveData<List<Repo>>) {
+        executor.execute {
+            repos.value?.forEach { repoDao.save(it) }
+        }
     }
 }
