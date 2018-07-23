@@ -2,6 +2,8 @@ package com.hbvhuwe.explorergithub.ui.fragments
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -14,6 +16,7 @@ import com.hbvhuwe.explorergithub.Const
 import com.hbvhuwe.explorergithub.R
 import com.hbvhuwe.explorergithub.viewmodel.UserViewModel
 import com.squareup.picasso.Picasso
+
 
 class UserFragment : Fragment() {
     private lateinit var user: String
@@ -36,7 +39,7 @@ class UserFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         avatar = view.findViewById(R.id.user_avatar)
         login = view.findViewById(R.id.user_login)
-        name = view.findViewById(R.id.user_login)
+        name = view.findViewById(R.id.user_name)
         email = view.findViewById(R.id.user_email)
         location = view.findViewById(R.id.user_location)
         publicRepos = view.findViewById(R.id.user_public_repos)
@@ -53,8 +56,24 @@ class UserFragment : Fragment() {
             if (it != null) {
                 login.text = it.login
                 name.text = it.name
-                email.text = getString(R.string.user_email, it.email)
-                location.text = it.location
+                if (it.email != null) {
+                    val emailAddress = it.email!!
+                    email.text = getString(R.string.user_email_text)
+                    email.setOnClickListener {
+                        composeEmail(emailAddress)
+                    }
+                } else {
+                    email.text = getString(R.string.user_email_text_empty)
+                }
+                if (it.location != null) {
+                    val loc = it.location!!
+                    location.text = it.location
+                    location.setOnClickListener {
+                        showMap(loc)
+                    }
+                } else {
+                    location.text = getString(R.string.user_no_location_text)
+                }
                 publicRepos.text = getString(R.string.user_repos, it.publicRepos)
                 it.avatarUrl.let {
                     Picasso.get().load(it.toString())
@@ -65,6 +84,23 @@ class UserFragment : Fragment() {
                 }
             }
         })
+    }
+
+    private fun composeEmail(vararg addresses: String) {
+        val intent = Intent(Intent.ACTION_SENDTO)
+        intent.data = Uri.parse("mailto:")
+        intent.putExtra(Intent.EXTRA_EMAIL, addresses)
+        if (intent.resolveActivity(activity?.packageManager) != null) {
+            startActivity(intent)
+        }
+    }
+
+    private fun showMap(location: String) {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse("geo:0,0?q=$location")
+        if (intent.resolveActivity(activity?.packageManager) != null) {
+            startActivity(intent)
+        }
     }
 
     companion object {

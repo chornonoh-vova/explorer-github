@@ -16,7 +16,7 @@ data class User(
         @SerializedName("url") var userUrl: URL?,
         @SerializedName("repos_url") var reposUrl: URL?,
         var type: String,
-        var location: String,
+        var location: String?,
         var company: String?,
         var email: String?,
         var bio: String?,
