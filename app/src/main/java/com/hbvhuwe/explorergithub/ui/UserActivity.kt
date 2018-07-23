@@ -18,7 +18,7 @@ import com.hbvhuwe.explorergithub.net.Credentials
 
 class UserActivity : AppCompatActivity() {
     private val user by lazy {
-        intent.getStringExtra("user")
+        intent.getStringExtra(Const.USER_KEY)
     }
     private val tabLayout by lazy {
         findViewById<TabLayout>(R.id.tab_layout_main)
