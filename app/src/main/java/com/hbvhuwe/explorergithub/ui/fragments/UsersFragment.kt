@@ -13,37 +13,36 @@ import android.view.View
 import android.view.ViewGroup
 import com.hbvhuwe.explorergithub.App
 import com.hbvhuwe.explorergithub.Const
-import com.hbvhuwe.explorergithub.ui.adapters.ReposAdapter
-import com.hbvhuwe.explorergithub.viewmodel.RepoViewModel
+import com.hbvhuwe.explorergithub.ui.adapters.UsersAdapter
+import com.hbvhuwe.explorergithub.viewmodel.UserViewModel
 
-class ReposFragment : Fragment() {
+class UsersFragment : Fragment() {
     private var mode = 0
     private lateinit var user: String
     private lateinit var recyclerView: RecyclerView
-    private lateinit var reposAdapter: ReposAdapter
-    private lateinit var repoViewModel: RepoViewModel
+    private lateinit var usersAdapter: UsersAdapter
+    private lateinit var userViewModel: UserViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        mode = arguments!!.getInt(Const.REPOS_MODE_KEY)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        mode = arguments!!.getInt(Const.USERS_MODE_KEY)
         user = arguments!!.getString(Const.USER_KEY)
 
-        reposAdapter = ReposAdapter(emptyList())
+        usersAdapter = UsersAdapter(emptyList())
 
         recyclerView = RecyclerView(activity).apply {
             layoutManager = LinearLayoutManager(activity)
             addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
             itemAnimator = DefaultItemAnimator()
-            adapter = reposAdapter
+            adapter = usersAdapter
         }
 
-        repoViewModel = ViewModelProviders.of(this).get(RepoViewModel::class.java)
-        App.netComponent.inject(repoViewModel)
-        repoViewModel.multipleInit(mode, user)
+        userViewModel = ViewModelProviders.of(this).get(UserViewModel::class.java)
+        App.netComponent.inject(userViewModel)
+        userViewModel.multipleInit(mode, user)
 
-        repoViewModel.getRepos()?.observe(this, Observer {
+        userViewModel.getUsers()?.observe(this, Observer {
             if (it != null) {
-                reposAdapter.setRepos(it)
+                usersAdapter.setDataset(it)
             }
         })
 
@@ -51,6 +50,6 @@ class ReposFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance() = ReposFragment()
+        fun newInstance() = UsersFragment()
     }
 }

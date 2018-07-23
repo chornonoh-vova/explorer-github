@@ -36,7 +36,7 @@ class UserFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         avatar = view.findViewById(R.id.user_avatar)
         login = view.findViewById(R.id.user_login)
-        name = view.findViewById(R.id.user_name)
+        name = view.findViewById(R.id.user_login)
         email = view.findViewById(R.id.user_email)
         location = view.findViewById(R.id.user_location)
         publicRepos = view.findViewById(R.id.user_public_repos)
@@ -47,7 +47,7 @@ class UserFragment : Fragment() {
 
         userViewModel = ViewModelProviders.of(this).get(UserViewModel::class.java)
         App.netComponent.inject(userViewModel)
-        userViewModel.init(user)
+        userViewModel.singleInit(user)
 
         userViewModel.getUser()?.observe(this, Observer {
             if (it != null) {

@@ -7,12 +7,14 @@ import com.hbvhuwe.explorergithub.model.Repo
 import com.hbvhuwe.explorergithub.repository.RepoRepository
 import javax.inject.Inject
 
-class ReposViewModel : ViewModel() {
+class RepoViewModel : ViewModel() {
     @Inject lateinit var repository: RepoRepository
 
     private var repos: LiveData<List<Repo>>? = null
 
-    fun init(mode: Int, login: String) {
+    private var repo: LiveData<Repo>? = null
+
+    fun multipleInit(mode: Int, login: String) {
         if (repos != null) {
             return
         }
@@ -24,5 +26,14 @@ class ReposViewModel : ViewModel() {
         }
     }
 
+    fun singleInit(login: String, repoName: String) {
+        if (repo != null) {
+            return
+        }
+        repo = repository.getRepo(login, repoName)
+    }
+
     fun getRepos(): LiveData<List<Repo>>? = this.repos
+
+    fun getSingleRepo(): LiveData<Repo>? = this.repo
 }

@@ -20,7 +20,7 @@ class RepoRepository @Inject constructor(
         private val app: App
 ) {
     fun getRepos(login: String): LiveData<List<Repo>> {
-        var repos = MutableLiveData<List<Repo>>()
+        val repos = MutableLiveData<List<Repo>>()
         val callback = object : Callback<List<Repo>> {
             override fun onFailure(call: Call<List<Repo>>?, t: Throwable?) {
                 app.showNetworkError()
@@ -33,9 +33,7 @@ class RepoRepository @Inject constructor(
         if (login == Const.USER_LOGGED_IN) {
             api.getReposForUser().enqueue(callback)
         } else {
-            repos = repoDao.load(login) as MutableLiveData<List<Repo>>
             api.getReposForUser(login).enqueue(callback)
-            executeSave(repos)
         }
         return repos
     }
@@ -48,7 +46,9 @@ class RepoRepository @Inject constructor(
             }
 
             override fun onResponse(call: Call<List<Repo>>?, response: Response<List<Repo>>?) {
-                repos.value = response?.body()
+                if (response != null) {
+                    repos.value = response.body()
+                }
             }
         }
         if (login == Const.USER_LOGGED_IN) {
@@ -59,9 +59,32 @@ class RepoRepository @Inject constructor(
         return repos
     }
 
-    private fun executeSave(repos: LiveData<List<Repo>>) {
+    fun getRepo(login: String, repoName: String): LiveData<Repo> {
+        val repo = repoDao.load(login, repoName)
+        val callback = object : Callback<Repo> {
+            override fun onFailure(call: Call<Repo>?, t: Throwable?) {
+                app.showNetworkError()
+            }
+
+            override fun onResponse(call: Call<Repo>?, response: Response<Repo>?) {
+                if (response != null) {
+                    executeSave(response.body()!!)
+                }
+            }
+        }
+        api.getRepo(login, repoName).enqueue(callback)
+        return repo
+    }
+
+    private fun executeSave(repos: List<Repo>) {
         executor.execute {
-            repos.value?.forEach { repoDao.save(it) }
+            repos.forEach { repoDao.save(it) }
+        }
+    }
+
+    private fun executeSave(repo: Repo) {
+        executor.execute {
+            repo.let { repoDao.save(it) }
         }
     }
 }

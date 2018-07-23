@@ -27,6 +27,24 @@ interface Api {
     @GET("/user")
     fun getUserInfo(): Call<User>
 
+    @GET("/user/followers")
+    fun getUserFollowers(): Call<List<User>>
+
+    @GET("/user/following")
+    fun getUserFollowing(): Call<List<User>>
+
+    @GET("users/{user}/followers")
+    fun getUserFollowers(@Path("user") user: String): Call<List<User>>
+
+    @GET("users/{user}/following")
+    fun getUserFollowing(@Path("user") user: String): Call<List<User>>
+
+    @GET("/repos/{owner}/{repo}")
+    fun getRepo(
+            @Path("owner") owner: String,
+            @Path("repo") repo: String
+    ): Call<Repo>
+
     @GET("/repos/{user}/{repo}/branches")
     fun getBranchesForRepo(
             @Path("user") user: String,

@@ -1,6 +1,5 @@
 package com.hbvhuwe.explorergithub.ui
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TabLayout
@@ -17,6 +16,7 @@ import com.hbvhuwe.explorergithub.R
 import com.hbvhuwe.explorergithub.net.Credentials
 import com.hbvhuwe.explorergithub.ui.fragments.ReposFragment
 import com.hbvhuwe.explorergithub.ui.fragments.UserFragment
+import com.hbvhuwe.explorergithub.ui.fragments.UsersFragment
 
 
 class UserActivity : AppCompatActivity() {
@@ -37,8 +37,8 @@ class UserActivity : AppCompatActivity() {
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_user_text))
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_repos_text))
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_starred_text))
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_following_text))
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_followers_text))
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_following_text))
 
         val viewPager = findViewById<ViewPager>(R.id.main_view_pager)
         val adapter = ViewPagerAdapter(supportFragmentManager, tabLayout.tabCount, user)
@@ -76,14 +76,7 @@ class UserActivity : AppCompatActivity() {
     }
 
     private fun logout() {
-        val credentials = Credentials.empty()
-        val sharedPreferences = getSharedPreferences(Const.PREFS_KEY, Context.MODE_PRIVATE)
-        with(sharedPreferences.edit()) {
-            putBoolean(Const.PREFS_LOGGED_FLAG, false)
-            putString(Const.PREFS_TOKEN, credentials.accessToken)
-            putString(Const.PREFS_TOKEN_TYPE, credentials.tokenType)
-            apply()
-        }
+        (application as App).saveCredentials(Credentials.empty())
         val intent = Intent(this, SplashActivity::class.java)
         startActivity(intent)
         finish()
@@ -107,6 +100,14 @@ class UserActivity : AppCompatActivity() {
                 2 -> {
                     args.putInt(Const.REPOS_MODE_KEY, Const.REPOS_MODE_STARRED)
                     ReposFragment.newInstance()
+                }
+                3 -> {
+                    args.putInt(Const.USERS_MODE_KEY, Const.USERS_MODE_FOLLOWERS)
+                    UsersFragment.newInstance()
+                }
+                4 -> {
+                    args.putInt(Const.USERS_MODE_KEY, Const.USERS_MODE_FOLLOWING)
+                    UsersFragment.newInstance()
                 }
                 else -> Fragment()
             }

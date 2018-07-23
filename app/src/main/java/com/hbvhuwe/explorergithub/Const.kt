@@ -10,9 +10,13 @@ object Const {
     const val USER_KEY = "user"
     const val USER_LOGGED_IN = "LOGGED_IN"
     //Repository constants
-    const val REPOS_MODE_KEY = "mode"
+    const val REPOS_MODE_KEY = "repos_mode"
     const val REPO_NAME_KEY = "repository_name"
-    const val REPO_PATH_KEY = "path"
+    const val REPO_PATH_KEY = "repository_path"
     const val REPOS_MODE_REPOS = 0
     const val REPOS_MODE_STARRED = 1
+    //Follow constants
+    const val USERS_MODE_KEY = "users_mode"
+    const val USERS_MODE_FOLLOWERS = 0
+    const val USERS_MODE_FOLLOWING = 1
 }

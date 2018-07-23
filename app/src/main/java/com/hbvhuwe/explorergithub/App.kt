@@ -36,7 +36,7 @@ class App : Application() {
     fun saveCredentials(credentials: Credentials) {
         val sharedPreferences = getSharedPreferences(Const.PREFS_KEY, Context.MODE_PRIVATE)
         with(sharedPreferences.edit()) {
-            putBoolean(Const.PREFS_LOGGED_FLAG, true)
+            putBoolean(Const.PREFS_LOGGED_FLAG, !credentials.isEmpty())
             putString(Const.PREFS_TOKEN, credentials.accessToken)
             putString(Const.PREFS_TOKEN_TYPE, credentials.tokenType)
             apply()
