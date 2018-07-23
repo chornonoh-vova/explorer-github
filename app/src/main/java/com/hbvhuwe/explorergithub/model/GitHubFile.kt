@@ -1,4 +1,4 @@
-package com.hbvhuwe.explorergithub.models
+package com.hbvhuwe.explorergithub.model
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable

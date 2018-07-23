@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.hbvhuwe.explorergithub.R
+import com.hbvhuwe.explorergithub.model.Repo
 import com.hbvhuwe.explorergithub.ui.RepoActivity
-import com.hbvhuwe.explorergithub.models.Repo
 
 class ReposAdapter(private var dataset: List<Repo>) :
         RecyclerView.Adapter<ReposAdapter.ViewHolder>() {

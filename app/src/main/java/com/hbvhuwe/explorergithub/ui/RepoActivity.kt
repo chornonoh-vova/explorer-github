@@ -7,11 +7,11 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.hbvhuwe.explorergithub.App
 import com.hbvhuwe.explorergithub.R
-import com.hbvhuwe.explorergithub.ui.fragments.FilesFragment
-import com.hbvhuwe.explorergithub.models.GitHubBranch
-import com.hbvhuwe.explorergithub.models.GitHubCommit
-import com.hbvhuwe.explorergithub.models.Repo
+import com.hbvhuwe.explorergithub.model.GitHubBranch
+import com.hbvhuwe.explorergithub.model.GitHubCommit
+import com.hbvhuwe.explorergithub.model.Repo
 import com.hbvhuwe.explorergithub.showToast
+import com.hbvhuwe.explorergithub.ui.fragments.FilesFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -85,12 +85,12 @@ class RepoActivity : AppCompatActivity() {
     }
 
     private fun countBranches() {
-        val call = App.api.getBranchesForRepo(repo.owner!!.login, repo.name!!)
+        val call = App.api.getBranchesForRepo(repo.owner.login, repo.name)
         call.enqueue(branchesCallback)
     }
 
     private fun countCommits() {
-        val call = App.api.getCommitsOfRepo(repo.owner!!.login, repo.name!!)
+        val call = App.api.getCommitsOfRepo(repo.owner.login, repo.name)
         call.enqueue(commitsCallback)
     }
 

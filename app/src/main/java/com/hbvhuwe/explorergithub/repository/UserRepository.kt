@@ -5,7 +5,7 @@ import android.arch.lifecycle.MutableLiveData
 import com.hbvhuwe.explorergithub.App
 import com.hbvhuwe.explorergithub.Const
 import com.hbvhuwe.explorergithub.db.UserDao
-import com.hbvhuwe.explorergithub.models.User
+import com.hbvhuwe.explorergithub.model.User
 import com.hbvhuwe.explorergithub.net.Api
 import retrofit2.Call
 import retrofit2.Callback

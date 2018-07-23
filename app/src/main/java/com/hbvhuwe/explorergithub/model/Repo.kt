@@ -1,4 +1,4 @@
-package com.hbvhuwe.explorergithub.models
+package com.hbvhuwe.explorergithub.model
 
 import android.arch.persistence.room.Embedded
 import android.arch.persistence.room.Entity

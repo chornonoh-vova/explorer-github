@@ -31,7 +31,6 @@ class ReposFragment : Fragment() {
         reposAdapter = ReposAdapter(emptyList())
 
         recyclerView = RecyclerView(activity).apply {
-            isNestedScrollingEnabled = false
             layoutManager = LinearLayoutManager(activity)
             addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
             itemAnimator = DefaultItemAnimator()

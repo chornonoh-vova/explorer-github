@@ -10,11 +10,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.hbvhuwe.explorergithub.*
-import com.hbvhuwe.explorergithub.ui.adapters.FilesAdapter
-import com.hbvhuwe.explorergithub.models.GitHubFile
-import com.hbvhuwe.explorergithub.models.Repo
+import com.hbvhuwe.explorergithub.App
+import com.hbvhuwe.explorergithub.R
+import com.hbvhuwe.explorergithub.isOnline
+import com.hbvhuwe.explorergithub.model.GitHubFile
+import com.hbvhuwe.explorergithub.model.Repo
+import com.hbvhuwe.explorergithub.showToast
 import com.hbvhuwe.explorergithub.ui.RepoActivity
+import com.hbvhuwe.explorergithub.ui.adapters.FilesAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -65,7 +68,7 @@ class FilesFragment : Fragment() {
                 } else {
                     path = path.replace("contents/", "")
                 }
-                val call = App.api.getContentOfPath(repo.owner!!.login, repo.name!!, path)
+                val call = App.api.getContentOfPath(repo.owner.login, repo.name, path)
                 call.enqueue(filesCallback)
                 val pathToDisplay = "${repo.fullName}/$path"
                 fullFilePath.text = pathToDisplay

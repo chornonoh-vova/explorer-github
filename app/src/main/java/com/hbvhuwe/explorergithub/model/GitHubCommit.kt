@@ -1,4 +1,4 @@
-package com.hbvhuwe.explorergithub.models
+package com.hbvhuwe.explorergithub.model
 
 import java.io.Serializable
 import java.net.URL

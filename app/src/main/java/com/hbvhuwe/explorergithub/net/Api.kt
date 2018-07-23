@@ -1,6 +1,6 @@
 package com.hbvhuwe.explorergithub.net
 
-import com.hbvhuwe.explorergithub.models.*
+import com.hbvhuwe.explorergithub.model.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.GET

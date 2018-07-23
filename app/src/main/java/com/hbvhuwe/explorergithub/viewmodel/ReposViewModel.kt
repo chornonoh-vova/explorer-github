@@ -3,7 +3,7 @@ package com.hbvhuwe.explorergithub.viewmodel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import com.hbvhuwe.explorergithub.Const
-import com.hbvhuwe.explorergithub.models.Repo
+import com.hbvhuwe.explorergithub.model.Repo
 import com.hbvhuwe.explorergithub.repository.RepoRepository
 import javax.inject.Inject
 

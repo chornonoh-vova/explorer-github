@@ -3,8 +3,8 @@ package com.hbvhuwe.explorergithub.db
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.TypeConverters
-import com.hbvhuwe.explorergithub.models.Repo
-import com.hbvhuwe.explorergithub.models.User
+import com.hbvhuwe.explorergithub.model.Repo
+import com.hbvhuwe.explorergithub.model.User
 
 @Database(
         entities = [

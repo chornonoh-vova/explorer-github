@@ -7,10 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.hbvhuwe.explorergithub.ui.FileActivity
 import com.hbvhuwe.explorergithub.R
+import com.hbvhuwe.explorergithub.model.GitHubFile
+import com.hbvhuwe.explorergithub.ui.FileActivity
 import com.hbvhuwe.explorergithub.ui.fragments.FilesFragment
-import com.hbvhuwe.explorergithub.models.GitHubFile
 
 class FilesAdapter(private val dataset: Array<GitHubFile>) : RecyclerView.Adapter<FilesAdapter.ViewHolder>() {
     lateinit var filesFragment: FilesFragment

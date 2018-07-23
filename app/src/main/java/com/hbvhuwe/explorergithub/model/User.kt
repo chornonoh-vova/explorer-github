@@ -1,4 +1,4 @@
-package com.hbvhuwe.explorergithub.models
+package com.hbvhuwe.explorergithub.model
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey

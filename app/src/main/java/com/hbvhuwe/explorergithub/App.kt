@@ -23,10 +23,10 @@ class App : Application() {
     }
 
     fun loadCredentials(): Credentials {
-        val preferences = getSharedPreferences("preferences", Context.MODE_PRIVATE)
-        return if (preferences.getBoolean("logged", false)) {
-            val accessToken = preferences.getString("accessToken", "")
-            val tokenType = preferences.getString("tokenType", "")
+        val preferences = getSharedPreferences(Const.PREFS_KEY, Context.MODE_PRIVATE)
+        return if (preferences.getBoolean(Const.PREFS_LOGGED_FLAG, false)) {
+            val accessToken = preferences.getString(Const.PREFS_TOKEN, "")
+            val tokenType = preferences.getString(Const.PREFS_TOKEN_TYPE, "")
             Credentials(accessToken, tokenType)
         } else {
             Credentials("", "")
@@ -34,11 +34,11 @@ class App : Application() {
     }
 
     fun saveCredentials(credentials: Credentials) {
-        val sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences(Const.PREFS_KEY, Context.MODE_PRIVATE)
         with(sharedPreferences.edit()) {
-            putBoolean("logged", true)
-            putString("accessToken", credentials.accessToken)
-            putString("tokenType", credentials.tokenType)
+            putBoolean(Const.PREFS_LOGGED_FLAG, true)
+            putString(Const.PREFS_TOKEN, credentials.accessToken)
+            putString(Const.PREFS_TOKEN_TYPE, credentials.tokenType)
             apply()
         }
     }

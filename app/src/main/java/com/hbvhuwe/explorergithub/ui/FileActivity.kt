@@ -7,7 +7,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.hbvhuwe.explorergithub.App
 import com.hbvhuwe.explorergithub.R
-import com.hbvhuwe.explorergithub.models.GitHubFile
+import com.hbvhuwe.explorergithub.model.GitHubFile
 import com.hbvhuwe.explorergithub.showToast
 import okhttp3.ResponseBody
 import retrofit2.Call

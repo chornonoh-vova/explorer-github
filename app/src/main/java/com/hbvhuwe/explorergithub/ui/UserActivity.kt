@@ -34,17 +34,11 @@ class UserActivity : AppCompatActivity() {
 
         App.netComponent = (application as App).createNetComponent()
 
-        if (App.access == null) {
-            val preferences = getSharedPreferences("preferences", Context.MODE_PRIVATE)
-            val accessToken = preferences.getString("accessToken", "")
-            val tokenType = preferences.getString("tokenType", "")
-
-            App.access = Credentials(accessToken, tokenType)
-        }
-
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_user_text))
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_repos_text))
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_starred_text))
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_following_text))
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_followers_text))
 
         val viewPager = findViewById<ViewPager>(R.id.main_view_pager)
         val adapter = ViewPagerAdapter(supportFragmentManager, tabLayout.tabCount, user)
@@ -83,11 +77,11 @@ class UserActivity : AppCompatActivity() {
 
     private fun logout() {
         val credentials = Credentials.empty()
-        val sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences(Const.PREFS_KEY, Context.MODE_PRIVATE)
         with(sharedPreferences.edit()) {
-            putBoolean("logged", false)
-            putString("access_token", credentials.accessToken)
-            putString("toke_type", credentials.tokenType)
+            putBoolean(Const.PREFS_LOGGED_FLAG, false)
+            putString(Const.PREFS_TOKEN, credentials.accessToken)
+            putString(Const.PREFS_TOKEN_TYPE, credentials.tokenType)
             apply()
         }
         val intent = Intent(this, SplashActivity::class.java)
