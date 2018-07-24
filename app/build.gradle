@@ -44,6 +44,7 @@ dependencies {
     //Dagger
     implementation "com.google.dagger:dagger:$dagger_ver"
     kapt "com.google.dagger:dagger-compiler:$dagger_ver"
+    implementation 'org.glassfish:javax.annotation:10.0-b28'
 
     //Room
     implementation "android.arch.persistence.room:runtime:$room_ver"
