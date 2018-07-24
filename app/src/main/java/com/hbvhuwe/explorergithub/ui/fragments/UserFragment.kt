@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.hbvhuwe.explorergithub.App
@@ -26,6 +27,7 @@ class UserFragment : Fragment() {
     private lateinit var publicRepos: TextView
     private lateinit var location: TextView
     private lateinit var avatar: ImageView
+    private lateinit var followButton: Button
 
     private lateinit var userViewModel: UserViewModel
 
@@ -43,6 +45,7 @@ class UserFragment : Fragment() {
         email = view.findViewById(R.id.user_email)
         location = view.findViewById(R.id.user_location)
         publicRepos = view.findViewById(R.id.user_public_repos)
+        followButton = view.findViewById(R.id.follow_button)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -84,6 +87,10 @@ class UserFragment : Fragment() {
                 }
             }
         })
+
+        if (user == Const.USER_LOGGED_IN) {
+            followButton.visibility = View.GONE
+        }
     }
 
     private fun composeEmail(vararg addresses: String) {
