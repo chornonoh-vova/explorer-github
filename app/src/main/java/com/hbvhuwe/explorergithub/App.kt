@@ -14,13 +14,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 class App : Application() {
     private val credentials: Credentials by lazy { loadCredentials() }
 
-    fun createNetComponent(): NetComponent {
-        return DaggerNetComponent.builder()
-                .appModule(AppModule(this))
-                .netModule(NetModule(credentials))
-                .dbModule(DbModule())
-                .build()
-    }
+    fun createNetComponent(): NetComponent = DaggerNetComponent.builder()
+            .appModule(AppModule(this))
+            .netModule(NetModule(credentials))
+            .dbModule(DbModule())
+            .build()
 
     fun loadCredentials(): Credentials {
         val preferences = getSharedPreferences(Const.PREFS_KEY, Context.MODE_PRIVATE)
@@ -48,6 +46,19 @@ class App : Application() {
             R.string.network_error,
             Toast.LENGTH_LONG
     ).show()
+
+    fun saveUserLogin(login: String) {
+        val sharedPreferences = getSharedPreferences(Const.PREFS_KEY, Context.MODE_PRIVATE)
+        with(sharedPreferences.edit()) {
+            putString(Const.PREFS_USER_KEY, login)
+            apply()
+        }
+    }
+
+    fun loadUserLogin() {
+        val sharedPreferences = getSharedPreferences(Const.PREFS_KEY, Context.MODE_PRIVATE)
+        Const.USER_LOGGED_IN = sharedPreferences.getString(Const.PREFS_USER_KEY, Const.USER_LOGGED_IN)
+    }
 
     companion object {
         private lateinit var retrofit: Retrofit

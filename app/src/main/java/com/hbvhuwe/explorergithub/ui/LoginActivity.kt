@@ -12,9 +12,12 @@ import com.google.gson.GsonBuilder
 import com.hbvhuwe.explorergithub.App
 import com.hbvhuwe.explorergithub.Const
 import com.hbvhuwe.explorergithub.R
+import com.hbvhuwe.explorergithub.model.User
+import com.hbvhuwe.explorergithub.net.Api
 import com.hbvhuwe.explorergithub.net.Credentials
 import okhttp3.*
 import java.io.IOException
+import javax.inject.Inject
 
 class LoginActivity : AppCompatActivity() {
     private val clientId by lazy { getString(R.string.application_client_id) }
@@ -26,6 +29,8 @@ class LoginActivity : AppCompatActivity() {
 
     private val authUrl = "https://github.com/login/oauth/authorize"
     private val tokenUrl = "https://github.com/login/oauth/access_token"
+
+    @Inject lateinit var api: Api
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,14 +83,31 @@ class LoginActivity : AppCompatActivity() {
 
                         (application as App).saveCredentials(authCredentials)
                     }
-
-                    intent = Intent(this@LoginActivity, UserActivity::class.java)
-                    intent.putExtra(Const.USER_KEY, Const.USER_LOGGED_IN)
-                    startActivity(intent)
-                    finish()
+                    App.netComponent = (application as App).createNetComponent()
+                    App.netComponent.inject(this@LoginActivity)
+                    api.getUserInfo().enqueue(callback)
                 }
 
             })
         }
+    }
+
+    private val callback = object : retrofit2.Callback<User> {
+        override fun onFailure(call: retrofit2.Call<User>?, t: Throwable?) {
+
+        }
+
+        override fun onResponse(call: retrofit2.Call<User>?, response: retrofit2.Response<User>?) {
+            if (response != null) {
+                val user = response.body()
+                (application as App).saveUserLogin(user!!.login)
+
+                intent = Intent(this@LoginActivity, UserActivity::class.java)
+                intent.putExtra(Const.USER_KEY, Const.USER_LOGGED_IN)
+                startActivity(intent)
+                finish()
+            }
+        }
+
     }
 }

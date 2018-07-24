@@ -16,6 +16,8 @@ class SplashActivity : AppCompatActivity() {
         val credentials = (application as App).loadCredentials()
 
         if (!credentials.isEmpty()) {
+            (application as App).loadUserLogin()
+
             val intent = Intent(this, UserActivity::class.java)
             intent.putExtra(Const.USER_KEY, Const.USER_LOGGED_IN)
             startActivity(intent)
