@@ -40,10 +40,7 @@ class UserActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user)
         setSupportActionBar(findViewById(R.id.toolbar_main))
-        update()
-    }
 
-    private fun update() {
         App.netComponent = (application as App).createNetComponent()
 
         tabLayout.removeAllTabs()
@@ -82,7 +79,6 @@ class UserActivity : AppCompatActivity() {
                         showWifiSettings()
                     }.show()
         }
-
     }
 
     private fun logout() {
@@ -101,7 +97,7 @@ class UserActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.action_logout -> { logout() ; true }
-            R.id.action_update -> { update() ; true }
+            R.id.action_update -> { recreate() ; true }
             else -> super.onOptionsItemSelected(item)
         }
     }

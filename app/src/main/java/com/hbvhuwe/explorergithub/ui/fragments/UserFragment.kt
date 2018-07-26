@@ -13,6 +13,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.hbvhuwe.explorergithub.App
+import com.hbvhuwe.explorergithub.CircleTransform
 import com.hbvhuwe.explorergithub.Const
 import com.hbvhuwe.explorergithub.R
 import com.hbvhuwe.explorergithub.viewmodel.UserViewModel
@@ -82,6 +83,7 @@ class UserFragment : Fragment() {
                     Picasso.get().load(it.toString())
                             .placeholder(R.mipmap.ic_account_circle_black_24dp)
                             .error(R.drawable.ic_error)
+                            .transform(CircleTransform())
                             .fit()
                             .into(avatar)
                 }

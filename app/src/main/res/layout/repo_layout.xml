@@ -15,6 +15,7 @@
         android:contentDescription="repo_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:tint="?iconTintColor"
         app:srcCompat="@mipmap/ic_book_black_24dp" />
 
     <TextView
@@ -25,7 +26,6 @@
         android:layout_marginStart="8dp"
         android:padding="4dp"
         android:text="repo_full_name"
-        android:textColor="@android:color/black"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -63,6 +63,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/repo_description"
         app:layout_constraintVertical_bias="0.0"
+        android:tint="?iconTintColor"
         app:srcCompat="@mipmap/ic_star_black_18dp" />
 
     <TextView
@@ -94,6 +95,7 @@
         app:layout_constraintStart_toEndOf="@+id/repo_stars"
         app:layout_constraintTop_toBottomOf="@+id/repo_description"
         app:layout_constraintVertical_bias="0.0"
+        android:tint="?iconTintColor"
         app:srcCompat="@mipmap/ic_language_black_18dp" />
 
     <TextView

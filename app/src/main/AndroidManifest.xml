@@ -12,7 +12,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppThemeLight"
+        android:fullBackupContent="false">
         <activity
             android:name=".ui.UserActivity"
             android:label="@string/app_name">
@@ -44,7 +45,7 @@
         </activity>
         <activity
             android:name=".ui.SplashActivity"
-            android:theme="@style/SplashTheme"
+            android:theme="@style/SplashThemeLight"
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

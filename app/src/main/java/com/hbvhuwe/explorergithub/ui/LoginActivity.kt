@@ -76,7 +76,7 @@ class LoginActivity : AppCompatActivity() {
                     if (response != null && response.isSuccessful) runOnUiThread {
                         val responseText = response.body()?.string()
 
-                        loginResult.setTextColor(ContextCompat.getColor(this@LoginActivity, R.color.colorAccent))
+                        loginResult.setTextColor(ContextCompat.getColor(this@LoginActivity, R.color.colorAccentDarkTheme))
                         loginResult.text = getString(R.string.activity_login_logged)
 
                         val authCredentials = GsonBuilder().create().fromJson(responseText, Credentials::class.java)

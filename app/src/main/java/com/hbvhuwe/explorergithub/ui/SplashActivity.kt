@@ -10,7 +10,7 @@ import com.hbvhuwe.explorergithub.R
 class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.SplashTheme)
+        setTheme(R.style.SplashThemeDark)
         super.onCreate(savedInstanceState)
 
         val credentials = (application as App).loadCredentials()

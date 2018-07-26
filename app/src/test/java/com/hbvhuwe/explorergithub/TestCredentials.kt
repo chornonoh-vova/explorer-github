@@ -9,6 +9,7 @@ class TestCredentials {
     fun emptyCredentials() {
         val credentials = Credentials("", "")
         Assert.assertTrue(credentials.isEmpty())
+        Assert.assertTrue(Credentials.empty().isEmpty())
     }
     @Test
     fun nonEmptyCredentials() {
