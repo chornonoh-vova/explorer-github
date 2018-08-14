@@ -6,4 +6,6 @@
     <color name="colorPrimaryLightTheme">#5c6bc0</color>
     <color name="colorPrimaryDarkLightTheme">#26418f</color>
     <color name="colorAccentLightTheme">#880e4f</color>
+    <color name="red">@android:color/holo_red_dark</color>
+    <color name="green">@android:color/holo_green_dark</color>
 </resources>

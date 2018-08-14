@@ -21,6 +21,7 @@ import com.hbvhuwe.explorergithub.ui.adapters.FilesAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
 class FilesFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
@@ -107,7 +108,10 @@ class FilesFragment : Fragment() {
         override fun onResponse(call: Call<List<GitHubFile>>?, response: Response<List<GitHubFile>>?) {
             if (response != null) {
                 if (response.isSuccessful) {
-                    val filesResponse = response.body()!!
+                    val filesResponse = response.body()!!.toMutableList()
+                    filesResponse.sortWith(Comparator { o1, o2 ->
+                        o1.type.compareTo(o2.type)
+                    })
                     files = ArrayList()
                     files.addAll(filesResponse)
                     setupRecycler()

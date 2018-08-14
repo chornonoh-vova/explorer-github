@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import android.widget.TextView
@@ -76,7 +75,7 @@ class LoginActivity : AppCompatActivity() {
                     if (response != null && response.isSuccessful) runOnUiThread {
                         val responseText = response.body()?.string()
 
-                        loginResult.setTextColor(ContextCompat.getColor(this@LoginActivity, R.color.colorAccentDarkTheme))
+                        loginResult.setTextColor(Color.GREEN)
                         loginResult.text = getString(R.string.activity_login_logged)
 
                         val authCredentials = GsonBuilder().create().fromJson(responseText, Credentials::class.java)
@@ -99,8 +98,8 @@ class LoginActivity : AppCompatActivity() {
 
         override fun onResponse(call: retrofit2.Call<User>?, response: retrofit2.Response<User>?) {
             if (response != null) {
-                val user = response.body()
-                (application as App).saveUserLogin(user!!.login)
+                val user = response.body()!!
+                (application as App).saveUserLogin(user.login)
 
                 intent = Intent(this@LoginActivity, UserActivity::class.java)
                 intent.putExtra(Const.USER_KEY, Const.USER_LOGGED_IN)

@@ -1,5 +1,6 @@
 package com.hbvhuwe.explorergithub.ui
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -9,7 +10,7 @@ import android.support.design.widget.Snackbar
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
+import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -25,6 +26,7 @@ import com.hbvhuwe.explorergithub.ui.fragments.UsersFragment
 
 
 class UserActivity : AppCompatActivity() {
+    private val tabCount = 5
     private val user by lazy {
         intent.getStringExtra(Const.USER_KEY)
     }
@@ -43,34 +45,12 @@ class UserActivity : AppCompatActivity() {
 
         App.netComponent = (application as App).createNetComponent()
 
-        tabLayout.removeAllTabs()
-
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_user_text))
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_repos_text))
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_starred_text))
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_followers_text))
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_following_text))
-
         val viewPager = findViewById<ViewPager>(R.id.main_view_pager)
-        val adapter = ViewPagerAdapter(supportFragmentManager, tabLayout.tabCount, user)
+        val adapter = ViewPagerAdapter(supportFragmentManager, tabCount, this, user)
         viewPager.adapter = adapter
-        viewPager.offscreenPageLimit = tabLayout.tabCount
+        viewPager.offscreenPageLimit = tabCount - 1
 
-        viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-                viewPager.currentItem = tab!!.position
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-
-            }
-
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                viewPager.currentItem = tab!!.position
-            }
-
-        })
+        tabLayout.setupWithViewPager(viewPager)
 
         if (!isOnline()) {
             Snackbar.make(coordinatorLayout, R.string.network_error_text, Snackbar.LENGTH_LONG)
@@ -111,9 +91,21 @@ class UserActivity : AppCompatActivity() {
 
     class ViewPagerAdapter(supportFragmentManager: FragmentManager?,
                            private val tabCount: Int,
+                           private val context: Context,
                            private val user: String)
-        : FragmentStatePagerAdapter(supportFragmentManager) {
+        : FragmentPagerAdapter(supportFragmentManager) {
+
+        private val tabTitles = arrayOf(
+                R.string.tab_user_text,
+                R.string.tab_repos_text,
+                R.string.tab_starred_text,
+                R.string.tab_followers_text,
+                R.string.tab_following_text)
+
         override fun getItem(position: Int) = getFragment(position)
+
+        override fun getPageTitle(position: Int): CharSequence
+                = context.getString(tabTitles[position])
 
         private fun getFragment(position: Int): Fragment {
             val args = Bundle()
