@@ -39,6 +39,7 @@ dependencies {
 
     //ViewModel and LiveData
     implementation "android.arch.lifecycle:extensions:$lifecycle_ver"
+    implementation 'com.android.support:support-v4:27.1.1'
     kapt "android.arch.lifecycle:compiler:$lifecycle_ver"
 
     //Dagger

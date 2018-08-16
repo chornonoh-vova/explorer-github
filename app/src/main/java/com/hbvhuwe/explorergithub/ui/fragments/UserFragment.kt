@@ -56,12 +56,12 @@ class UserFragment : Fragment() {
         App.netComponent.inject(userViewModel)
         userViewModel.singleInit(user)
 
-        userViewModel.getUser()?.observe(this, Observer {
-            if (it != null) {
-                login.text = it.login
-                name.text = it.name
-                if (it.email != null) {
-                    val emailAddress = it.email!!
+        userViewModel.getUser()?.observe(this, Observer { user ->
+            if (user != null) {
+                login.text = user.login
+                name.text = user.name
+                if (user.email != null) {
+                    val emailAddress = user.email!!
                     email.text = getString(R.string.user_email_text)
                     email.setOnClickListener {
                         composeEmail(emailAddress)
@@ -69,17 +69,17 @@ class UserFragment : Fragment() {
                 } else {
                     email.text = getString(R.string.user_email_text_empty)
                 }
-                if (it.location != null) {
-                    val loc = it.location!!
-                    location.text = it.location
+                if (user.location != null) {
+                    val loc = user.location!!
+                    location.text = user.location
                     location.setOnClickListener {
                         showMap(loc)
                     }
                 } else {
                     location.text = getString(R.string.user_no_location_text)
                 }
-                publicRepos.text = getString(R.string.user_repos, it.publicRepos)
-                it.avatarUrl.let {
+                publicRepos.text = getString(R.string.user_repos, user.publicRepos)
+                user.avatarUrl.let {
                     Picasso.get().load(it.toString())
                             .placeholder(R.mipmap.ic_account_circle_black_24dp)
                             .error(R.drawable.ic_error)

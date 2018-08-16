@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:tint="?attr/iconTintColor">
+    <item>
+        <shape>
+            <stroke
+                android:width="4dp"
+                android:color="@android:color/black" />
+
+            <solid android:color="@android:color/transparent" />
+
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+    <item
+        android:top="12dp"
+        android:bottom="12dp">
+        <shape
+            android:shape="rectangle">
+            <stroke
+                android:width="4dp"
+                android:color="@android:color/black" />
+            <solid android:color="@android:color/transparent" />
+        </shape>
+    </item>
+    <item
+        android:drawable="@drawable/round_wifi_off_black_48"
+        android:top="50dp"
+        android:bottom="50dp"
+        android:left="15dp"
+        android:right="15dp"/>
+</layer-list>

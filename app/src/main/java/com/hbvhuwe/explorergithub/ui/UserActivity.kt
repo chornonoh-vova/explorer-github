@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.provider.Settings
 import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.Snackbar
@@ -20,12 +21,18 @@ import com.hbvhuwe.explorergithub.Const
 import com.hbvhuwe.explorergithub.R
 import com.hbvhuwe.explorergithub.isOnline
 import com.hbvhuwe.explorergithub.net.Credentials
+import com.hbvhuwe.explorergithub.ui.fragments.NoInternetFragment
 import com.hbvhuwe.explorergithub.ui.fragments.ReposFragment
 import com.hbvhuwe.explorergithub.ui.fragments.UserFragment
 import com.hbvhuwe.explorergithub.ui.fragments.UsersFragment
 
 
-class UserActivity : AppCompatActivity() {
+class UserActivity : AppCompatActivity(), NoInternetFragment.IRetryActivity {
+    override fun retry() {
+        update()
+    }
+
+    private var offlineMode = false
     private val tabCount = 5
     private val user by lazy {
         intent.getStringExtra(Const.USER_KEY)
@@ -39,18 +46,28 @@ class UserActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this)
+        if (sharedPrefs.getBoolean("dark_theme", false))
+            setTheme(R.style.AppThemeDark)
+        else
+            setTheme(R.style.AppThemeLight)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user)
         setSupportActionBar(findViewById(R.id.toolbar_main))
 
+        update()
+    }
+
+    private fun update() {
         App.netComponent = (application as App).createNetComponent()
 
         val viewPager = findViewById<ViewPager>(R.id.main_view_pager)
-        val adapter = ViewPagerAdapter(supportFragmentManager, tabCount, this, user)
-        viewPager.adapter = adapter
-        viewPager.offscreenPageLimit = tabCount - 1
+        supportFragmentManager.fragments.forEach {
+            supportFragmentManager.beginTransaction().remove(it).commitNow()
+        }
 
-        tabLayout.setupWithViewPager(viewPager)
+        this.offlineMode = !isOnline()
 
         if (!isOnline()) {
             Snackbar.make(coordinatorLayout, R.string.network_error_text, Snackbar.LENGTH_LONG)
@@ -59,6 +76,12 @@ class UserActivity : AppCompatActivity() {
                         showWifiSettings()
                     }.show()
         }
+
+        val adapter = ViewPagerAdapter(supportFragmentManager, tabCount, this, user, offlineMode)
+        viewPager.adapter = adapter
+        viewPager.offscreenPageLimit = tabCount - 1
+
+        tabLayout.setupWithViewPager(viewPager)
     }
 
     private fun logout() {
@@ -76,8 +99,12 @@ class UserActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
-            R.id.action_logout -> { logout() ; true }
-            R.id.action_update -> { recreate() ; true }
+            R.id.action_settings -> {
+                val intent = Intent(this, SettingsActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            R.id.action_update -> { update() ; true }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -92,7 +119,8 @@ class UserActivity : AppCompatActivity() {
     class ViewPagerAdapter(supportFragmentManager: FragmentManager?,
                            private val tabCount: Int,
                            private val context: Context,
-                           private val user: String)
+                           private val user: String,
+                           private val offlineMode: Boolean)
         : FragmentPagerAdapter(supportFragmentManager) {
 
         private val tabTitles = arrayOf(
@@ -108,6 +136,9 @@ class UserActivity : AppCompatActivity() {
                 = context.getString(tabTitles[position])
 
         private fun getFragment(position: Int): Fragment {
+            if (offlineMode)
+                return NoInternetFragment()
+
             val args = Bundle()
             args.putString(Const.USER_KEY, user)
             val fragment = when(position) {
