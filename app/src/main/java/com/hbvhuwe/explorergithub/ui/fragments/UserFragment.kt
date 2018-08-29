@@ -81,7 +81,7 @@ class UserFragment : Fragment() {
                 publicRepos.text = getString(R.string.user_repos, user.publicRepos)
                 user.avatarUrl.let {
                     Picasso.get().load(it.toString())
-                            .placeholder(R.mipmap.ic_account_circle_black_24dp)
+                            .placeholder(R.drawable.ic_account_circle)
                             .error(R.drawable.ic_error)
                             .transform(CircleTransform())
                             .fit()

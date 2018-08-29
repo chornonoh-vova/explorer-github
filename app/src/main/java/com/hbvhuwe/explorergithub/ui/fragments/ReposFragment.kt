@@ -14,14 +14,14 @@ import android.view.ViewGroup
 import com.hbvhuwe.explorergithub.App
 import com.hbvhuwe.explorergithub.Const
 import com.hbvhuwe.explorergithub.ui.adapters.ReposAdapter
-import com.hbvhuwe.explorergithub.viewmodel.RepoViewModel
+import com.hbvhuwe.explorergithub.viewmodel.ReposViewModel
 
 class ReposFragment : Fragment() {
     private var mode = 0
     private lateinit var user: String
     private lateinit var recyclerView: RecyclerView
     private lateinit var reposAdapter: ReposAdapter
-    private lateinit var repoViewModel: RepoViewModel
+    private lateinit var reposViewModel: ReposViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -37,11 +37,11 @@ class ReposFragment : Fragment() {
             adapter = reposAdapter
         }
 
-        repoViewModel = ViewModelProviders.of(this).get(RepoViewModel::class.java)
-        App.netComponent.inject(repoViewModel)
-        repoViewModel.multipleInit(mode, user)
+        reposViewModel = ViewModelProviders.of(this).get(ReposViewModel::class.java)
+        App.netComponent.inject(reposViewModel)
+        reposViewModel.multipleInit(mode, user)
 
-        repoViewModel.getRepos()?.observe(this, Observer {
+        reposViewModel.getRepos()?.observe(this, Observer {
             if (it != null) {
                 reposAdapter.setRepos(it)
             }

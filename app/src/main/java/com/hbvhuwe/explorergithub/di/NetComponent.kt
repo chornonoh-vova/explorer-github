@@ -1,7 +1,7 @@
 package com.hbvhuwe.explorergithub.di
 
 import com.hbvhuwe.explorergithub.ui.LoginActivity
-import com.hbvhuwe.explorergithub.viewmodel.RepoViewModel
+import com.hbvhuwe.explorergithub.viewmodel.ReposViewModel
 import com.hbvhuwe.explorergithub.viewmodel.UserViewModel
 import dagger.Component
 import javax.inject.Singleton
@@ -11,5 +11,5 @@ import javax.inject.Singleton
 interface NetComponent {
     fun inject(loginActivity: LoginActivity)
     fun inject(userViewModel: UserViewModel)
-    fun inject(repoViewModel: RepoViewModel)
+    fun inject(reposViewModel: ReposViewModel)
 }

@@ -3,10 +3,7 @@ package com.hbvhuwe.explorergithub.net
 import com.hbvhuwe.explorergithub.model.*
 import okhttp3.ResponseBody
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
-import retrofit2.http.Url
+import retrofit2.http.*
 
 interface Api {
     @GET("/users/{user}/repos")
@@ -64,6 +61,15 @@ interface Api {
             @Path("path") path: String,
             @Query("ref") branch: String = "master"
     ): Call<List<GitHubFile>>
+
+    @GET("/repos/{user}/{repo}/readme")
+    fun getReadme(
+            @Path("user") user: String,
+            @Path("repo") repo: String
+    ): Call<GitHubFile>
+
+    @POST("/markdown")
+    fun convertMarkdownToHtml(@Body text: String): Call<ResponseBody>
 
     @GET
     fun getFile(@Url url: String): Call<ResponseBody>

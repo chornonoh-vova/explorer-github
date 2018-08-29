@@ -41,7 +41,7 @@ class UsersAdapter(private var dataset: List<User>) : RecyclerView.Adapter<Users
         holder.userLogin.text = dataset[position].login
         Picasso.get().load(dataset[position].avatarUrl.toString())
                 .error(R.drawable.ic_error)
-                .placeholder(R.mipmap.ic_account_circle_black_24dp)
+                .placeholder(R.drawable.ic_account_circle)
                 .transform(CircleTransform())
                 .fit()
                 .into(holder.userAvatar)

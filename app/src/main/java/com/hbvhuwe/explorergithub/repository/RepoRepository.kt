@@ -5,8 +5,10 @@ import android.arch.lifecycle.MutableLiveData
 import com.hbvhuwe.explorergithub.App
 import com.hbvhuwe.explorergithub.Const
 import com.hbvhuwe.explorergithub.db.RepoDao
+import com.hbvhuwe.explorergithub.model.GitHubFile
 import com.hbvhuwe.explorergithub.model.Repo
 import com.hbvhuwe.explorergithub.net.Api
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -74,6 +76,53 @@ class RepoRepository @Inject constructor(
         }
         api.getRepo(login, repoName).enqueue(callback)
         return repo
+    }
+
+    fun getReadme(login: String, repo: String): LiveData<GitHubFile> {
+        val readme = MutableLiveData<GitHubFile>()
+        val callback = object : Callback<GitHubFile> {
+            override fun onFailure(call: Call<GitHubFile>?, t: Throwable?) {
+                app.showNetworkError()
+            }
+
+            override fun onResponse(call: Call<GitHubFile>?, response: Response<GitHubFile>?) {
+                if (response != null) {
+                    readme.value = response.body()
+                }
+            }
+
+        }
+        api.getReadme(login, repo).enqueue(callback)
+        return readme
+    }
+
+    fun convertMarkdown(text: String): LiveData<String> {
+        val html = MutableLiveData<String>()
+        val callback = object : Callback<ResponseBody> {
+            override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
+                app.showNetworkError()
+            }
+
+            override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
+                if (response != null) {
+                    html.value = response.body()?.string()
+                }
+            }
+        }
+        api.convertMarkdownToHtml("{\"text\":\"$text\"}").enqueue(callback)
+        return html
+    }
+
+    fun getFileEscaping(url: String): LiveData<String> {
+        val file = MutableLiveData<String>()
+        executor.execute {
+            val response = api.getFile(url).execute()
+            val list = response.body()?.string()?.split("\n")
+            val stringBuilder = StringBuilder()
+            list?.forEach { stringBuilder.append("$it\\n") }
+            file.value = stringBuilder.toString()
+        }
+        return file
     }
 
     private fun executeSave(repos: List<Repo>) {

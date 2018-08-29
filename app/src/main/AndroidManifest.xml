@@ -45,7 +45,7 @@
         <activity
             android:name=".ui.SplashActivity"
             android:noHistory="true"
-            android:theme="@style/SplashThemeLight">
+            android:theme="@style/SplashThemeDark">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -55,6 +55,7 @@
         <activity
             android:name=".ui.SettingsActivity"
             android:label="@string/title_activity_settings"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             android:parentActivityName=".ui.UserActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

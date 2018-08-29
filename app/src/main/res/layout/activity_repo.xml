@@ -48,7 +48,7 @@
                 android:tint="?iconTintColor"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/loading_panel_activity_repo"
-                app:srcCompat="@mipmap/ic_book_black_24dp" />
+                app:srcCompat="@drawable/ic_book" />
 
             <TextView
                 android:id="@+id/repository_name"
@@ -75,7 +75,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/repository_icon"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/repository_icon"
-                app:srcCompat="@mipmap/ic_star_black_18dp" />
+                app:srcCompat="@drawable/ic_star" />
 
             <TextView
                 android:id="@+id/repository_stars"
