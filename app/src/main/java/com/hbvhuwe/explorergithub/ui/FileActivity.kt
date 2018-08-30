@@ -1,8 +1,6 @@
 package com.hbvhuwe.explorergithub.ui
 
 import android.os.Bundle
-import android.preference.PreferenceManager
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -15,7 +13,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class FileActivity : AppCompatActivity() {
+class FileActivity : BaseActivity() {
     private lateinit var fileToShow: GitHubFile
     private val fileName by lazy {
         findViewById<TextView>(R.id.activity_file_name)
@@ -25,12 +23,6 @@ class FileActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this)
-        if (sharedPrefs.getBoolean("dark_theme", false))
-            setTheme(R.style.AppThemeDark)
-        else
-            setTheme(R.style.AppThemeLight)
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_file)
 

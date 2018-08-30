@@ -43,7 +43,7 @@ class ReposFragment : Fragment() {
 
         reposViewModel.getRepos()?.observe(this, Observer {
             if (it != null) {
-                reposAdapter.setRepos(it)
+                reposAdapter.dataset = it
             }
         })
 

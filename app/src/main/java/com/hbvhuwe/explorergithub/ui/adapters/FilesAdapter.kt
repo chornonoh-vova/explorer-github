@@ -1,18 +1,16 @@
 package com.hbvhuwe.explorergithub.ui.adapters
 
-import android.content.Intent
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.hbvhuwe.explorergithub.R
 import com.hbvhuwe.explorergithub.model.GitHubFile
-import com.hbvhuwe.explorergithub.ui.FileActivity
 import com.hbvhuwe.explorergithub.ui.fragments.FilesFragment
 
-class FilesAdapter(private val dataset: Array<GitHubFile>) : RecyclerView.Adapter<FilesAdapter.ViewHolder>() {
+class FilesAdapter(dataset: List<GitHubFile>)
+    : BaseAdapter<GitHubFile, FilesAdapter.ViewHolder>(dataset, R.layout.file_layout,
+        { FilesAdapter.ViewHolder(it) }) {
     lateinit var filesFragment: FilesFragment
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -23,23 +21,10 @@ class FilesAdapter(private val dataset: Array<GitHubFile>) : RecyclerView.Adapte
 
         init {
             itemView.setOnClickListener {
-                if (file.type == "file") {
-                    val intent = Intent(it.context, FileActivity::class.java).apply {
-                        putExtra("fileToShow", file)
-                    }
-                    it.context.startActivity(intent)
-                } else {
-                    filesFragment.repoActivity.updateFiles(file.url)
-                }
+
             }
         }
     }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-            ViewHolder(LayoutInflater.from(parent.context)
-                    .inflate(R.layout.file_layout, parent, false))
-
-    override fun getItemCount() = dataset.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.file = dataset[position]

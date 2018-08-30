@@ -13,6 +13,7 @@ object Const {
     //Repository constants
     const val REPOS_MODE_KEY = "repos_mode"
     const val REPO_NAME_KEY = "repository_name"
+    const val REPO_OWNER_KEY = "repository_owner"
     const val REPO_PATH_KEY = "repository_path"
     const val REPOS_MODE_REPOS = 0
     const val REPOS_MODE_STARRED = 1

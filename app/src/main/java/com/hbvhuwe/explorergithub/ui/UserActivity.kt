@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.provider.Settings
 import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.Snackbar
@@ -13,7 +12,6 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
-import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import com.hbvhuwe.explorergithub.App
@@ -27,7 +25,7 @@ import com.hbvhuwe.explorergithub.ui.fragments.UserFragment
 import com.hbvhuwe.explorergithub.ui.fragments.UsersFragment
 
 
-class UserActivity : AppCompatActivity(), NoInternetFragment.IRetryActivity {
+class UserActivity : BaseActivity(), NoInternetFragment.IRetryActivity {
     override fun retry() {
         update()
     }
@@ -46,12 +44,6 @@ class UserActivity : AppCompatActivity(), NoInternetFragment.IRetryActivity {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this)
-        if (sharedPrefs.getBoolean("dark_theme", false))
-            setTheme(R.style.AppThemeDark)
-        else
-            setTheme(R.style.AppThemeLight)
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user)
         setSupportActionBar(findViewById(R.id.toolbar_main))
@@ -124,7 +116,7 @@ class UserActivity : AppCompatActivity(), NoInternetFragment.IRetryActivity {
         : FragmentPagerAdapter(supportFragmentManager) {
 
         private val tabTitles = arrayOf(
-                R.string.tab_user_text,
+                R.string.tab_overview_text,
                 R.string.tab_repos_text,
                 R.string.tab_starred_text,
                 R.string.tab_followers_text,

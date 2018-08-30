@@ -94,7 +94,7 @@ class FilesFragment : Fragment() {
         recyclerView.isNestedScrollingEnabled = false
         val layoutManager = LinearLayoutManager(this.context)
         recyclerView.layoutManager = layoutManager
-        filesAdapter = FilesAdapter(files.toTypedArray())
+        filesAdapter = FilesAdapter(files)
         filesAdapter.filesFragment = this
         recyclerView.adapter = filesAdapter
         recyclerView.addItemDecoration(DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL))

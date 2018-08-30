@@ -42,7 +42,7 @@ class UsersFragment : Fragment() {
 
         userViewModel.getUsers()?.observe(this, Observer {
             if (it != null) {
-                usersAdapter.setDataset(it)
+                usersAdapter.dataset = it
             }
         })
 
