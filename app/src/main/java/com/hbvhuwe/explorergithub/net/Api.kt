@@ -1,12 +1,9 @@
 package com.hbvhuwe.explorergithub.net
 
-import com.hbvhuwe.explorergithub.models.*
+import com.hbvhuwe.explorergithub.model.*
 import okhttp3.ResponseBody
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
-import retrofit2.http.Url
+import retrofit2.http.*
 
 interface Api {
     @GET("/users/{user}/repos")
@@ -27,6 +24,24 @@ interface Api {
     @GET("/user")
     fun getUserInfo(): Call<User>
 
+    @GET("/user/followers")
+    fun getUserFollowers(): Call<List<User>>
+
+    @GET("/user/following")
+    fun getUserFollowing(): Call<List<User>>
+
+    @GET("users/{user}/followers")
+    fun getUserFollowers(@Path("user") user: String): Call<List<User>>
+
+    @GET("users/{user}/following")
+    fun getUserFollowing(@Path("user") user: String): Call<List<User>>
+
+    @GET("/repos/{owner}/{repo}")
+    fun getRepo(
+            @Path("owner") owner: String,
+            @Path("repo") repo: String
+    ): Call<Repo>
+
     @GET("/repos/{user}/{repo}/branches")
     fun getBranchesForRepo(
             @Path("user") user: String,
@@ -46,6 +61,15 @@ interface Api {
             @Path("path") path: String,
             @Query("ref") branch: String = "master"
     ): Call<List<GitHubFile>>
+
+    @GET("/repos/{user}/{repo}/readme")
+    fun getReadme(
+            @Path("user") user: String,
+            @Path("repo") repo: String
+    ): Call<GitHubFile>
+
+    @POST("/markdown")
+    fun convertMarkdownToHtml(@Body text: String): Call<ResponseBody>
 
     @GET
     fun getFile(@Url url: String): Call<ResponseBody>

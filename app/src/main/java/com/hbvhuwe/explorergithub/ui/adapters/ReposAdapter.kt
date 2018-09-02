@@ -2,17 +2,16 @@ package com.hbvhuwe.explorergithub.ui.adapters
 
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
+import com.hbvhuwe.explorergithub.Const
 import com.hbvhuwe.explorergithub.R
+import com.hbvhuwe.explorergithub.model.Repo
 import com.hbvhuwe.explorergithub.ui.RepoActivity
-import com.hbvhuwe.explorergithub.models.Repo
 
-class ReposAdapter(private var dataset: List<Repo>) :
-        RecyclerView.Adapter<ReposAdapter.ViewHolder>() {
-
+class ReposAdapter(dataset: List<Repo>)
+    : BaseAdapter<Repo, ReposAdapter.ViewHolder>(dataset, R.layout.repo_layout,
+        { ReposAdapter.ViewHolder(it) }) {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         lateinit var repo: Repo
         var fullName: TextView = itemView.findViewById(R.id.repository_name)
@@ -23,19 +22,14 @@ class ReposAdapter(private var dataset: List<Repo>) :
         init {
             itemView.setOnClickListener {
                 val intent = Intent(it.context, RepoActivity::class.java).apply {
-                    putExtra("repository", repo)
-                    putExtra("path", "")
+                    putExtra(Const.REPO_NAME_KEY, repo.name)
+                    putExtra(Const.REPO_OWNER_KEY, repo.owner.login)
+                    putExtra(Const.REPO_PATH_KEY, "/")
                 }
                 it.context.startActivity(intent)
             }
         }
     }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-            ViewHolder(LayoutInflater.from(parent.context)
-                    .inflate(R.layout.repo_layout, parent, false))
-
-    override fun getItemCount() = dataset.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.repo = dataset[position]
@@ -43,10 +37,5 @@ class ReposAdapter(private var dataset: List<Repo>) :
         holder.description.text = dataset[position].description
         holder.stars.text = "${dataset[position].starsCount}"
         holder.language.text = dataset[position].language
-    }
-
-    fun setRepos(repos: List<Repo>) {
-        dataset = repos
-        notifyDataSetChanged()
     }
 }

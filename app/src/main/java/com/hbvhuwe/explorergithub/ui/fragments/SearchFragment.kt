@@ -17,6 +17,5 @@ class SearchFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance() = SearchFragment()
     }
 }// Required empty public constructor

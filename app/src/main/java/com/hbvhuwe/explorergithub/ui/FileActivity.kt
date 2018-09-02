@@ -1,20 +1,19 @@
 package com.hbvhuwe.explorergithub.ui
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.hbvhuwe.explorergithub.App
 import com.hbvhuwe.explorergithub.R
-import com.hbvhuwe.explorergithub.models.GitHubFile
+import com.hbvhuwe.explorergithub.model.GitHubFile
 import com.hbvhuwe.explorergithub.showToast
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class FileActivity : AppCompatActivity() {
+class FileActivity : BaseActivity() {
     private lateinit var fileToShow: GitHubFile
     private val fileName by lazy {
         findViewById<TextView>(R.id.activity_file_name)

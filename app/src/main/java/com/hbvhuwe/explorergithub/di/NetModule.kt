@@ -13,7 +13,7 @@ import javax.inject.Singleton
 
 @Module
 class NetModule(private val credentials: Credentials) {
-    private val API_BASE_URL = "https://api.github.com"
+    private val baseUrl = "https://api.github.com"
 
     @Provides
     @Singleton
@@ -32,7 +32,7 @@ class NetModule(private val credentials: Credentials) {
             Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(httpClient)
-                    .baseUrl(API_BASE_URL)
+                    .baseUrl(baseUrl)
                     .build()
 
     @Provides

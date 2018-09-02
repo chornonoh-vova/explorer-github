@@ -17,7 +17,7 @@ import com.hbvhuwe.explorergithub.ui.adapters.ReposAdapter
 import com.hbvhuwe.explorergithub.viewmodel.ReposViewModel
 
 class ReposFragment : Fragment() {
-    private var mode: Int = 0
+    private var mode = 0
     private lateinit var user: String
     private lateinit var recyclerView: RecyclerView
     private lateinit var reposAdapter: ReposAdapter
@@ -25,13 +25,12 @@ class ReposFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        mode = arguments!!.getInt(Const.MODE_KEY)
+        mode = arguments!!.getInt(Const.REPOS_MODE_KEY)
         user = arguments!!.getString(Const.USER_KEY)
 
         reposAdapter = ReposAdapter(emptyList())
 
         recyclerView = RecyclerView(activity).apply {
-            isNestedScrollingEnabled = false
             layoutManager = LinearLayoutManager(activity)
             addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
             itemAnimator = DefaultItemAnimator()
@@ -40,11 +39,11 @@ class ReposFragment : Fragment() {
 
         reposViewModel = ViewModelProviders.of(this).get(ReposViewModel::class.java)
         App.netComponent.inject(reposViewModel)
-        reposViewModel.init(mode, user)
+        reposViewModel.multipleInit(mode, user)
 
         reposViewModel.getRepos()?.observe(this, Observer {
             if (it != null) {
-                reposAdapter.setRepos(it)
+                reposAdapter.dataset = it
             }
         })
 

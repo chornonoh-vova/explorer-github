@@ -8,15 +8,15 @@
     <application
         android:name=".App"
         android:allowBackup="true"
+        android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppThemeLight">
         <activity
             android:name=".ui.UserActivity"
-            android:label="@string/app_name">
-        </activity>
+            android:label="@string/app_name" />
         <activity
             android:name=".ui.RepoActivity"
             android:label="@string/repo_activity_label"
@@ -24,7 +24,7 @@
         <activity
             android:name=".ui.FileActivity"
             android:label="@string/file_activity_label"
-            android:parentActivityName=".ui.FileActivity" />
+            android:parentActivityName=".ui.RepoActivity" />
         <activity
             android:name=".ui.LoginActivity"
             android:label="@string/app_name"
@@ -44,13 +44,22 @@
         </activity>
         <activity
             android:name=".ui.SplashActivity"
-            android:theme="@style/SplashTheme"
-            android:noHistory="true">
+            android:noHistory="true"
+            android:theme="@style/SplashThemeDark">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            android:parentActivityName=".ui.UserActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.hbvhuwe.explorergithub.ui.UserActivity" />
         </activity>
     </application>
 

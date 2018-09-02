@@ -4,7 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
+import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import android.widget.TextView
@@ -12,9 +12,12 @@ import com.google.gson.GsonBuilder
 import com.hbvhuwe.explorergithub.App
 import com.hbvhuwe.explorergithub.Const
 import com.hbvhuwe.explorergithub.R
+import com.hbvhuwe.explorergithub.model.User
+import com.hbvhuwe.explorergithub.net.Api
 import com.hbvhuwe.explorergithub.net.Credentials
 import okhttp3.*
 import java.io.IOException
+import javax.inject.Inject
 
 class LoginActivity : AppCompatActivity() {
     private val clientId by lazy { getString(R.string.application_client_id) }
@@ -27,7 +30,15 @@ class LoginActivity : AppCompatActivity() {
     private val authUrl = "https://github.com/login/oauth/authorize"
     private val tokenUrl = "https://github.com/login/oauth/access_token"
 
+    @Inject lateinit var api: Api
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this)
+        if (sharedPrefs.getBoolean("dark_theme", false))
+            setTheme(R.style.AppThemeDark)
+        else
+            setTheme(R.style.AppThemeLight)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
@@ -71,21 +82,38 @@ class LoginActivity : AppCompatActivity() {
                     if (response != null && response.isSuccessful) runOnUiThread {
                         val responseText = response.body()?.string()
 
-                        loginResult.setTextColor(ContextCompat.getColor(this@LoginActivity, R.color.colorAccent))
+                        loginResult.setTextColor(Color.GREEN)
                         loginResult.text = getString(R.string.activity_login_logged)
 
                         val authCredentials = GsonBuilder().create().fromJson(responseText, Credentials::class.java)
 
                         (application as App).saveCredentials(authCredentials)
                     }
-
-                    intent = Intent(this@LoginActivity, UserActivity::class.java)
-                    intent.putExtra(Const.USER_KEY, Const.LOGGED_IN_KEY)
-                    startActivity(intent)
-                    finish()
+                    App.netComponent = (application as App).createNetComponent()
+                    App.netComponent.inject(this@LoginActivity)
+                    api.getUserInfo().enqueue(callback)
                 }
 
             })
         }
+    }
+
+    private val callback = object : retrofit2.Callback<User> {
+        override fun onFailure(call: retrofit2.Call<User>?, t: Throwable?) {
+
+        }
+
+        override fun onResponse(call: retrofit2.Call<User>?, response: retrofit2.Response<User>?) {
+            if (response != null) {
+                val user = response.body()!!
+                (application as App).saveUserLogin(user.login)
+
+                intent = Intent(this@LoginActivity, UserActivity::class.java)
+                intent.putExtra(Const.USER_KEY, Const.USER_LOGGED_IN)
+                startActivity(intent)
+                finish()
+            }
+        }
+
     }
 }

@@ -14,12 +14,8 @@
             android:id="@+id/toolbar_repo"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@android:color/background_light"
-            android:elevation="4dp"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
+            android:background="?attr/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -49,9 +45,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:tint="?iconTintColor"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/loading_panel_activity_repo"
-                app:srcCompat="@mipmap/ic_book_black_24dp" />
+                app:srcCompat="@drawable/ic_book" />
 
             <TextView
                 android:id="@+id/repository_name"
@@ -61,7 +58,6 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:text="TextView"
-                android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/repository_icon"
@@ -75,10 +71,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="14dp"
                 android:layout_marginTop="8dp"
+                android:tint="?iconTintColor"
                 app:layout_constraintEnd_toEndOf="@+id/repository_icon"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/repository_icon"
-                app:srcCompat="@mipmap/ic_star_black_18dp" />
+                app:srcCompat="@drawable/ic_star" />
 
             <TextView
                 android:id="@+id/repository_stars"
@@ -97,6 +94,7 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_marginStart="8dp"
+                android:tint="?iconTintColor"
                 app:layout_constraintBottom_toBottomOf="@+id/repository_stars"
                 app:layout_constraintStart_toEndOf="@+id/repository_stars"
                 app:srcCompat="@mipmap/ic_commit" />
@@ -118,6 +116,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:tint="?iconTintColor"
                 app:layout_constraintBottom_toBottomOf="@+id/repository_commits"
                 app:layout_constraintStart_toEndOf="@+id/repository_commits"
                 app:srcCompat="@mipmap/ic_branch" />

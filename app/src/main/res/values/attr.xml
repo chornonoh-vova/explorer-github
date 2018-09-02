@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="iconTintColor" format="reference|color"/>
+    <attr name="appTextColor" format="reference|color"/>
+    <attr name="splashBackgroundColor" format="reference|color"/>
+</resources>
