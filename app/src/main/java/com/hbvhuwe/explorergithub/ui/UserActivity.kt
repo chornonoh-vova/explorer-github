@@ -10,7 +10,6 @@ import android.support.design.widget.Snackbar
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.view.Menu
 import android.view.MenuItem
@@ -19,6 +18,7 @@ import com.hbvhuwe.explorergithub.Const
 import com.hbvhuwe.explorergithub.R
 import com.hbvhuwe.explorergithub.isOnline
 import com.hbvhuwe.explorergithub.net.Credentials
+import com.hbvhuwe.explorergithub.ui.adapters.BaseViewPagerAdapter
 import com.hbvhuwe.explorergithub.ui.fragments.NoInternetFragment
 import com.hbvhuwe.explorergithub.ui.fragments.ReposFragment
 import com.hbvhuwe.explorergithub.ui.fragments.UserFragment
@@ -69,7 +69,7 @@ class UserActivity : BaseActivity(), NoInternetFragment.IRetryActivity {
                     }.show()
         }
 
-        val adapter = ViewPagerAdapter(supportFragmentManager, tabCount, this, user, offlineMode)
+        val adapter = ViewPagerAdapter(supportFragmentManager, this, offlineMode, user)
         viewPager.adapter = adapter
         viewPager.offscreenPageLimit = tabCount - 1
 
@@ -108,26 +108,18 @@ class UserActivity : BaseActivity(), NoInternetFragment.IRetryActivity {
         }
     }
 
-    class ViewPagerAdapter(supportFragmentManager: FragmentManager?,
-                           private val tabCount: Int,
-                           private val context: Context,
-                           private val user: String,
-                           private val offlineMode: Boolean)
-        : FragmentPagerAdapter(supportFragmentManager) {
-
-        private val tabTitles = arrayOf(
-                R.string.tab_overview_text,
-                R.string.tab_repos_text,
-                R.string.tab_starred_text,
-                R.string.tab_followers_text,
-                R.string.tab_following_text)
-
-        override fun getItem(position: Int) = getFragment(position)
-
-        override fun getPageTitle(position: Int): CharSequence
-                = context.getString(tabTitles[position])
-
-        private fun getFragment(position: Int): Fragment {
+    class ViewPagerAdapter(
+            fm: FragmentManager,
+            context: Context,
+            private val offlineMode: Boolean,
+            private val user: String
+    ): BaseViewPagerAdapter(fm, context, arrayOf(
+            R.string.tab_overview_text,
+            R.string.tab_repos_text,
+            R.string.tab_starred_text,
+            R.string.tab_followers_text,
+            R.string.tab_following_text)) {
+        override fun getFragment(position: Int): Fragment {
             if (offlineMode)
                 return NoInternetFragment()
 
@@ -156,7 +148,5 @@ class UserActivity : BaseActivity(), NoInternetFragment.IRetryActivity {
             fragment.arguments = args
             return fragment
         }
-
-        override fun getCount() = tabCount
     }
 }

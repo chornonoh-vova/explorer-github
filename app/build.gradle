@@ -65,8 +65,8 @@ dependencies {
     implementation "com.google.code.gson:gson:$gson_ver"
 
     //support library
-    implementation "com.android.support:appcompat-v7:$libs_ver"
-    implementation 'com.android.support.constraint:constraint-layout:2.0.0-alpha1'
+    implementation "com.android.support:appcompat-v7:27.1.1"
+    implementation 'com.android.support.constraint:constraint-layout:2.0.0-alpha2'
     implementation "com.android.support:recyclerview-v7:$libs_ver"
     implementation "com.android.support:design:$libs_ver"
     implementation "com.android.support:exifinterface:$libs_ver"
