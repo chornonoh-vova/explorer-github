@@ -15,140 +15,25 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+            app:layout_scrollFlags="scroll|enterAlways|snap" />
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_layout_repo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabGravity="fill"
+            app:tabMode="scrollable">
+
+        </android.support.design.widget.TabLayout>
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <android.support.v4.view.ViewPager
+        android:id="@+id/repo_view_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            tools:context=".ui.RepoActivity">
+    </android.support.v4.view.ViewPager>
 
-            <ProgressBar
-                android:id="@+id/loading_panel_activity_repo"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:indeterminate="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/repository_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:tint="?iconTintColor"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/loading_panel_activity_repo"
-                app:srcCompat="@drawable/ic_book" />
-
-            <TextView
-                android:id="@+id/repository_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="TextView"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/repository_icon"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/repository_icon"
-                app:layout_constraintTop_toBottomOf="@+id/loading_panel_activity_repo" />
-
-            <ImageView
-                android:id="@+id/repository_stars_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
-                android:layout_marginTop="8dp"
-                android:tint="?iconTintColor"
-                app:layout_constraintEnd_toEndOf="@+id/repository_icon"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/repository_icon"
-                app:srcCompat="@drawable/ic_star" />
-
-            <TextView
-                android:id="@+id/repository_stars"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:minWidth="58dp"
-                android:text="0"
-                app:layout_constraintBottom_toBottomOf="@+id/repository_stars_icon"
-                app:layout_constraintStart_toEndOf="@+id/repository_stars_icon"
-                app:layout_constraintTop_toBottomOf="@+id/repository_name" />
-
-            <ImageView
-                android:id="@+id/repository_commits_icon"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_marginStart="8dp"
-                android:tint="?iconTintColor"
-                app:layout_constraintBottom_toBottomOf="@+id/repository_stars"
-                app:layout_constraintStart_toEndOf="@+id/repository_stars"
-                app:srcCompat="@mipmap/ic_commit" />
-
-            <TextView
-                android:id="@+id/repository_commits"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:minWidth="58dp"
-                android:text="0"
-                app:layout_constraintBottom_toBottomOf="@+id/repository_commits_icon"
-                app:layout_constraintStart_toEndOf="@+id/repository_commits_icon"
-                app:layout_constraintTop_toBottomOf="@+id/repository_name" />
-
-            <ImageView
-                android:id="@+id/repository_branches_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:tint="?iconTintColor"
-                app:layout_constraintBottom_toBottomOf="@+id/repository_commits"
-                app:layout_constraintStart_toEndOf="@+id/repository_commits"
-                app:srcCompat="@mipmap/ic_branch" />
-
-            <TextView
-                android:id="@+id/repository_branches"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:minWidth="58dp"
-                android:text="0"
-                app:layout_constraintBottom_toBottomOf="@+id/repository_branches_icon"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/repository_branches_icon"
-                app:layout_constraintTop_toBottomOf="@+id/repository_name" />
-
-            <FrameLayout
-                android:id="@+id/files_frame_layout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/repository_stars_icon">
-
-            </FrameLayout>
-
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>
