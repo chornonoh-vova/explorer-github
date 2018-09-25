@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 import java.net.URL
 
-data class GitHubFile(
+data class File(
         val name: String,
         val path: String,
         val url: URL,

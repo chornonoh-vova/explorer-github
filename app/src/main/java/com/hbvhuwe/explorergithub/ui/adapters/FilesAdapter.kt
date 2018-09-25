@@ -5,16 +5,16 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.hbvhuwe.explorergithub.R
-import com.hbvhuwe.explorergithub.model.GitHubFile
+import com.hbvhuwe.explorergithub.model.File
 import com.hbvhuwe.explorergithub.ui.fragments.FilesFragment
 
-class FilesAdapter(dataset: List<GitHubFile>)
-    : BaseAdapter<GitHubFile, FilesAdapter.ViewHolder>(dataset, R.layout.file_layout,
+class FilesAdapter(dataset: List<File>)
+    : BaseAdapter<File, FilesAdapter.ViewHolder>(dataset, R.layout.file_layout,
         { FilesAdapter.ViewHolder(it) }) {
     lateinit var filesFragment: FilesFragment
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        lateinit var file: GitHubFile
+        lateinit var file: File
         lateinit var filesFragment: FilesFragment
         var fileName: TextView = itemView.findViewById(R.id.file_name) as TextView
         var fileIcon: ImageView = itemView.findViewById(R.id.file_icon) as ImageView

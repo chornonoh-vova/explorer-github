@@ -6,7 +6,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.hbvhuwe.explorergithub.App
 import com.hbvhuwe.explorergithub.R
-import com.hbvhuwe.explorergithub.model.GitHubFile
+import com.hbvhuwe.explorergithub.model.File
 import com.hbvhuwe.explorergithub.showToast
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -14,7 +14,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class FileActivity : BaseActivity() {
-    private lateinit var fileToShow: GitHubFile
+    private lateinit var fileToShow: File
     private val fileName by lazy {
         findViewById<TextView>(R.id.activity_file_name)
     }
@@ -30,12 +30,12 @@ class FileActivity : BaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         if (savedInstanceState != null) {
-            fileToShow = savedInstanceState.getSerializable("fileToShow") as GitHubFile
+            fileToShow = savedInstanceState.getSerializable("fileToShow") as File
             fileName.text = fileToShow.name
             fileContent.text = savedInstanceState.getCharSequence("fileContent")
             findViewById<ProgressBar>(R.id.loading_panel_activity_file).visibility = View.GONE
         } else {
-            fileToShow = intent.getSerializableExtra("fileToShow") as GitHubFile
+            fileToShow = intent.getSerializableExtra("fileToShow") as File
             fileName.text = fileToShow.name
             val call = App.api.getFile(fileToShow.downloadUrl.toString())
             call.enqueue(fileCallback)
