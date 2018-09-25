@@ -1,15 +1,19 @@
 package com.hbvhuwe.explorergithub.ui
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.view.ViewPager
+import com.hbvhuwe.explorergithub.App
 import com.hbvhuwe.explorergithub.Const
 import com.hbvhuwe.explorergithub.R
 import com.hbvhuwe.explorergithub.ui.adapters.BaseViewPagerAdapter
 import com.hbvhuwe.explorergithub.ui.fragments.NoInternetFragment
+import com.hbvhuwe.explorergithub.viewmodel.RepositoryViewModel
 
 
 class RepoActivity : BaseActivity(), NoInternetFragment.IRetryActivity {
@@ -23,6 +27,8 @@ class RepoActivity : BaseActivity(), NoInternetFragment.IRetryActivity {
     private val tabLayout by lazy {
         findViewById<TabLayout>(R.id.tab_layout_repo)
     }
+
+    private lateinit var repositoryViewModel: RepositoryViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +48,15 @@ class RepoActivity : BaseActivity(), NoInternetFragment.IRetryActivity {
                 R.string.tab_projects_text))
         viewPager.adapter = adapter
         tabLayout.setupWithViewPager(viewPager)
+
+        repositoryViewModel = ViewModelProviders.of(this).get(RepositoryViewModel::class.java)
+        App.netComponent.inject(repositoryViewModel)
+
+        repositoryViewModel.setCurrentPath("/")
+
+        repositoryViewModel.currentPath.observe(this, Observer {
+            println(it)
+        })
     }
 
     override fun retry() {

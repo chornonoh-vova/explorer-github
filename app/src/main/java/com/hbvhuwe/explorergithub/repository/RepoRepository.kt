@@ -5,7 +5,7 @@ import android.arch.lifecycle.MutableLiveData
 import com.hbvhuwe.explorergithub.App
 import com.hbvhuwe.explorergithub.Const
 import com.hbvhuwe.explorergithub.db.RepoDao
-import com.hbvhuwe.explorergithub.model.GitHubFile
+import com.hbvhuwe.explorergithub.model.File
 import com.hbvhuwe.explorergithub.model.Repo
 import com.hbvhuwe.explorergithub.net.Api
 import okhttp3.ResponseBody
@@ -78,14 +78,14 @@ class RepoRepository @Inject constructor(
         return repo
     }
 
-    fun getReadme(login: String, repo: String): LiveData<GitHubFile> {
-        val readme = MutableLiveData<GitHubFile>()
-        val callback = object : Callback<GitHubFile> {
-            override fun onFailure(call: Call<GitHubFile>?, t: Throwable?) {
+    fun getReadme(login: String, repo: String): LiveData<File> {
+        val readme = MutableLiveData<File>()
+        val callback = object : Callback<File> {
+            override fun onFailure(call: Call<File>?, t: Throwable?) {
                 app.showNetworkError()
             }
 
-            override fun onResponse(call: Call<GitHubFile>?, response: Response<GitHubFile>?) {
+            override fun onResponse(call: Call<File>?, response: Response<File>?) {
                 if (response != null) {
                     readme.value = response.body()
                 }

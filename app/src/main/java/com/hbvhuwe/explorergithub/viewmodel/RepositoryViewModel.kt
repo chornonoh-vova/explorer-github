@@ -1,8 +1,9 @@
 package com.hbvhuwe.explorergithub.viewmodel
 
 import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.hbvhuwe.explorergithub.model.GitHubFile
+import com.hbvhuwe.explorergithub.model.File
 import com.hbvhuwe.explorergithub.model.Repo
 import com.hbvhuwe.explorergithub.repository.RepoRepository
 import javax.inject.Inject
@@ -13,24 +14,31 @@ class RepositoryViewModel: ViewModel() {
     private var repo: LiveData<Repo>? = null
 
     private var markdown: LiveData<String>? = null
-    private var readme: LiveData<GitHubFile>? = null
+    private var readme: LiveData<File>? = null
     private var readmeHtml: LiveData<String>? = null
+
+    val currentPath by lazy {
+        MutableLiveData<String>()
+    }
 
     fun init(login: String, repo: String) {
         if (this.repo != null)
             return
-
         this.repo = repository.getRepo(login, repo)
+    }
+
+    fun setCurrentPath(path: String) {
+        currentPath.value = path
     }
 
     fun getRepo() = repo
 
-    fun getReadme(login: String, repo: String): LiveData<GitHubFile>? {
+    fun getReadme(login: String, repo: String): LiveData<File>? {
         this.readme = repository.getReadme(login, repo)
         return readme
     }
 
-    fun getFile(file: GitHubFile): LiveData<String>? {
+    fun getFile(file: File): LiveData<String>? {
         this.markdown = repository.getFileEscaping(file.downloadUrl.toString())
         return markdown
     }

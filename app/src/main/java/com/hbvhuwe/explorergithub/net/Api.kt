@@ -60,13 +60,13 @@ interface Api {
             @Path("repo") repo: String,
             @Path("path") path: String,
             @Query("ref") branch: String = "master"
-    ): Call<List<GitHubFile>>
+    ): Call<List<File>>
 
     @GET("/repos/{user}/{repo}/readme")
     fun getReadme(
             @Path("user") user: String,
             @Path("repo") repo: String
-    ): Call<GitHubFile>
+    ): Call<File>
 
     @POST("/markdown")
     fun convertMarkdownToHtml(@Body text: String): Call<ResponseBody>

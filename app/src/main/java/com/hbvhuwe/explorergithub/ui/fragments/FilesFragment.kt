@@ -13,7 +13,7 @@ import android.widget.TextView
 import com.hbvhuwe.explorergithub.App
 import com.hbvhuwe.explorergithub.R
 import com.hbvhuwe.explorergithub.isOnline
-import com.hbvhuwe.explorergithub.model.GitHubFile
+import com.hbvhuwe.explorergithub.model.File
 import com.hbvhuwe.explorergithub.model.Repo
 import com.hbvhuwe.explorergithub.showToast
 import com.hbvhuwe.explorergithub.ui.RepoActivity
@@ -26,7 +26,7 @@ import java.util.*
 class FilesFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var filesAdapter: FilesAdapter
-    private lateinit var files: ArrayList<GitHubFile>
+    private lateinit var files: ArrayList<File>
     private lateinit var currentPath: String
     lateinit var repoActivity: RepoActivity
     private lateinit var repo: Repo
@@ -56,7 +56,7 @@ class FilesFragment : Fragment() {
 
         if (savedInstanceState != null) {
             @Suppress("UNCHECKED_CAST")
-            files = savedInstanceState.getSerializable("files") as ArrayList<GitHubFile>
+            files = savedInstanceState.getSerializable("files") as ArrayList<File>
             currentPath = savedInstanceState.getString("currentPath")
             fullFilePath.text = savedInstanceState.getString("pathToDisplay")
             setupRecycler()
@@ -100,12 +100,12 @@ class FilesFragment : Fragment() {
         recyclerView.addItemDecoration(DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL))
     }
 
-    private val filesCallback = object : Callback<List<GitHubFile>> {
-        override fun onFailure(call: Call<List<GitHubFile>>?, t: Throwable?) {
+    private val filesCallback = object : Callback<List<File>> {
+        override fun onFailure(call: Call<List<File>>?, t: Throwable?) {
             showToast("Network error while loading files info")
         }
 
-        override fun onResponse(call: Call<List<GitHubFile>>?, response: Response<List<GitHubFile>>?) {
+        override fun onResponse(call: Call<List<File>>?, response: Response<List<File>>?) {
             if (response != null) {
                 if (response.isSuccessful) {
                     val filesResponse = response.body()!!.toMutableList()
