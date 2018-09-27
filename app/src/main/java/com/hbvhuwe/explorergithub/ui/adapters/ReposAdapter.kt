@@ -2,7 +2,9 @@ package com.hbvhuwe.explorergithub.ui.adapters
 
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import com.hbvhuwe.explorergithub.Const
 import com.hbvhuwe.explorergithub.R
@@ -10,8 +12,10 @@ import com.hbvhuwe.explorergithub.model.Repo
 import com.hbvhuwe.explorergithub.ui.RepoActivity
 
 class ReposAdapter(dataset: List<Repo>)
-    : BaseAdapter<Repo, ReposAdapter.ViewHolder>(dataset, R.layout.repo_layout,
-        { ReposAdapter.ViewHolder(it) }) {
+    : BaseAdapter<Repo, ReposAdapter.ViewHolder>(dataset, R.layout.repo_layout) {
+    override fun onCreateViewHolder(p0: ViewGroup, p1: Int) =
+            ViewHolder(LayoutInflater.from(p0.context).inflate(layout, p0, false))
+
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         lateinit var repo: Repo
         var fullName: TextView = itemView.findViewById(R.id.repository_name)

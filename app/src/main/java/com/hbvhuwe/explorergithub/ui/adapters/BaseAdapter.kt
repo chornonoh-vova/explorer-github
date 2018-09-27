@@ -8,8 +8,7 @@ import android.view.ViewGroup
 
 abstract class BaseAdapter<T, VH: RecyclerView.ViewHolder>(
         dataset: List<T>,
-        @LayoutRes private val layout: Int,
-        private val vhFactory: (View) -> VH
+        @LayoutRes val layout: Int
 ): RecyclerView.Adapter<VH>() {
     var dataset = dataset
         set(value) {
@@ -19,6 +18,6 @@ abstract class BaseAdapter<T, VH: RecyclerView.ViewHolder>(
 
     final override fun getItemCount() = dataset.size
 
-    final override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-            vhFactory(LayoutInflater.from(parent.context).inflate(layout, parent, false))
+//    final override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+//            vhFactory(LayoutInflater.from(parent.context).inflate(layout, parent, false))
 }

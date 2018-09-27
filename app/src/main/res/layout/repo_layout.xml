@@ -11,11 +11,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:contentDescription="repo_icon"
-        android:tint="?iconTintColor"
         app:layout_constraintBottom_toBottomOf="@+id/repository_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/repository_name"
-        app:srcCompat="@drawable/ic_book" />
+        android:src="@drawable/ic_book" />
 
     <TextView
         android:id="@+id/repository_name"
@@ -26,8 +25,8 @@
         android:layout_marginTop="8dp"
         android:padding="4dp"
         android:text="repo_full_name"
-        android:textColor="?appTextColor"
         android:textSize="16sp"
+        android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/repo_icon"
@@ -42,8 +41,8 @@
         android:layout_marginTop="16dp"
         android:padding="4dp"
         android:text="repo_description"
-        android:textColor="?appTextColor"
         android:textSize="14sp"
+        android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,13 +54,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:contentDescription="stars_icon"
-        android:tint="?iconTintColor"
         app:layout_constraintBottom_toBottomOf="@+id/repo_stars"
         app:layout_constraintEnd_toStartOf="@+id/repo_stars"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/repo_stars"
-        app:srcCompat="@drawable/ic_star" />
+        android:src="@drawable/ic_star" />
 
     <TextView
         android:id="@+id/repo_stars"
@@ -71,8 +69,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="stars"
-        android:textColor="?appTextColor"
         android:textSize="14sp"
+        android:textColor="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/language_icon"
         app:layout_constraintHorizontal_bias="0.5"
@@ -86,13 +84,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:contentDescription="language_icon"
-        android:tint="?iconTintColor"
         app:layout_constraintBottom_toBottomOf="@+id/repo_language"
         app:layout_constraintEnd_toStartOf="@+id/repo_language"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/repo_stars"
         app:layout_constraintTop_toTopOf="@+id/repo_language"
-        app:srcCompat="@drawable/ic_language" />
+        android:src="@drawable/ic_language" />
 
     <TextView
         android:id="@+id/repo_language"
@@ -103,8 +100,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="language"
-        android:textColor="?appTextColor"
         android:textSize="14sp"
+        android:textColor="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

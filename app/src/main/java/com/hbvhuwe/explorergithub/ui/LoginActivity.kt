@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
+import android.util.TypedValue
 import android.widget.Button
 import android.widget.TextView
 import com.google.gson.GsonBuilder
@@ -18,6 +19,9 @@ import com.hbvhuwe.explorergithub.net.Credentials
 import okhttp3.*
 import java.io.IOException
 import javax.inject.Inject
+
+import retrofit2.Call as RCall
+import retrofit2.Callback as RCallback
 
 class LoginActivity : AppCompatActivity() {
     private val clientId by lazy { getString(R.string.application_client_id) }
@@ -56,54 +60,59 @@ class LoginActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (intent.data != null && intent.data.toString().startsWith(redirectUri)) {
+        val data = intent.data
 
-            val code = intent.data.getQueryParameter("code")
+        if (data != null && data.toString().startsWith(redirectUri)) {
 
-            val request = Request.Builder()
-                    .url(tokenUrl)
-                    .header("Accept", "application/json")
-                    .post(FormBody.Builder()
-                            .add("client_id", clientId)
-                            .add("client_secret", clientSecret)
-                            .add("code", code)
-                            .build())
-                    .build()
+            val code = data.getQueryParameter("code")
+            if (code != null) {
+                val request = Request.Builder()
+                        .url(tokenUrl)
+                        .header("Accept", "application/json")
+                        .post(FormBody.Builder()
+                                .add("client_id", clientId)
+                                .add("client_secret", clientSecret)
+                                .add("code", code)
+                                .build())
+                        .build()
 
-            OkHttpClient().newCall(request).enqueue(object : Callback {
-                override fun onFailure(call: Call?, e: IOException?) {
-                    runOnUiThread {
-                        loginResult.setTextColor(Color.RED)
-                        loginResult.text = getString(R.string.activity_login_error)
+                OkHttpClient().newCall(request).enqueue(object : Callback {
+                    override fun onFailure(call: Call?, e: IOException?) {
+                        runOnUiThread {
+                            loginResult.setTextColor(Color.RED)
+                            loginResult.text = getString(R.string.activity_login_error)
+                        }
                     }
-                }
 
-                override fun onResponse(call: Call?, response: Response?) {
-                    if (response != null && response.isSuccessful) runOnUiThread {
-                        val responseText = response.body()?.string()
+                    override fun onResponse(call: Call?, response: Response?) {
+                        if (response != null && response.isSuccessful) runOnUiThread {
+                            val responseText = response.body()?.string()
+                            val value = TypedValue()
+                            this@LoginActivity.theme.resolveAttribute(R.attr.colorAccent, value, true)
+                            loginResult.setTextColor(value.data)
+                            loginResult.text = getString(R.string.activity_login_logged)
 
-                        loginResult.setTextColor(Color.GREEN)
-                        loginResult.text = getString(R.string.activity_login_logged)
+                            val authCredentials = GsonBuilder().create().fromJson(responseText, Credentials::class.java)
 
-                        val authCredentials = GsonBuilder().create().fromJson(responseText, Credentials::class.java)
+                            (application as App).saveCredentials(authCredentials)
 
-                        (application as App).saveCredentials(authCredentials)
+                            App.netComponent = (application as App).createNetComponent()
+                            App.netComponent.inject(this@LoginActivity)
+                            api.getUserInfo().enqueue(callback)
+                        }
                     }
-                    App.netComponent = (application as App).createNetComponent()
-                    App.netComponent.inject(this@LoginActivity)
-                    api.getUserInfo().enqueue(callback)
-                }
 
-            })
+                })
+            }
         }
     }
 
-    private val callback = object : retrofit2.Callback<User> {
-        override fun onFailure(call: retrofit2.Call<User>?, t: Throwable?) {
+    private val callback = object : RCallback<User> {
+        override fun onFailure(call: RCall<User>?, t: Throwable?) {
 
         }
 
-        override fun onResponse(call: retrofit2.Call<User>?, response: retrofit2.Response<User>?) {
+        override fun onResponse(call: RCall<User>?, response: retrofit2.Response<User>?) {
             if (response != null) {
                 val user = response.body()!!
                 (application as App).saveUserLogin(user.login)

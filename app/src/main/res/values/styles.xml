@@ -10,11 +10,7 @@
     </style>
 
     <style name="AppThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimaryLightTheme</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDarkLightTheme</item>
         <item name="colorAccent">@color/colorAccentLightTheme</item>
-        <item name="iconTintColor">@android:color/black</item>
-        <item name="appTextColor">@android:color/black</item>
     </style>
 
     <style name="SplashThemeDark" parent="AppThemeDark">
