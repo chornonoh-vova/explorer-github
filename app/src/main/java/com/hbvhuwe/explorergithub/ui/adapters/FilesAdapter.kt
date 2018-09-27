@@ -1,7 +1,9 @@
 package com.hbvhuwe.explorergithub.ui.adapters
 
 import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.hbvhuwe.explorergithub.R
@@ -9,8 +11,10 @@ import com.hbvhuwe.explorergithub.model.File
 import com.hbvhuwe.explorergithub.ui.fragments.FilesFragment
 
 class FilesAdapter(dataset: List<File>)
-    : BaseAdapter<File, FilesAdapter.ViewHolder>(dataset, R.layout.file_layout,
-        { FilesAdapter.ViewHolder(it) }) {
+    : BaseAdapter<File, FilesAdapter.ViewHolder>(dataset, R.layout.file_layout) {
+    override fun onCreateViewHolder(p0: ViewGroup, p1: Int) =
+            ViewHolder(LayoutInflater.from(p0.context).inflate(layout, p0, false))
+
     lateinit var filesFragment: FilesFragment
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -4,9 +4,11 @@
     <item
         android:id="@+id/action_update"
         android:title="@string/update_action"
-        app:showAsAction="never"/>
+        android:icon="@drawable/ic_refresh"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_settings"
         android:title="@string/settings_action"
-        app:showAsAction="never"/>
+        android:icon="@drawable/ic_settings"
+        app:showAsAction="ifRoom"/>
 </menu>

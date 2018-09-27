@@ -33,7 +33,7 @@ class UserActivity : BaseActivity(), NoInternetFragment.IRetryActivity {
     private var offlineMode = false
     private val tabCount = 5
     private val user by lazy {
-        intent.getStringExtra(Const.USER_KEY)
+        getUserLogin()
     }
     private val tabLayout by lazy {
         findViewById<TabLayout>(R.id.tab_layout_main)
@@ -76,12 +76,8 @@ class UserActivity : BaseActivity(), NoInternetFragment.IRetryActivity {
         tabLayout.setupWithViewPager(viewPager)
     }
 
-    private fun logout() {
-        (application as App).saveCredentials(Credentials.empty())
-        val intent = Intent(this, SplashActivity::class.java)
-        startActivity(intent)
-        finish()
-    }
+    private fun getUserLogin() =
+            intent.getStringExtra(Const.USER_KEY) ?: Const.USER_LOGGED_IN
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater

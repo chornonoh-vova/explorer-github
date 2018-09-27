@@ -18,6 +18,7 @@ import com.hbvhuwe.explorergithub.Const
 import com.hbvhuwe.explorergithub.R
 import com.hbvhuwe.explorergithub.viewmodel.UserViewModel
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_user.*
 
 
 class UserFragment : Fragment() {
@@ -34,7 +35,7 @@ class UserFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        user = arguments!!.getString(Const.USER_KEY)
+        user = arguments?.getString(Const.USER_KEY) ?: Const.USER_LOGGED_IN
         return inflater.inflate(R.layout.fragment_user, container, false)
     }
 
@@ -58,6 +59,7 @@ class UserFragment : Fragment() {
 
         userViewModel.getUser()?.observe(this, Observer { user ->
             if (user != null) {
+                list_loading.visibility = View.GONE
                 login.text = user.login
                 name.text = user.name
                 if (user.email != null) {
@@ -99,7 +101,7 @@ class UserFragment : Fragment() {
         val intent = Intent(Intent.ACTION_SENDTO)
         intent.data = Uri.parse("mailto:")
         intent.putExtra(Intent.EXTRA_EMAIL, addresses)
-        if (intent.resolveActivity(activity?.packageManager) != null) {
+        if (intent.resolveActivity(activity!!.packageManager) != null) {
             startActivity(intent)
         }
     }
@@ -107,7 +109,7 @@ class UserFragment : Fragment() {
     private fun showMap(location: String) {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse("geo:0,0?q=$location")
-        if (intent.resolveActivity(activity?.packageManager) != null) {
+        if (intent.resolveActivity(activity!!.packageManager) != null) {
             startActivity(intent)
         }
     }

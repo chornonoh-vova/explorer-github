@@ -23,8 +23,8 @@ class App : Application() {
     fun loadCredentials(): Credentials {
         val preferences = getSharedPreferences(Const.PREFS_KEY, Context.MODE_PRIVATE)
         return if (preferences.getBoolean(Const.PREFS_LOGGED_FLAG, false)) {
-            val accessToken = preferences.getString(Const.PREFS_TOKEN, "")
-            val tokenType = preferences.getString(Const.PREFS_TOKEN_TYPE, "")
+            val accessToken = preferences.getString(Const.PREFS_TOKEN, "")!!
+            val tokenType = preferences.getString(Const.PREFS_TOKEN_TYPE, "")!!
             Credentials(accessToken, tokenType)
         } else {
             Credentials("", "")
@@ -57,7 +57,7 @@ class App : Application() {
 
     fun loadUserLogin() {
         val sharedPreferences = getSharedPreferences(Const.PREFS_KEY, Context.MODE_PRIVATE)
-        Const.USER_LOGGED_IN = sharedPreferences.getString(Const.PREFS_USER_KEY, Const.USER_LOGGED_IN)
+        Const.USER_LOGGED_IN = sharedPreferences.getString(Const.PREFS_USER_KEY, Const.USER_LOGGED_IN)!!
     }
 
     companion object {

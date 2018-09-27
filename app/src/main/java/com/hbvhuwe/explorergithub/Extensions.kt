@@ -9,13 +9,13 @@ import android.widget.Toast
 fun AppCompatActivity.isOnline(): Boolean {
     val cm = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val netInfo = cm.activeNetworkInfo
-    return netInfo != null && netInfo.isConnectedOrConnecting
+    return netInfo != null && netInfo.isConnected
 }
 
 fun Fragment.isOnline(): Boolean {
     val cm = this.activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val netInfo = cm.activeNetworkInfo
-    return netInfo != null && netInfo.isConnectedOrConnecting
+    return netInfo != null && netInfo.isConnected
 }
 
 fun Fragment.showToast(text: String) {
