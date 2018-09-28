@@ -1,11 +1,11 @@
 package com.hbvhuwe.explorergithub.ui.fragments
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +18,6 @@ import com.hbvhuwe.explorergithub.Const
 import com.hbvhuwe.explorergithub.R
 import com.hbvhuwe.explorergithub.viewmodel.UserViewModel
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_user.*
 
 
 class UserFragment : Fragment() {
@@ -30,6 +29,7 @@ class UserFragment : Fragment() {
     private lateinit var location: TextView
     private lateinit var avatar: ImageView
     private lateinit var followButton: Button
+    private lateinit var listLoading: View
 
     private lateinit var userViewModel: UserViewModel
 
@@ -48,6 +48,7 @@ class UserFragment : Fragment() {
         location = view.findViewById(R.id.user_location)
         publicRepos = view.findViewById(R.id.user_public_repos)
         followButton = view.findViewById(R.id.follow_button)
+        listLoading = view.findViewById(R.id.list_loading)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -59,7 +60,7 @@ class UserFragment : Fragment() {
 
         userViewModel.getUser()?.observe(this, Observer { user ->
             if (user != null) {
-                list_loading.visibility = View.GONE
+                listLoading.visibility = View.GONE
                 login.text = user.login
                 name.text = user.name
                 if (user.email != null) {

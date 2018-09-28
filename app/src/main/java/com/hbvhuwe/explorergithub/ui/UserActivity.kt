@@ -5,19 +5,18 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.provider.Settings
-import android.support.design.widget.CoordinatorLayout
-import android.support.design.widget.Snackbar
-import android.support.design.widget.TabLayout
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.view.ViewPager
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayout
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.viewpager.widget.ViewPager
 import android.view.Menu
 import android.view.MenuItem
 import com.hbvhuwe.explorergithub.App
 import com.hbvhuwe.explorergithub.Const
 import com.hbvhuwe.explorergithub.R
 import com.hbvhuwe.explorergithub.isOnline
-import com.hbvhuwe.explorergithub.net.Credentials
 import com.hbvhuwe.explorergithub.ui.adapters.BaseViewPagerAdapter
 import com.hbvhuwe.explorergithub.ui.fragments.NoInternetFragment
 import com.hbvhuwe.explorergithub.ui.fragments.ReposFragment
@@ -139,7 +138,7 @@ class UserActivity : BaseActivity(), NoInternetFragment.IRetryActivity {
                     args.putInt(Const.USERS_MODE_KEY, Const.USERS_MODE_FOLLOWING)
                     UsersFragment.newInstance()
                 }
-                else -> Fragment()
+                else -> androidx.fragment.app.Fragment()
             }
             fragment.arguments = args
             return fragment

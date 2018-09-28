@@ -1,4 +1,4 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/user_layout"
@@ -7,12 +7,12 @@
     android:background="@android:color/transparent"
     tools:context=".ui.fragments.UserFragment">
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
@@ -40,11 +40,10 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:lineSpacingExtra="8sp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
                 android:padding="4dp"
                 android:text="Username"
                 android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/user_avatar" />
@@ -58,8 +57,7 @@
                 android:padding="4dp"
                 android:text="login"
                 android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:textSize="15sp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +71,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/rounded_corner"
-                android:drawableLeft="@drawable/ic_location_on"
+                android:drawableStart="@drawable/ic_location_on"
                 android:drawablePadding="4dp"
                 android:elevation="2dp"
                 android:gravity="center_vertical"
@@ -81,7 +79,7 @@
                 android:paddingStart="10dp"
                 android:text="location"
                 android:textColor="@android:color/white"
-                android:textSize="15sp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/user_login" />
@@ -94,7 +92,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/rounded_corner"
-                android:drawableLeft="@drawable/ic_email"
+                android:drawableStart="@drawable/ic_email"
                 android:drawablePadding="4dp"
                 android:elevation="2dp"
                 android:gravity="center_vertical"
@@ -102,7 +100,7 @@
                 android:paddingStart="10dp"
                 android:text="email"
                 android:textColor="@android:color/white"
-                android:textSize="15sp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/user_location" />
@@ -117,21 +115,21 @@
                 android:padding="4dp"
                 android:text="repos count"
                 android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:textSize="15sp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/user_email" />
 
-            <android.support.constraint.Guideline
+            <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintGuide_percent="0.5" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/follow_button"
+                style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -173,9 +171,9 @@
                     android:gravity="center_vertical"
                     android:padding="8dp"
                     android:text="@string/user_loading_text"
-                    android:textColor="@android:color/black" />
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
             </LinearLayout>
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v4.widget.NestedScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

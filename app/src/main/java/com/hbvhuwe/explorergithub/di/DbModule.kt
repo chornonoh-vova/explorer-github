@@ -1,6 +1,6 @@
 package com.hbvhuwe.explorergithub.di
 
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import com.hbvhuwe.explorergithub.App
 import com.hbvhuwe.explorergithub.db.AppDatabase
 import dagger.Module

@@ -1,7 +1,7 @@
 package com.hbvhuwe.explorergithub.viewmodel
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import com.hbvhuwe.explorergithub.Const
 import com.hbvhuwe.explorergithub.model.Repo
 import com.hbvhuwe.explorergithub.repository.RepoRepository
