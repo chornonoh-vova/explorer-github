@@ -2,9 +2,9 @@ package com.hbvhuwe.explorergithub
 
 import android.content.Context
 import android.net.ConnectivityManager
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 
 fun AppCompatActivity.isOnline(): Boolean {
     val cm = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

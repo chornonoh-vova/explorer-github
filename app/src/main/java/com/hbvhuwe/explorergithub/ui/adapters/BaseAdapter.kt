@@ -1,15 +1,12 @@
 package com.hbvhuwe.explorergithub.ui.adapters
 
-import android.support.annotation.LayoutRes
-import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.annotation.LayoutRes
+import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseAdapter<T, VH: RecyclerView.ViewHolder>(
         dataset: List<T>,
         @LayoutRes val layout: Int
-): RecyclerView.Adapter<VH>() {
+): androidx.recyclerview.widget.RecyclerView.Adapter<VH>() {
     var dataset = dataset
         set(value) {
             field = value

@@ -2,7 +2,7 @@ package com.hbvhuwe.explorergithub.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceFragmentCompat
 import com.hbvhuwe.explorergithub.App
 import com.hbvhuwe.explorergithub.R
 import com.hbvhuwe.explorergithub.net.Credentials
@@ -20,6 +20,7 @@ class SettingsFragment: PreferenceFragmentCompat() {
         logoutButton.setOnPreferenceClickListener {
             (activity?.application as App).saveCredentials(Credentials.empty())
             val intent = Intent(activity, SplashActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             startActivity(intent)
             activity!!.finish()
             true

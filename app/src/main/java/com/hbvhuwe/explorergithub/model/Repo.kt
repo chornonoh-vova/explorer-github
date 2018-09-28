@@ -1,8 +1,8 @@
 package com.hbvhuwe.explorergithub.model
 
-import android.arch.persistence.room.Embedded
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.Index
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.Index
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 import java.net.URL

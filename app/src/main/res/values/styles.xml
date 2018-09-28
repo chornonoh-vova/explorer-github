@@ -1,22 +1,11 @@
 <resources>
-
-    <!-- Base application theme. -->
-    <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimaryDarkTheme</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDarkDarkTheme</item>
-        <item name="colorAccent">@color/colorAccentDarkTheme</item>
-        <item name="iconTintColor">@android:color/white</item>
-        <item name="appTextColor">@android:color/white</item>
-    </style>
-
-    <style name="AppThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppThemeLight" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:textViewStyle">@style/TextAppearance.MaterialComponents.Body1</item>
         <item name="colorAccent">@color/colorAccentLightTheme</item>
+        <item name="colorPrimary">@android:color/background_light</item>
+        <item name="colorPrimaryDark">@android:color/darker_gray</item>
     </style>
 
-    <style name="SplashThemeDark" parent="AppThemeDark">
-        <item name="splashBackgroundColor">@color/colorPrimaryDarkTheme</item>
-        <item name="android:windowBackground">@drawable/background_drawable</item>
-    </style>
     <style name="SplashThemeLight" parent="AppThemeLight">
         <item name="splashBackgroundColor">@android:color/background_light</item>
         <item name="android:windowBackground">@drawable/background_drawable</item>

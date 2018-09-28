@@ -5,7 +5,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.util.TypedValue
 import android.widget.Button
 import android.widget.TextView
@@ -37,12 +37,6 @@ class LoginActivity : AppCompatActivity() {
     @Inject lateinit var api: Api
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this)
-        if (sharedPrefs.getBoolean("dark_theme", false))
-            setTheme(R.style.AppThemeDark)
-        else
-            setTheme(R.style.AppThemeLight)
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
