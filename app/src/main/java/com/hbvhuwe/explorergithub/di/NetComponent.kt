@@ -1,6 +1,7 @@
 package com.hbvhuwe.explorergithub.di
 
 import com.hbvhuwe.explorergithub.ui.LoginActivity
+import com.hbvhuwe.explorergithub.viewmodel.FilesViewModel
 import com.hbvhuwe.explorergithub.viewmodel.ReposViewModel
 import com.hbvhuwe.explorergithub.viewmodel.RepositoryViewModel
 import com.hbvhuwe.explorergithub.viewmodel.UserViewModel
@@ -14,4 +15,5 @@ interface NetComponent {
     fun inject(userViewModel: UserViewModel)
     fun inject(reposViewModel: ReposViewModel)
     fun inject(repositoryViewModel: RepositoryViewModel)
+    fun inject(filesViewModel: FilesViewModel)
 }

@@ -1,6 +1,5 @@
 package com.hbvhuwe.explorergithub.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hbvhuwe.explorergithub.repository.FilesRepository
@@ -15,24 +14,23 @@ class FilesViewModel: ViewModel() {
     lateinit var user: String
     lateinit var repo: String
     lateinit var branch: String
+    private var initialized = false
 
     fun init(
             user: String,
             repo: String,
             branch: String = "master") {
-        if (!this::user::isInitialized.get()) {
+        if (!initialized) {
             this.user = user
-        }
-        if (!this::repo::isInitialized.get()) {
             this.repo = repo
-        }
-        if (!this::branch::isInitialized.get()) {
             this.branch = branch
+            initialized = true
         }
-
     }
 
-    fun getFiles() = filesRepository.getFiles(user, repo, currentPath.value!!, branch)
+    fun getFiles() = filesRepository.getFiles(user, repo, currentPath.value, branch)
+
+    fun getBranches() = filesRepository.getBranches(user, repo)
 
     fun setCurrentPath(path: String) {
         this.currentPath.value = path

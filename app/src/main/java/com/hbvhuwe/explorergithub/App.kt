@@ -14,11 +14,15 @@ import retrofit2.converter.gson.GsonConverterFactory
 class App : Application() {
     private val credentials: Credentials by lazy { loadCredentials() }
 
-    fun createNetComponent(): NetComponent = DaggerNetComponent.builder()
-            .appModule(AppModule(this))
-            .netModule(NetModule(credentials))
-            .dbModule(DbModule())
-            .build()
+    fun createNetComponent() {
+        if (App.netComponent == null) {
+            App.netComponent = DaggerNetComponent.builder()
+                    .appModule(AppModule(this))
+                    .netModule(NetModule(credentials))
+                    .dbModule(DbModule())
+                    .build()
+        }
+    }
 
     fun loadCredentials(): Credentials {
         val preferences = getSharedPreferences(Const.PREFS_KEY, Context.MODE_PRIVATE)
@@ -61,25 +65,6 @@ class App : Application() {
     }
 
     companion object {
-        private lateinit var retrofit: Retrofit
-        private val httpClientBuilder = OkHttpClient.Builder()
-        val api by lazy {
-            createClient(access)
-        }
-        var access: Credentials? = null
-
-        fun createClient(credentials: Credentials?): Api {
-            access = credentials
-            val authInterceptor = AuthenticationInterceptor(access)
-            httpClientBuilder.addInterceptor(authInterceptor)
-            retrofit = Retrofit.Builder()
-                    .baseUrl("https://api.github.com/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .client(httpClientBuilder.build())
-                    .build()
-            return retrofit.create(Api::class.java)
-        }
-
-        @JvmStatic lateinit var netComponent: NetComponent
+        @JvmStatic var netComponent: NetComponent? = null
     }
 }

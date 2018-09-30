@@ -51,7 +51,7 @@ class UserActivity : BaseActivity(), NoInternetFragment.IRetryActivity {
     }
 
     private fun update() {
-        App.netComponent = (application as App).createNetComponent()
+        (application as App).createNetComponent()
 
         val viewPager = findViewById<ViewPager>(R.id.main_view_pager)
         supportFragmentManager.fragments.forEach {
