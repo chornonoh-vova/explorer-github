@@ -61,7 +61,7 @@ class ReposFragment : Fragment() {
         }
 
         reposViewModel = ViewModelProviders.of(this).get(ReposViewModel::class.java)
-        App.netComponent.inject(reposViewModel)
+        App.netComponent?.inject(reposViewModel)
         reposViewModel.multipleInit(mode, user)
 
         reposViewModel.getRepos()?.observe(this, Observer {

@@ -50,6 +50,7 @@
     <string name="settings_action">Settings</string>
     <string name="user_loading_text">Loading user info</string>
     <string name="repos_loading_text">Loading repositories</string>
+    <string name="files_loading_text">Loading files</string>
     <string name="no_repos_text">No repositories yet</string>
     <string name="starred_repos_loading_text">Loading starred repositories</string>
     <string name="no_starred_repos_text">No starred repositories yet</string>
@@ -57,4 +58,7 @@
     <string name="no_followers_text">No followers yet</string>
     <string name="following_loading_text">Loading following</string>
     <string name="no_following_text">No following yet</string>
+    <string name="branch_selector_text">Branch:</string>
+    <string name="watch_button_text">Watch</string>
+    <string name="star_button_text">Star</string>
 </resources>

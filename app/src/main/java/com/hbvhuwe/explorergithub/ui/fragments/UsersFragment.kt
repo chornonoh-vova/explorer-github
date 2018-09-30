@@ -60,7 +60,7 @@ class UsersFragment : Fragment() {
         }
 
         userViewModel = ViewModelProviders.of(this).get(UserViewModel::class.java)
-        App.netComponent.inject(userViewModel)
+        App.netComponent?.inject(userViewModel)
         userViewModel.multipleInit(mode, user)
 
         userViewModel.getUsers()?.observe(this, Observer {

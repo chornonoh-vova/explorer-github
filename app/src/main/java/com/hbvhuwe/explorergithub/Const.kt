@@ -21,4 +21,8 @@ object Const {
     const val USERS_MODE_KEY = "users_mode"
     const val USERS_MODE_FOLLOWERS = 0
     const val USERS_MODE_FOLLOWING = 1
+    //File constants
+    const val FILE_TYPE_FILE = "file"
+    const val FILE_TYPE_DIR = "dir"
+    const val FILE_URL_KEY = "file_url"
 }

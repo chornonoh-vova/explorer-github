@@ -90,8 +90,8 @@ class LoginActivity : AppCompatActivity() {
 
                             (application as App).saveCredentials(authCredentials)
 
-                            App.netComponent = (application as App).createNetComponent()
-                            App.netComponent.inject(this@LoginActivity)
+                            (application as App).createNetComponent()
+                            App.netComponent?.inject(this@LoginActivity)
                             api.getUserInfo().enqueue(callback)
                         }
                     }

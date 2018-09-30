@@ -4,6 +4,9 @@ import android.graphics.*
 import com.squareup.picasso.Transformation
 
 
+val pictures = listOf("tif", "jpg", "jpeg", "gif", "png", "svg")
+val binaries = listOf("exe", "jar", "class", "o")
+
 class CircleTransform : Transformation {
     override fun transform(source: Bitmap): Bitmap {
         val size = Math.min(source.width, source.height)

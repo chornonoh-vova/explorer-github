@@ -55,7 +55,7 @@ class UserFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         userViewModel = ViewModelProviders.of(this).get(UserViewModel::class.java)
-        App.netComponent.inject(userViewModel)
+        App.netComponent?.inject(userViewModel)
         userViewModel.singleInit(user)
 
         userViewModel.getUser()?.observe(this, Observer { user ->
