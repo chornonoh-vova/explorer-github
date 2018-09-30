@@ -24,9 +24,9 @@ class FilesAdapter(dataset: List<File>)
         holder.file = dataset[position]
         holder.fileName.text = dataset[position].name
         if (holder.file.isDirectory()) {
-            holder.fileIcon.setImageResource(R.mipmap.ic_folder)
+            holder.fileIcon.setImageResource(R.drawable.ic_folder)
         } else {
-            holder.fileIcon.setImageResource(R.mipmap.ic_file)
+            holder.fileIcon.setImageResource(R.drawable.ic_file)
         }
     }
 
