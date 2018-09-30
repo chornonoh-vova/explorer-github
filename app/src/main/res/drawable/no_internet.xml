@@ -24,7 +24,7 @@
         </shape>
     </item>
     <item
-        android:drawable="@drawable/round_wifi_off_black_48"
+        android:drawable="@drawable/round_wifi_off"
         android:top="50dp"
         android:bottom="50dp"
         android:left="15dp"
