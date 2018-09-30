@@ -40,7 +40,7 @@
     <string name="user_no_location_text">No location</string>
     <string name="settings_text">Settings</string>
     <string name="update_action">Update</string>
-    <string name="network_error_text">Check WiFi settings, and then update</string>
+    <string name="network_error_text">Check your internet</string>
     <string name="follow_button_text">Follow</string>
     <string name="retry_button_text">Retry</string>
     <string name="no_internet_connection_text">No internet connection</string>
