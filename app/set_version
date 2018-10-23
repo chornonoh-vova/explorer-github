@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+
+git_count_version() {
+    local last_version=$(git tag | tail -n1 | sed 's/v//')
+    local commits=$(git rev-list "v$last_version"... --count)
+    echo "$last_version.$commits"
+    echo "$PROJECT_VERSION" | sed 's/\.//g'
+}
+
+git_count_version
