@@ -16,14 +16,30 @@ ext {
     dagger_ver = "2.16"
 }
 
+afterEvaluate { project ->
+    def output = new BufferedReader(new InputStreamReader((InputStream)"bash ./app/set_version".execute().getInputStream()))
+    ext.project_ver = output.readLine()
+    ext.project_ver_code = output.readLine()
+    println "project version: ${ext.project_ver}"
+    println "code: ${ext.project_ver_code}"
+}
+
+private int getVersionCode() {
+   return Integer.parseInt(ext.project_ver_code)
+}
+
+private String getVersionName() {
+   return ext.project_ver
+}
+
 android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.hbvhuwe.explorergithub"
         minSdkVersion 22
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode getVersionCode()
+        versionName getVersionName()
     }
     buildTypes {
         release {
