@@ -1,10 +1,8 @@
 package com.hbvhuwe.explorergithub.di
 
+import com.hbvhuwe.explorergithub.ui.FileActivity
 import com.hbvhuwe.explorergithub.ui.LoginActivity
-import com.hbvhuwe.explorergithub.viewmodel.FilesViewModel
-import com.hbvhuwe.explorergithub.viewmodel.ReposViewModel
-import com.hbvhuwe.explorergithub.viewmodel.RepositoryViewModel
-import com.hbvhuwe.explorergithub.viewmodel.UserViewModel
+import com.hbvhuwe.explorergithub.viewmodel.*
 import dagger.Component
 import javax.inject.Singleton
 
@@ -16,4 +14,5 @@ interface NetComponent {
     fun inject(reposViewModel: ReposViewModel)
     fun inject(repositoryViewModel: RepositoryViewModel)
     fun inject(filesViewModel: FilesViewModel)
+    fun inject(fileViewModel: FileViewModel)
 }
