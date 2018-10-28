@@ -80,4 +80,10 @@ interface Api {
 
     @GET
     fun getFile(@Url url: String): Call<ResponseBody>
+
+    @GET("/repos/{user}/{repo}/issues?state=all")
+    fun getIssues(
+            @Path("user") user: String,
+            @Path("repo") repo: String
+    ): Call<List<Issue>>
 }

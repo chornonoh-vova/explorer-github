@@ -44,11 +44,11 @@ class ReposFragment : Fragment() {
         user = arguments?.getString(Const.USER_KEY) ?: Const.USER_LOGGED_IN
 
         if (mode == Const.REPOS_MODE_REPOS) {
-            listLoadingText.text = activity?.getText(R.string.repos_loading_text)
-            noContentText.text = activity?.getText(R.string.no_repos_text)
+            listLoadingText.text = getString(R.string.repos_loading_text)
+            noContentText.text = getString(R.string.no_repos_text)
         } else {
-            listLoadingText.text = activity?.getText(R.string.starred_repos_loading_text)
-            noContentText.text = activity?.getText(R.string.no_starred_repos_text)
+            listLoadingText.text = getString(R.string.starred_repos_loading_text)
+            noContentText.text = getString(R.string.no_starred_repos_text)
         }
 
         reposAdapter = ReposAdapter(emptyList())

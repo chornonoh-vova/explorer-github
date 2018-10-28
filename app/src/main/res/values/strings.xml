@@ -61,4 +61,6 @@
     <string name="branch_selector_text">Branch:</string>
     <string name="watch_button_text">Watch</string>
     <string name="star_button_text">Star</string>
+    <string name="issues_loading_text">Loading issues</string>
+    <string name="no_issues_text">No issues!</string>
 </resources>

@@ -12,6 +12,7 @@ import com.hbvhuwe.explorergithub.Const
 import com.hbvhuwe.explorergithub.R
 import com.hbvhuwe.explorergithub.ui.adapters.BaseViewPagerAdapter
 import com.hbvhuwe.explorergithub.ui.fragments.FilesFragment
+import com.hbvhuwe.explorergithub.ui.fragments.IssuesFragment
 import com.hbvhuwe.explorergithub.ui.fragments.NoInternetFragment
 import com.hbvhuwe.explorergithub.ui.fragments.RepoOverviewFragment
 import com.hbvhuwe.explorergithub.viewmodel.RepositoryViewModel
@@ -89,6 +90,10 @@ class RepoActivity : BaseActivity(), NoInternetFragment.IRetryActivity {
                 }
                 1 -> {
                     fragment = FilesFragment()
+                    fragment.arguments = args
+                }
+                2 -> {
+                    fragment = IssuesFragment()
                     fragment.arguments = args
                 }
             }

@@ -1,5 +1,6 @@
 package com.hbvhuwe.explorergithub.ui
 
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
@@ -36,6 +37,7 @@ class FileActivity : BaseActivity() {
         fileViewModel.init(fileUrl)
 
         fileViewModel.getFile().observe(this, Observer {
+            fileContent.setTypeface(Typeface.MONOSPACE)
             fileContent.text = it
             loading.visibility = View.GONE
         })

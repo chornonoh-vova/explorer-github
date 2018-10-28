@@ -15,4 +15,5 @@ interface NetComponent {
     fun inject(repositoryViewModel: RepositoryViewModel)
     fun inject(filesViewModel: FilesViewModel)
     fun inject(fileViewModel: FileViewModel)
+    fun inject(issuesViewModel: IssuesViewModel)
 }
