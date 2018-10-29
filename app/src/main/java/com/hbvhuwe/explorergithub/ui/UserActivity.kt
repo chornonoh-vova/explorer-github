@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.viewpager.widget.ViewPager
 import android.view.Menu
 import android.view.MenuItem
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.hbvhuwe.explorergithub.App
 import com.hbvhuwe.explorergithub.Const
 import com.hbvhuwe.explorergithub.R
@@ -40,6 +41,10 @@ class UserActivity : BaseActivity(), NoInternetFragment.IRetryActivity {
 
     private val coordinatorLayout by lazy {
         findViewById<CoordinatorLayout>(R.id.coordinatorLayout)
+    }
+
+    private val addFab by lazy {
+        findViewById<FloatingActionButton>(R.id.add_fab)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,6 +77,26 @@ class UserActivity : BaseActivity(), NoInternetFragment.IRetryActivity {
         viewPager.adapter = adapter
         viewPager.offscreenPageLimit = tabCount - 1
 
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {}
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+
+            override fun onPageSelected(position: Int) {
+                when (position) {
+                    1 -> {
+                        showRepoFab(position)
+                    }
+                    else -> addFab.hide()
+                }
+            }
+
+        })
+
+        if (addFab.isOrWillBeShown && viewPager.currentItem != 1) {
+            addFab.hide()
+        }
+
         tabLayout.setupWithViewPager(viewPager)
     }
 
@@ -100,6 +125,16 @@ class UserActivity : BaseActivity(), NoInternetFragment.IRetryActivity {
         val intent = Intent(Settings.ACTION_WIFI_SETTINGS)
         if (intent.resolveActivity(packageManager) != null) {
             startActivity(intent)
+        }
+    }
+
+    private fun showRepoFab(currentFragment: Int) {
+        val page = supportFragmentManager.findFragmentByTag("android:switcher:${R.id.main_view_pager}:$currentFragment")
+        if (page is ReposFragment) {
+            addFab.show()
+            addFab.setOnClickListener {
+                page.addRepo()
+            }
         }
     }
 

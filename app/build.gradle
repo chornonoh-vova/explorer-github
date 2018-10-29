@@ -22,8 +22,8 @@ android {
         applicationId "com.hbvhuwe.explorergithub"
         minSdkVersion 22
         targetSdkVersion 28
-        versionName "1.1.18"
-        versionCode 1118
+        versionName "1.1.19"
+        versionCode 1119
     }
     buildTypes {
         release {
