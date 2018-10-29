@@ -13,6 +13,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
+import com.google.android.material.snackbar.Snackbar
 import com.hbvhuwe.explorergithub.App
 import com.hbvhuwe.explorergithub.Const
 import com.hbvhuwe.explorergithub.R
@@ -73,6 +75,11 @@ class ReposFragment : Fragment() {
                 }
             }
         })
+    }
+
+    fun addRepo() {
+        // TODO: show repo adding dialog
+        Toast.makeText(this.activity, "Adding repo", Toast.LENGTH_SHORT).show()
     }
 
     companion object {
