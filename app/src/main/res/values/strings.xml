@@ -1,6 +1,4 @@
 <resources>
-    <string name="application_client_id" translatable="false">8f8927148244148aec37</string>
-    <string name="application_client_secret" translatable="false">f1a07eb8b20e6769fa817918b6cb8da7860300e1</string>
     <string name="application_redirect_uri" translatable="false">login://com.hbvhuwe.explorergithub</string>
 
     <string name="app_name">Explorer GitHub</string>

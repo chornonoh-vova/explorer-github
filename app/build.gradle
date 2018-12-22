@@ -26,9 +26,22 @@ android {
         versionCode 1120
     }
     buildTypes {
+        debug {
+            buildConfigField("String", "applicationClientId", explorer_github_app_id)
+            resValue("string", "application_client_id", explorer_github_app_id)
+
+            buildConfigField("String", "applicationClientSecret", explorer_github_app_secret)
+            resValue("string", "application_client_secret", explorer_github_app_secret)
+        }
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+
+            buildConfigField("String", "applicationClientId", explorer_github_app_id)
+            resValue("string", "application_client_id", explorer_github_app_id)
+
+            buildConfigField("String", "applicationClientSecret", explorer_github_app_secret)
+            resValue("string", "application_client_secret", explorer_github_app_secret)
         }
     }
     buildToolsVersion '28.0.3'
@@ -62,8 +75,8 @@ dependencies {
     //Gson
     implementation "com.google.code.gson:gson:$gson_ver"
     //support library
-    implementation 'androidx.appcompat:appcompat:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.exifinterface:exifinterface:1.0.0'

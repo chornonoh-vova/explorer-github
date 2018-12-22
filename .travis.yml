@@ -7,4 +7,4 @@ android:
     - build-tools-28.0.3
     - android-28
 
-script: ./gradlew build
+script: echo -e 'explorer_github_app_id="app_id"\nexplorer_github_app_secret="secret"' > ~/.gradle/gradle.properties && ./gradlew build
