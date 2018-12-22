@@ -7,6 +7,9 @@ import com.squareup.picasso.Transformation
 val pictures = listOf("tif", "jpg", "jpeg", "gif", "png", "svg")
 val binaries = listOf("exe", "jar", "class", "o")
 
+typealias BottomReachedListener = (position: Int) -> Unit
+
+
 class CircleTransform : Transformation {
     override fun transform(source: Bitmap): Bitmap {
         val size = Math.min(source.width, source.height)

@@ -51,6 +51,12 @@ class App : Application() {
             Toast.LENGTH_LONG
     ).show()
 
+    fun showToast(message: String) = Toast.makeText(
+            this.applicationContext,
+            message,
+            Toast.LENGTH_LONG
+    ).show()
+
     fun saveUserLogin(login: String) {
         val sharedPreferences = getSharedPreferences(Const.PREFS_KEY, Context.MODE_PRIVATE)
         with(sharedPreferences.edit()) {

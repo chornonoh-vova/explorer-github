@@ -78,13 +78,14 @@ class LoginActivity : AppCompatActivity() {
                     }
 
                     override fun onResponse(call: Call?, response: Response?) {
-                        if (response != null && response.isSuccessful) runOnUiThread {
+                        if (response != null && response.isSuccessful) {
                             val responseText = response.body()?.string()
                             val value = TypedValue()
                             this@LoginActivity.theme.resolveAttribute(R.attr.colorAccent, value, true)
-                            loginResult.setTextColor(value.data)
-                            loginResult.text = getString(R.string.activity_login_logged)
-
+                            runOnUiThread {
+                                loginResult.setTextColor(value.data)
+                                loginResult.text = getString(R.string.activity_login_logged)
+                            }
                             val authCredentials = GsonBuilder().create().fromJson(responseText, Credentials::class.java)
 
                             (application as App).saveCredentials(authCredentials)

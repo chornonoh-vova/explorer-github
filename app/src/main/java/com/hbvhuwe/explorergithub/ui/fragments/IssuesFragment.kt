@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hbvhuwe.explorergithub.App
+import com.hbvhuwe.explorergithub.BottomReachedListener
 import com.hbvhuwe.explorergithub.Const
 import com.hbvhuwe.explorergithub.R
 import com.hbvhuwe.explorergithub.ui.adapters.IssuesAdapter
@@ -44,7 +45,7 @@ class IssuesFragment: Fragment() {
         user = arguments!!.getString(Const.REPO_OWNER_KEY)!!
         repo = arguments!!.getString(Const.REPO_NAME_KEY)!!
 
-        issuesAdapter = IssuesAdapter(emptyList())
+        issuesAdapter = IssuesAdapter(emptyList(), bottom)
 
         listLoadingText.text = getString(R.string.issues_loading_text)
         noContentText.text = getString(R.string.no_issues_text)
@@ -68,6 +69,15 @@ class IssuesFragment: Fragment() {
                     noContentText.visibility = View.VISIBLE
                 }
             }
+        })
+
+    }
+
+    private val bottom: BottomReachedListener = {
+        issuesViewModel.getNextPage().observe(this, Observer { issues ->
+            val dataset = issuesAdapter.dataset.toMutableList()
+            dataset.addAll(issues)
+            issuesAdapter.dataset = dataset
         })
     }
 }

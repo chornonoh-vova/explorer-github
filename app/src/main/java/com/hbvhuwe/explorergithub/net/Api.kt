@@ -81,9 +81,11 @@ interface Api {
     @GET
     fun getFile(@Url url: String): Call<ResponseBody>
 
-    @GET("/repos/{user}/{repo}/issues?state=all")
+    @GET("/repos/{user}/{repo}/issues")
     fun getIssues(
             @Path("user") user: String,
-            @Path("repo") repo: String
+            @Path("repo") repo: String,
+            @Query("state") state: String = "all",
+            @Query("page") page: Int
     ): Call<List<Issue>>
 }

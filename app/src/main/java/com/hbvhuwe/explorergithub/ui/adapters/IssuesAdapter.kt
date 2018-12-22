@@ -10,10 +10,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.hbvhuwe.explorergithub.BottomReachedListener
 import com.hbvhuwe.explorergithub.R
 import com.hbvhuwe.explorergithub.model.Issue
 
-class IssuesAdapter(dataset: List<Issue>)
+class IssuesAdapter(dataset: List<Issue>, val listener: BottomReachedListener)
     : BaseAdapter<Issue, IssuesAdapter.ViewHolder>(dataset, R.layout.issue_layout) {
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
@@ -44,6 +45,9 @@ class IssuesAdapter(dataset: List<Issue>)
             chip.isCheckable = false
             chip.isClickable = true
             holder.issueLabels.addView(chip)
+        }
+        if (position == dataset.size - 1) {
+            listener(position)
         }
     }
 

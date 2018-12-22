@@ -15,5 +15,6 @@ data class Issue (
         val body: String,
         val labels: List<Label>,
         @SerializedName("created_at") val createdAt: String,
-        @SerializedName("closed_at") val closedAt: String?
+        @SerializedName("closed_at") val closedAt: String?,
+        @SerializedName("pull_request") val pullRequest: Any?
 )

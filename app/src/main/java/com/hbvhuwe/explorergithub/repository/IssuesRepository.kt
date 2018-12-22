@@ -12,22 +12,23 @@ import javax.inject.Inject
 
 class IssuesRepository @Inject constructor(
         val api: Api,
-        val app: App
-){
+        app: App
+) : BaseRepository(app) {
+    private var nextPage = 1
+
     fun getIssues(user: String, repo: String): LiveData<List<Issue>> {
         val issues = MutableLiveData<List<Issue>>()
-        val callback = object: Callback<List<Issue>> {
-            override fun onFailure(call: Call<List<Issue>>, t: Throwable) {
-                app.showNetworkError()
-            }
 
-            override fun onResponse(call: Call<List<Issue>>, response: Response<List<Issue>>) {
-                if (response.isSuccessful) {
-                    issues.value = response.body()
-                }
-            }
+        val callback = callback<List<Issue>> { response ->
+            nextPage = getNextPageNumber(response)
+            val issuesFiltered = response.body()
+            issues.value = issuesFiltered?.filter { it.pullRequest == null }
         }
-        api.getIssues(user, repo).enqueue(callback)
+
+        if (nextPage == -1) {
+            return issues
+        }
+        api.getIssues(user, repo, page = nextPage).enqueue(callback)
         return issues
     }
 }
