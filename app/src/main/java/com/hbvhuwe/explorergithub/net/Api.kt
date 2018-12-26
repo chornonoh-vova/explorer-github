@@ -6,11 +6,11 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface Api {
-    @GET("/users/{user}/repos?sort=updated")
-    fun getReposForUser(@Path("user") user: String): Call<List<Repo>>
+    @GET("/users/{user}/repos")
+    fun getReposForUser(@Path("user") user: String, @Query("sort") sort: String = "updated"): Call<List<Repo>>
 
-    @GET("/user/repos?sort=updated")
-    fun getReposForUser(): Call<List<Repo>>
+    @GET("/user/repos")
+    fun getReposForUser(@Query("sort") sort: String = "updated"): Call<List<Repo>>
 
     @GET("/user/starred")
     fun getStarredRepos(): Call<List<Repo>>
