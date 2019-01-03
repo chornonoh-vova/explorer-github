@@ -1,5 +1,6 @@
 package com.hbvhuwe.explorergithub.net
 
+import com.hbvhuwe.explorergithub.MarkdownRequest
 import com.hbvhuwe.explorergithub.model.*
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -72,11 +73,11 @@ interface Api {
     fun getTopics(
             @Path("user") user: String,
             @Path("repo") repo: String,
-            @Header("X-GitHub-Media-Type") header: String = "application/vnd.github.mercy-preview+json"
+            @Header("Accept") header: String = "application/vnd.github.mercy-preview+json"
     ): Call<Topics>
 
     @POST("/markdown")
-    fun convertMarkdownToHtml(@Body text: String): Call<ResponseBody>
+    fun convertMarkdownToHtml(@Body req: MarkdownRequest): Call<ResponseBody>
 
     @GET
     fun getFile(@Url url: String): Call<ResponseBody>

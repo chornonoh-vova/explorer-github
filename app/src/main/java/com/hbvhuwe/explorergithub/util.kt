@@ -9,6 +9,10 @@ val binaries = listOf("exe", "jar", "class", "o")
 
 typealias BottomReachedListener = (position: Int) -> Unit
 
+data class MarkdownRequest(
+        val text: String,
+        val mode: String
+)
 
 class CircleTransform : Transformation {
     override fun transform(source: Bitmap): Bitmap {

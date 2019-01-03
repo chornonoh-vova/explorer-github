@@ -4,15 +4,59 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
+import com.hbvhuwe.explorergithub.App
+import com.hbvhuwe.explorergithub.Const
 import com.hbvhuwe.explorergithub.R
+import com.hbvhuwe.explorergithub.viewmodel.RepositoryViewModel
 
 class RepoOverviewFragment: Fragment() {
+    private lateinit var topics: ChipGroup
+    private lateinit var readmeView: WebView
+    private lateinit var repositoryViewModel: RepositoryViewModel
+
+    private lateinit var user: String
+    private lateinit var repo: String
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
             inflater.inflate(R.layout.fragment_overview, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // TODO: create repo overview calls
+
+        user = arguments!!.getString(Const.REPO_OWNER_KEY)!!
+        repo = arguments!!.getString(Const.REPO_NAME_KEY)!!
+
+        readmeView = view.findViewById(R.id.readme_view)
+        topics = view.findViewById(R.id.repo_topics)
+
+        repositoryViewModel = ViewModelProviders.of(this).get(RepositoryViewModel::class.java)
+        App.netComponent?.inject(repositoryViewModel)
+
+        repositoryViewModel.init(user, repo)
+
+        repositoryViewModel.getTopics(user, repo)?.observe(this, Observer { topic ->
+            topic.names.forEach {
+                val chip = Chip(activity)
+                chip.text = it
+                chip.isClickable = false
+                chip.isCheckable = false
+                topics.addView(chip)
+            }
+        })
+
+        repositoryViewModel.getReadme(user, repo)?.observe(this, Observer { file ->
+            repositoryViewModel.getFile(file)?.observe(this, Observer { markdown ->
+                repositoryViewModel.getReadmeHtml(markdown)?.observe(this, Observer { html ->
+                    val data = "<html><head><link href=\"file:///android_asset/markdown-style.css\" type=\"text/css\" rel=\"stylesheet\"/></head><body>$html</body></html>"
+                    readmeView.loadData(data, "text/html", "utf-8")
+                })
+            })
+        })
     }
 }

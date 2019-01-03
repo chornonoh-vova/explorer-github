@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hbvhuwe.explorergithub.model.File
 import com.hbvhuwe.explorergithub.model.Repo
+import com.hbvhuwe.explorergithub.model.Topics
 import com.hbvhuwe.explorergithub.repository.RepoRepository
 import javax.inject.Inject
 
@@ -16,6 +17,7 @@ class RepositoryViewModel: ViewModel() {
     private var markdown: LiveData<String>? = null
     private var readme: LiveData<File>? = null
     private var readmeHtml: LiveData<String>? = null
+    private var topics: LiveData<Topics>? = null
 
     val currentPath by lazy {
         MutableLiveData<String>()
@@ -36,6 +38,11 @@ class RepositoryViewModel: ViewModel() {
     fun getReadme(login: String, repo: String): LiveData<File>? {
         this.readme = repository.getReadme(login, repo)
         return readme
+    }
+
+    fun getTopics(login: String, repo: String): LiveData<Topics>? {
+        this.topics = repository.getTopics(login, repo)
+        return topics
     }
 
     fun getFile(file: File): LiveData<String>? {
