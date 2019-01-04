@@ -53,8 +53,15 @@ class RepoOverviewFragment: Fragment() {
         repositoryViewModel.getReadme(user, repo)?.observe(this, Observer { file ->
             repositoryViewModel.getFile(file)?.observe(this, Observer { markdown ->
                 repositoryViewModel.getReadmeHtml(markdown)?.observe(this, Observer { html ->
-                    val data = "<html><head><link href=\"file:///android_asset/markdown-style.css\" type=\"text/css\" rel=\"stylesheet\"/></head><body>$html</body></html>"
-                    readmeView.loadData(data, "text/html", "utf-8")
+                    val data = """
+                    <html>
+                    <head>
+                        <meta name="viewport" content="width=device-width, initial-scale=1">
+                        <link href="markdown-style.css" type="text/css" rel="stylesheet"/>
+                    </head>
+                    <body class="markdown-body">$html</body>
+                    </html>""".trimMargin()
+                    readmeView.loadDataWithBaseURL("file:///android_asset/", data,  "text/html", "UTF-8", null)
                 })
             })
         })
