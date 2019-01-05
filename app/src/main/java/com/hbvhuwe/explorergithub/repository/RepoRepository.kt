@@ -37,7 +37,7 @@ class RepoRepository @Inject constructor(
         if (login == Const.USER_LOGGED_IN) {
             api.getReposForUser().enqueue(callback)
         } else {
-            api.getReposForUser(login).enqueue(callback)
+            api.getReposForUser(user = login).enqueue(callback)
         }
         return repos
     }
@@ -110,7 +110,7 @@ class RepoRepository @Inject constructor(
         return readme
     }
 
-    fun convertMarkdown(text: String): LiveData<String> {
+    fun convertMarkdown(text: String, context: String): LiveData<String> {
         val html = MutableLiveData<String>()
         val callback = object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
@@ -123,7 +123,7 @@ class RepoRepository @Inject constructor(
                 }
             }
         }
-        val req = MarkdownRequest(text, "gfm")
+        val req = MarkdownRequest(text, "gfm", context)
         val call = api.convertMarkdownToHtml(req)
         call.enqueue(callback)
         return html

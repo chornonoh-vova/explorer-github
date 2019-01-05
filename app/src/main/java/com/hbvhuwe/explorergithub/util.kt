@@ -11,7 +11,8 @@ typealias BottomReachedListener = (position: Int) -> Unit
 
 data class MarkdownRequest(
         val text: String,
-        val mode: String
+        val mode: String,
+        val context: String
 )
 
 class CircleTransform : Transformation {

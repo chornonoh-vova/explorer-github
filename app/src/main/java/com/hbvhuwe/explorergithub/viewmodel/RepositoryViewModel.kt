@@ -50,8 +50,8 @@ class RepositoryViewModel: ViewModel() {
         return markdown
     }
 
-    fun getReadmeHtml(markdown: String): LiveData<String>? {
-        this.readmeHtml = repository.convertMarkdown(markdown)
+    fun getReadmeHtml(markdown: String, context: String): LiveData<String>? {
+        this.readmeHtml = repository.convertMarkdown(markdown, context)
         return readmeHtml
     }
 }

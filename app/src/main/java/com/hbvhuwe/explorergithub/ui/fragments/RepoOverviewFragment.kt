@@ -52,7 +52,7 @@ class RepoOverviewFragment: Fragment() {
 
         repositoryViewModel.getReadme(user, repo)?.observe(this, Observer { file ->
             repositoryViewModel.getFile(file)?.observe(this, Observer { markdown ->
-                repositoryViewModel.getReadmeHtml(markdown)?.observe(this, Observer { html ->
+                repositoryViewModel.getReadmeHtml(markdown, "$user/$repo")?.observe(this, Observer { html ->
                     val data = """
                     <html>
                     <head>
