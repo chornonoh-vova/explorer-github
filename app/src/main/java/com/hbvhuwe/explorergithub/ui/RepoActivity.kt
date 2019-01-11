@@ -11,10 +11,7 @@ import com.hbvhuwe.explorergithub.App
 import com.hbvhuwe.explorergithub.Const
 import com.hbvhuwe.explorergithub.R
 import com.hbvhuwe.explorergithub.ui.adapters.BaseViewPagerAdapter
-import com.hbvhuwe.explorergithub.ui.fragments.FilesFragment
-import com.hbvhuwe.explorergithub.ui.fragments.IssuesFragment
-import com.hbvhuwe.explorergithub.ui.fragments.NoInternetFragment
-import com.hbvhuwe.explorergithub.ui.fragments.RepoOverviewFragment
+import com.hbvhuwe.explorergithub.ui.fragments.*
 import com.hbvhuwe.explorergithub.viewmodel.RepositoryViewModel
 
 
@@ -48,7 +45,7 @@ class RepoActivity : BaseActivity(), NoInternetFragment.IRetryActivity {
                 R.string.tab_code_text,
                 R.string.tab_issues_text,
                 R.string.tab_pr_text,
-                R.string.tab_projects_text))
+                R.string.tab_contributors_text))
         viewPager.adapter = adapter
         tabLayout.setupWithViewPager(viewPager)
 
@@ -94,6 +91,12 @@ class RepoActivity : BaseActivity(), NoInternetFragment.IRetryActivity {
                 }
                 2 -> {
                     fragment = IssuesFragment()
+                    fragment.arguments = args
+                }
+                4 -> {
+                    fragment = UsersFragment()
+                    args.putInt(Const.USERS_MODE_KEY, Const.USERS_MODE_CONTRIBUTORS)
+                    args.putString(Const.USER_KEY, owner)
                     fragment.arguments = args
                 }
             }

@@ -21,14 +21,14 @@ class UserViewModel : ViewModel() {
         user = repository.getUser(login)
     }
 
-    fun multipleInit(mode: Int, login: String) {
+    fun multipleInit(mode: Int, login: String, repo: String = "") {
         if (users != null) {
             return
         }
-        users = if (mode == Const.USERS_MODE_FOLLOWERS) {
-            repository.getUserFollowers(login)
-        } else {
-            repository.getUserFollowing(login)
+        users = when (mode) {
+            Const.USERS_MODE_FOLLOWERS -> repository.getUserFollowers(login)
+            Const.USERS_MODE_FOLLOWING -> repository.getUserFollowing(login)
+            else -> repository.getContributors(login, repo)
         }
     }
 

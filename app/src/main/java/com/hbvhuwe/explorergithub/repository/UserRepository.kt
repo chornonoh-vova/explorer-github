@@ -19,73 +19,39 @@ class UserRepository @Inject constructor(
         private val api: Api,
         private val userDao: UserDao,
         private val executor: ExecutorService,
-        private val app: App
-) {
+        app: App
+): BaseRepository(app) {
 
     fun getUser(login: String): LiveData<User> {
-        val user = MutableLiveData<User>()
-        val callback = object : Callback<User> {
-            override fun onFailure(call: Call<User>?, t: Throwable?) {
-                app.showNetworkError()
-            }
-
-            override fun onResponse(call: Call<User>?, response: Response<User>?) {
-                if (response != null) {
-                    user.value = response.body()
-                }
-            }
-        }
-
-        if (login == Const.USER_LOGGED_IN) {
-            api.getUserInfo().enqueue(callback)
+        return if (login == Const.USER_LOGGED_IN) {
+            enqueueCall(api.getUserInfo())
         } else {
-            api.getUserInfo(login).enqueue(callback)
-            executor.execute {
-                user.value?.let { userDao.save(it) }
-            }
+            enqueueCall(api.getUserInfo(login))
         }
-        return user
     }
 
     fun getUserFollowers(login: String): LiveData<List<User>> {
-        val users = MutableLiveData<List<User>>()
-        val callback = object : Callback<List<User>> {
-            override fun onFailure(call: Call<List<User>>?, t: Throwable?) {
-                app.showNetworkError()
-            }
-
-            override fun onResponse(call: Call<List<User>>?, response: Response<List<User>>?) {
-                if (response != null) {
-                    users.value = response.body()
-                }
-            }
-        }
-        if (login == Const.USER_LOGGED_IN) {
-            api.getUserFollowers().enqueue(callback)
+        return if (login == Const.USER_LOGGED_IN) {
+            enqueueCall(api.getUserFollowers())
         } else {
-            api.getUserFollowers(login).enqueue(callback)
+            enqueueCall(api.getUserFollowers(login))
         }
-        return users
     }
 
     fun getUserFollowing(login: String): LiveData<List<User>> {
-        val users = MutableLiveData<List<User>>()
-        val callback = object : Callback<List<User>> {
-            override fun onFailure(call: Call<List<User>>?, t: Throwable?) {
-                app.showNetworkError()
-            }
-
-            override fun onResponse(call: Call<List<User>>?, response: Response<List<User>>?) {
-                if (response != null) {
-                    users.value = response.body()
-                }
-            }
-        }
-        if (login == Const.USER_LOGGED_IN) {
-            api.getUserFollowing().enqueue(callback)
+        return if (login == Const.USER_LOGGED_IN) {
+            enqueueCall(api.getUserFollowing())
         } else {
-            api.getUserFollowing(login).enqueue(callback)
+            enqueueCall(api.getUserFollowing(login))
         }
-        return users
+    }
+
+    fun getContributors(login: String, repo: String): LiveData<List<User>> =
+            enqueueCall(api.getContributors(login, repo))
+
+    private fun <T> enqueueCall(call: Call<T>) = MutableLiveData<T>().apply {
+        call.enqueue(callback {
+            this.value = it.body()
+        })
     }
 }

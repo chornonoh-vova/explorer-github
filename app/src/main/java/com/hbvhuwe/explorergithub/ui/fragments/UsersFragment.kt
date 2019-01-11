@@ -22,6 +22,7 @@ import com.hbvhuwe.explorergithub.viewmodel.UserViewModel
 class UsersFragment : Fragment() {
     private var mode = 0
     private lateinit var user: String
+    private lateinit var repo: String
     private lateinit var listLoading: LinearLayout
     private lateinit var listLoadingText: TextView
     private lateinit var noContentText: TextView
@@ -41,15 +42,23 @@ class UsersFragment : Fragment() {
 
         mode = arguments?.getInt(Const.USERS_MODE_KEY) ?: 0
         user = arguments?.getString(Const.USER_KEY) ?: Const.USER_LOGGED_IN
+        repo = arguments?.getString(Const.REPO_NAME_KEY) ?: ""
 
         usersAdapter = UsersAdapter(emptyList())
 
-        if (mode == Const.USERS_MODE_FOLLOWERS) {
-            listLoadingText.text = activity?.getText(R.string.followers_loading_text)
-            noContentText.text = activity?.getText(R.string.no_followers_text)
-        } else {
-            listLoadingText.text = activity?.getText(R.string.following_loading_text)
-            noContentText.text = activity?.getText(R.string.no_following_text)
+        when (mode) {
+            Const.USERS_MODE_FOLLOWERS -> {
+                listLoadingText.text = activity?.getText(R.string.followers_loading_text)
+                noContentText.text = activity?.getText(R.string.no_followers_text)
+            }
+            Const.USERS_MODE_FOLLOWING -> {
+                listLoadingText.text = activity?.getText(R.string.following_loading_text)
+                noContentText.text = activity?.getText(R.string.no_following_text)
+            }
+            Const.USERS_MODE_CONTRIBUTORS -> {
+                listLoadingText.text = activity?.getText(R.string.contributors_loading_text)
+                noContentText.text = activity?.getText(R.string.no_contributors_text)
+            }
         }
 
         recyclerView.apply {
@@ -61,7 +70,7 @@ class UsersFragment : Fragment() {
 
         userViewModel = ViewModelProviders.of(this).get(UserViewModel::class.java)
         App.netComponent?.inject(userViewModel)
-        userViewModel.multipleInit(mode, user)
+        userViewModel.multipleInit(mode, user, repo)
 
         userViewModel.getUsers()?.observe(this, Observer {
             if (it != null) {

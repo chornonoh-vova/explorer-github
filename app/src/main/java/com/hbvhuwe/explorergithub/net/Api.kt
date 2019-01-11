@@ -55,6 +55,12 @@ interface Api {
             @Path("repo") repo: String
     ): Call<List<Commit>>
 
+    @GET("/repos/{user}/{repo}/contributors")
+    fun getContributors(
+            @Path("user") user: String,
+            @Path("repo") repo: String
+    ): Call<List<User>>
+
     @GET("/repos/{user}/{repo}/contents/{path}")
     fun getContentOfPath(
             @Path("user") user: String,

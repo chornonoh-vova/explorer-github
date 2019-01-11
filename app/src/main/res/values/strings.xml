@@ -61,4 +61,7 @@
     <string name="star_button_text">Star</string>
     <string name="issues_loading_text">Loading issues</string>
     <string name="no_issues_text">No issues!</string>
+    <string name="tab_contributors_text">Contributors</string>
+    <string name="contributors_loading_text">Loading contributors</string>
+    <string name="no_contributors_text">This repository has no contributors</string>
 </resources>
