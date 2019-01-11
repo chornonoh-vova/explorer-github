@@ -22,8 +22,8 @@ android {
         applicationId "com.hbvhuwe.explorergithub"
         minSdkVersion 22
         targetSdkVersion 28
-        versionName "1.2.1"
-        versionCode 1210
+        versionName "1.2.2"
+        versionCode 120002
     }
     buildTypes {
         debug {

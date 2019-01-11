@@ -43,6 +43,7 @@ class LoginActivity : AppCompatActivity() {
             val httpUrl: HttpUrl = HttpUrl.parse(authUrl)!!
                     .newBuilder()
                     .addQueryParameter("client_id", clientId)
+                    .addQueryParameter("scope", "gist notifications user repo")
                     .build()
 
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(httpUrl.toString()))

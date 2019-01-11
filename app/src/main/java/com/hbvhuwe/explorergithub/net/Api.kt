@@ -8,7 +8,10 @@ import retrofit2.http.*
 
 interface Api {
     @GET("/users/{user}/repos")
-    fun getReposForUser(@Path("user") user: String, @Query("sort") sort: String = "updated"): Call<List<Repo>>
+    fun getReposForUser(
+            @Path("user") user: String,
+            @Query("sort") sort: String = "updated",
+            @Query("type") type: String = "owner"): Call<List<Repo>>
 
     @GET("/user/repos")
     fun getReposForUser(@Query("sort") sort: String = "updated"): Call<List<Repo>>

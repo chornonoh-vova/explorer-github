@@ -5,7 +5,7 @@ git_count_version() {
     local last_version=$(git tag | tail -n1 | sed 's/v//')
     local commits=$(git rev-list "v$last_version"... --count)
     echo "$last_version.$commits"
-    echo "$last_version.$commits" | sed 's/\.//g'
+    echo "$last_version.$(printf '%04d' $commits)" | sed 's/\.//g'
 }
 
 VERSION_NAME=$(git_count_version | head -n1)
