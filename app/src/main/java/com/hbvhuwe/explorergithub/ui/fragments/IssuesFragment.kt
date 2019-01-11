@@ -61,7 +61,7 @@ class IssuesFragment: Fragment() {
         App.netComponent?.inject(issuesViewModel)
         issuesViewModel.init(user, repo)
 
-        issuesViewModel.getIssues().observe(this, Observer {
+        issuesViewModel.getIssues().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 listLoading.visibility = View.GONE
                 issuesAdapter.dataset = it
@@ -74,7 +74,7 @@ class IssuesFragment: Fragment() {
     }
 
     private val bottom: BottomReachedListener = {
-        issuesViewModel.getNextPage().observe(this, Observer { issues ->
+        issuesViewModel.getNextPage().observe(viewLifecycleOwner, Observer { issues ->
             val dataset = issuesAdapter.dataset.toMutableList()
             dataset.addAll(issues)
             issuesAdapter.dataset = dataset

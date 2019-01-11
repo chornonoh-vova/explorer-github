@@ -40,7 +40,7 @@ class RepoOverviewFragment: Fragment() {
 
         repositoryViewModel.init(user, repo)
 
-        repositoryViewModel.getTopics(user, repo)?.observe(this, Observer { topic ->
+        repositoryViewModel.getTopics(user, repo)?.observe(viewLifecycleOwner, Observer { topic ->
             topic.names.forEach {
                 val chip = Chip(activity)
                 chip.text = it
@@ -50,9 +50,9 @@ class RepoOverviewFragment: Fragment() {
             }
         })
 
-        repositoryViewModel.getReadme(user, repo)?.observe(this, Observer { file ->
-            repositoryViewModel.getFile(file)?.observe(this, Observer { markdown ->
-                repositoryViewModel.getReadmeHtml(markdown, "$user/$repo")?.observe(this, Observer { html ->
+        repositoryViewModel.getReadme(user, repo)?.observe(viewLifecycleOwner, Observer { file ->
+            repositoryViewModel.getFile(file)?.observe(viewLifecycleOwner, Observer { markdown ->
+                repositoryViewModel.getReadmeHtml(markdown, "$user/$repo")?.observe(viewLifecycleOwner, Observer { html ->
                     val data = """
                     <html>
                     <head>

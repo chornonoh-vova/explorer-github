@@ -72,7 +72,7 @@ class UsersFragment : Fragment() {
         App.netComponent?.inject(userViewModel)
         userViewModel.multipleInit(mode, user, repo)
 
-        userViewModel.getUsers()?.observe(this, Observer {
+        userViewModel.getUsers()?.observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 listLoading.visibility = View.GONE
                 usersAdapter.dataset = it

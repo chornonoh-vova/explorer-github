@@ -66,7 +66,7 @@ class ReposFragment : Fragment() {
         App.netComponent?.inject(reposViewModel)
         reposViewModel.multipleInit(mode, user)
 
-        reposViewModel.getRepos()?.observe(this, Observer {
+        reposViewModel.getRepos()?.observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 listLoading.visibility = View.GONE
                 reposAdapter.dataset = it

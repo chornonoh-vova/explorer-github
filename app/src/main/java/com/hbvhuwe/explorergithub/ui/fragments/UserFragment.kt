@@ -58,7 +58,7 @@ class UserFragment : Fragment() {
         App.netComponent?.inject(userViewModel)
         userViewModel.singleInit(user)
 
-        userViewModel.getUser()?.observe(this, Observer { user ->
+        userViewModel.getUser()?.observe(viewLifecycleOwner, Observer { user ->
             if (user != null) {
                 listLoading.visibility = View.GONE
                 login.text = user.login

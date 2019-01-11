@@ -92,11 +92,11 @@ class FilesFragment : Fragment() {
         App.netComponent?.inject(filesViewModel)
         filesViewModel.init(user, repo)
 
-        filesViewModel.currentPath.observe(this, Observer {
+        filesViewModel.currentPath.observe(viewLifecycleOwner, Observer {
             currentPath.text = "/$it"
         })
 
-        filesViewModel.getBranches().observe(this, Observer {
+        filesViewModel.getBranches().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 val branches = Array(it.size) { i ->
                     it[i].name
